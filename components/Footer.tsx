@@ -46,13 +46,13 @@ const Footer: React.FC = () => {
                             <li><Link to="/resources" className="text-base text-slate-400 hover:text-white">Downloads</Link></li>
                             <li><Link to="/#services" className="text-base text-slate-400 hover:text-white">Services</Link></li>
                             <li><Link to="/quality" className="text-base text-slate-400 hover:text-white">Quality & Compliance</Link></li>
-                            <li><Link to="/careers" className="text-base text-slate-400 hover:text-white">Careers</Link></li>
+                            {/* <li><Link to="/careers" className="text-base text-slate-400 hover:text-white">Careers</Link></li> */}
                         </ul>
                     </div>
                     <div className="col-span-2 md:col-span-1">
                         <h3 className="text-sm font-semibold text-slate-300 tracking-wider uppercase">Contact Us</h3>
                         <ul className="mt-4 space-y-4 text-slate-400">
-                           <li className="flex items-start"><span className="font-semibold mr-2 shrink-0">A:</span> 123 Power Lane, Electra City, 54321</li>
+                           <li className="flex items-start"><span className="font-semibold mr-2 shrink-0">A:</span> SR.NO.253/2,PLOT N0 9,KUKDEL,SHIVAR,-PRAKASHA ROAD,SHAHADA,DIST-NANDURBAR 425409</li>
                            <li>
                              <a href="tel:+919881215798" className="hover:text-white flex items-start">
                                 <span className="font-semibold mr-2 shrink-0">P:</span>
@@ -60,9 +60,9 @@ const Footer: React.FC = () => {
                              </a>
                             </li>
                            <li>
-                            <a href="mailto:patilaayush262@gmail.com" className="hover:text-white flex items-start">
+                            <a href="mailto:saimangalam.electrical@gmail.com" className="hover:text-white flex items-start">
                                 <span className="font-semibold mr-2 shrink-0">E:</span>
-                                <span>patilaayush262@gmail.com</span>
+                                <span>saimangalam.electrical@gmail.com</span>
                             </a>
                            </li>
                         </ul>

@@ -247,7 +247,7 @@ const ContactPage: React.FC = () => {
                                 </li>
                                 <li className="flex items-center">
                                     <EnvelopeIcon className="h-6 w-6 text-blue-400 mr-3"/>
-                                    <span>patilaayush262@gmail.com</span>
+                                    <span>saimangalam.electrical@gmail.com</span>
                                 </li>
                             </ul>
                         </div>

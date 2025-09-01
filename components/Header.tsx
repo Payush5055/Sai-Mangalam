@@ -167,18 +167,25 @@ const Header: React.FC = () => {
                     <PhoneIcon className="h-4 w-4" />
                     <span>+91 9881215798</span>
                 </a>
-                <a href="mailto:patilaayush262@gmail.com" className="flex items-center gap-1.5 hover:text-blue-300 transition-colors">
+                <a href="mailto:saimangalam.electrical@gmail.com" className="flex items-center gap-1.5 hover:text-blue-300 transition-colors">
                     <EnvelopeIcon className="h-4 w-4" />
-                    <span>patilaayush262@gmail.com</span>
+                    <span>saimangalam.electrical@gmail.com</span>
                 </a>
             </div>
         </div>
         <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'glass-surface' : 'bg-transparent'}`}>
             <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-20">
-                <Link to="/" className="flex items-center">
-                  <img src="/brand/Logo.jpg" alt="SaiMangalam Electrical & Engineerings" className="h-9" />
-                </Link>
+                <Link to="/" className="flex items-center space-x-2">
+                  <img
+                    src="/brand/Logo.jpg"
+                    alt="SaiMangalam Electrical & Engineerings"   /* for accessibility */
+                    className="h-9"
+                  />
+                  <span className="text-white font-semibold hidden sm:inline">
+                    SaiMangalam Electrical&nbsp;&amp; Engineerings
+                  </span>
+              </Link>
 
                 <div className="md:hidden">
                   <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-200 hover:text-blue-300 focus:outline-none" aria-controls="mobile-menu" aria-expanded={isMobileMenuOpen}>
