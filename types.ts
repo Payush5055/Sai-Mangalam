@@ -36,6 +36,7 @@ export interface CoreService {
   details: string[];
   learnMoreUrl: string;
   viewSpecsUrl?: string;
+  category?: string;
 }
 
 export interface Industry {
