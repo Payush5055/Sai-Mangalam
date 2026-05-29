@@ -32,7 +32,7 @@ const App: React.FC = () => {
   return (
     <HashRouter>
       <ScrollToTop />
-      <div className="flex flex-col min-h-screen">
+      <div className="flex flex-col min-h-screen bg-[#0a0a0a]">
         <Header />
         <main className="flex-grow pt-[124px]">
           <Routes>

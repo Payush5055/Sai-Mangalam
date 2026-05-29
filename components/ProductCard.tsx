@@ -73,6 +73,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             decoding="async"
             width="800"
             height="600"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
           />
           {product.secondaryImageUrl && (
             <div className={`absolute inset-0 transition-opacity duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>

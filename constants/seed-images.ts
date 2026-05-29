@@ -1,27 +1,38 @@
+import heroImg from '../src/assets/transformer-voltage-main.jpg';
+import productYardImg from '../src/assets/distribution_transformer.jpg';
+import lineImg from '../src/assets/Line.jpg';
+import qualityLabImg from '../src/assets/qualityLab.jpg';
+import solarPanelImg from '../src/assets/SolarPanel.jpg';
+import solarImg from '../src/assets/Solar.jpg';
+import industrialImg from '../src/assets/Industrial.jpg';
+import commercialImg from '../src/assets/Commercial.jpeg';
+import adobeImg from '../src/assets/AdobeStock_247812631_Preview.jpeg';
+import aerialImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg';
+
 export const seedImages = {
-  hero: '../src/assets/transformer-voltage-main.jpg',
-  productYard: '../src/assets/distribution_transformer.jpg',
-  productDryType: '../src/assets/Line.jpg',
-  productSpecial: '../src/assets/Line.jpg',
-  qualityLab: '../src/assets/qualityLab.jpg',
-  qualityInspection: '../src/assets/seed/Line.jpg',
-  qualityDocs: '/assets/seed/quality-docs.jpg',
-  solarPanel: '../src/assets/SolarPanel.jpg',
-  industriesGrid: '../src/assets/Line.jpg',
-  industriesRenewable: '../src/assets/Solar.jpg',
-  industriesIndustrial: '../src/assets/Industrial.jpg',
-  industriesInfra: '../src/assets/Commercial.jpeg',
-  servicesTechnician: '/assets/seed/services-technician.jpg',
-  factoryHistoric: '/assets/seed/factory-historic.jpg',
-  factoryInterior: '/assets/seed/factory-interior.jpg',
-  rdTeam: '/assets/seed/rd-team.jpg',
-  warehouse: '/assets/seed/warehouse.jpg',
-  careersHero: '/assets/seed/careers-hero.jpg',
-  contactMap: '/assets/seed/contact-map.jpg',
-  
+  hero: heroImg,
+  productYard: productYardImg,
+  productDryType: lineImg,
+  productSpecial: lineImg,
+  qualityLab: qualityLabImg,
+  qualityInspection: qualityLabImg,
+  qualityDocs: qualityLabImg,
+  solarPanel: solarPanelImg,
+  industriesGrid: lineImg,
+  industriesRenewable: solarImg,
+  industriesIndustrial: industrialImg,
+  industriesInfra: commercialImg,
+  servicesTechnician: adobeImg,
+  factoryHistoric: productYardImg,
+  factoryInterior: industrialImg,
+  rdTeam: adobeImg,
+  warehouse: commercialImg,
+  careersHero: aerialImg,
+  contactMap: aerialImg,
+
   // Video loop for product card hover
   productLoop: {
-    mp4: '/assets/seed/product-loop.mp4',
-    webp: '/assets/seed/product-loop.webp',
+    mp4: '/assets/transformer-hero.mp4',
+    webp: '/assets/transformer-hero.mp4',
   },
 };

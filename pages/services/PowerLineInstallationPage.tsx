@@ -8,7 +8,7 @@ const PowerLineInstallationPage: React.FC = () => {
     return (
         <div className="bg-[#0d0d0d] text-white/80">
             <div className="relative bg-black text-white py-24">
-                <img src={seedImages.industriesGrid} alt="Power lines against a sky" className="absolute inset-0 w-full h-full object-cover opacity-30" />
+                <img src={seedImages.industriesGrid} alt="Power lines against a sky" className="absolute inset-0 w-full h-full object-cover opacity-30" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.5))' }} />
                 <PageWrapper className="py-0 relative z-10 text-center">
                     <h1 className="text-4xl font-bold tracking-tight sm:text-5xl text-white">Power Line Installation &amp; Maintenance</h1>

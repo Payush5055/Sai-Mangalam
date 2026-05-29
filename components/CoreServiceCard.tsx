@@ -28,6 +28,7 @@ const CoreServiceCard: React.FC<CoreServiceCardProps> = ({ service }) => {
           alt={service.title}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
+          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
         {/* Copper diagonal overlay on hover */}
         <div

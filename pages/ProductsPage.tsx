@@ -6,11 +6,11 @@ import ProductCard from '../components/ProductCard';
 
 const ProductsPage: React.FC = () => {
     return (
-        <div className="bg-transparent">
-            <div className="bg-slate-900/50 py-16">
+        <div className="bg-[#0a0a0a]">
+            <div className="bg-[#0d0d0d] py-16" style={{ borderBottom: '1px solid rgba(200,121,65,0.12)' }}>
                 <PageWrapper className="py-0 text-center">
-                    <h1 className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl">Our Products</h1>
-                    <p className="mt-6 text-xl text-slate-300 max-w-3xl mx-auto">
+                    <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Our Products</h1>
+                    <p className="mt-6 text-xl text-white/70 max-w-3xl mx-auto">
                         Explore our wide range of transformers, engineered for superior performance and reliability across all applications.
                     </p>
                 </PageWrapper>

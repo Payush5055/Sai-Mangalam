@@ -131,11 +131,11 @@ const ContactPage: React.FC = () => {
     const inputErrorClasses = 'border-red-500/80 focus:border-red-500/80 focus:ring-red-500/50';
 
     return (
-        <div className="bg-transparent text-slate-300">
-            <div className="bg-slate-900/50 py-16 text-center">
+        <div className="bg-[#0a0a0a] text-white/80">
+            <div className="bg-[#0d0d0d] py-16 text-center" style={{ borderBottom: '1px solid rgba(200,121,65,0.12)' }}>
                 <PageWrapper className="py-0">
-                    <h1 className="text-4xl font-bold tracking-tight text-slate-50 sm:text-5xl">Contact Us</h1>
-                    <p className="mt-6 text-xl text-slate-300 max-w-3xl mx-auto">
+                    <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl">Contact Us</h1>
+                    <p className="mt-6 text-xl text-white/70 max-w-3xl mx-auto">
                         We're here to help. Reach out to us for sales inquiries, technical support, or any other questions.
                     </p>
                 </PageWrapper>
@@ -144,37 +144,37 @@ const ContactPage: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2">
                         <div className="glass-surface p-8 rounded-lg">
-                            <h2 className="text-2xl font-bold text-slate-100 mb-6">Send us a Message</h2>
+                            <h2 className="text-2xl font-bold text-white mb-6">Send us a Message</h2>
                             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                                 <div>
-                                    <label htmlFor="name" className="block text-sm font-medium text-slate-300">Full Name</label>
+                                    <label htmlFor="name" className="block text-sm font-medium text-white/70">Full Name</label>
                                     <input type="text" id="name" value={formData.name} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.name ? inputErrorClasses : ''}`} placeholder="John Doe" required aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
                                     {errors.name && <p id="name-error" className="mt-1 text-sm text-red-400">{errors.name}</p>}
                                 </div>
                                 <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-slate-300">Email</label>
+                                    <label htmlFor="email" className="block text-sm font-medium text-white/70">Email</label>
                                     <input type="email" id="email" value={formData.email} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.email ? inputErrorClasses : ''}`} placeholder="patilaayush262@gmail.com" required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
                                     {errors.email && <p id="email-error" className="mt-1 text-sm text-red-400">{errors.email}</p>}
                                 </div>
                                 <div>
-                                    <label htmlFor="phone" className="block text-sm font-medium text-slate-300">Phone</label>
+                                    <label htmlFor="phone" className="block text-sm font-medium text-white/70">Phone</label>
                                     <input type="tel" id="phone" value={formData.phone} onChange={handleChange} className="mt-1 block w-full px-3 py-2 form-input" placeholder="+91 9881215798"/>
                                 </div>
                                 <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-slate-300">Message</label>
+                                    <label htmlFor="message" className="block text-sm font-medium text-white/70">Message</label>
                                     <textarea id="message" rows={5} value={formData.message} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.message ? inputErrorClasses : ''}`} placeholder="Your inquiry..." required aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined}></textarea>
                                     {errors.message && <p id="message-error" className="mt-1 text-sm text-red-400">{errors.message}</p>}
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-slate-300">Attach File (for RFQs)</label>
+                                    <label className="block text-sm font-medium text-white/70">Attach File (for RFQs)</label>
                                     <div className="mt-1 flex items-center">
-                                        <label htmlFor="file" className="cursor-pointer bg-slate-700 text-blue-300 hover:bg-slate-600 font-semibold py-2 px-4 rounded-full text-sm transition-colors">
+                                        <label htmlFor="file" className="cursor-pointer bg-[#c87941]/20 text-[#c87941] hover:bg-[#c87941]/30 font-semibold py-2 px-4 rounded-full text-sm transition-colors">
                                             Choose File
                                         </label>
                                         <input type="file" id="file" ref={fileInputRef} onChange={handleFileChange} className="sr-only" accept=".pdf,.docx,.jpg,.png" /> {/* Added accept for types */}
                                         {file && (
                                             <div className="ml-4 flex items-center">
-                                                <span className="text-sm text-slate-400 truncate">{file.name}</span>
+                                                <span className="text-sm text-white/50 truncate">{file.name}</span>
                                                 <button
                                                     type="button"
                                                     onClick={handleRemoveFile}
@@ -232,29 +232,29 @@ const ContactPage: React.FC = () => {
                     </div>
                     <div className="space-y-8">
                         <div className="glass-surface p-6 rounded-lg">
-                            <h3 className="text-xl font-bold text-slate-100">Contact Information</h3>
-                            <ul className="mt-4 space-y-3 text-slate-300">
+                            <h3 className="text-xl font-bold text-white">Contact Information</h3>
+                            <ul className="mt-4 space-y-3 text-white/70">
                                 <li className="flex items-start">
-                                    <MapPinIcon className="h-6 w-6 text-blue-400 mr-3 mt-1 flex-shrink-0"/>
+                                    <MapPinIcon className="h-6 w-6 text-[#c87941] mr-3 mt-1 flex-shrink-0"/>
                                     <span>
                                         <strong>Head Office:</strong><br/>
                                         123 Power Lane, Electra City, EC 54321
                                     </span>
                                 </li>
                                 <li className="flex items-center">
-                                    <PhoneIcon className="h-6 w-6 text-blue-400 mr-3"/>
+                                    <PhoneIcon className="h-6 w-6 text-[#c87941] mr-3"/>
                                     <span>+91 9881215798</span>
                                 </li>
                                 <li className="flex items-center">
-                                    <EnvelopeIcon className="h-6 w-6 text-blue-400 mr-3"/>
+                                    <EnvelopeIcon className="h-6 w-6 text-[#c87941] mr-3"/>
                                     <span>saimangalam.electrical@gmail.com</span>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold text-slate-100">Our Location</h3>
-                            <div className="mt-4 rounded-lg overflow-hidden shadow-md border border-slate-700">
-                                <img src={seedImages.contactMap} alt="Map showing the location of SaiMangalam Head Office" className="w-full h-auto object-cover"/>
+                            <h3 className="text-xl font-bold text-white">Our Location</h3>
+                            <div className="mt-4 rounded-lg overflow-hidden shadow-md border border-white/10">
+                                <img src={seedImages.contactMap} alt="Map showing the location of SaiMangalam Head Office" className="w-full h-auto object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                             </div>
                         </div>
                     </div>

@@ -13,8 +13,8 @@ const ProductDetailPage: React.FC = () => {
         return (
             <PageWrapper>
                 <div className="text-center">
-                    <h1 className="text-2xl font-bold text-slate-50">Product not found</h1>
-                    <Link to="/products" className="text-blue-400 hover:underline mt-4 inline-block">
+                    <h1 className="text-2xl font-bold text-white">Product not found</h1>
+                    <Link to="/products" className="text-[#c87941] hover:underline mt-4 inline-block">
                         &larr; Back to Products
                     </Link>
                 </div>
@@ -23,58 +23,63 @@ const ProductDetailPage: React.FC = () => {
     }
 
     return (
-        <div className="bg-transparent text-slate-300">
-             <div className="bg-slate-900/50 py-8">
+        <div className="bg-[#0a0a0a] text-white/80">
+            <div className="bg-[#0d0d0d] py-8" style={{ borderBottom: '1px solid rgba(200,121,65,0.12)' }}>
                 <PageWrapper className="py-0">
                     <nav className="flex" aria-label="Breadcrumb">
-                      <ol className="inline-flex items-center space-x-1 md:space-x-3">
-                        <li className="inline-flex items-center">
-                          <Link to="/products" className="inline-flex items-center text-sm font-medium text-slate-300 hover:text-blue-300">
-                            Products
-                          </Link>
-                        </li>
-                        <li>
-                          <div className="flex items-center">
-                            <ChevronRightIcon className="h-5 w-5 text-slate-500"/>
-                            <span className="ml-1 text-sm font-medium text-slate-400 md:ml-2">{product.name}</span>
-                          </div>
-                        </li>
-                      </ol>
+                        <ol className="inline-flex items-center space-x-1 md:space-x-3">
+                            <li className="inline-flex items-center">
+                                <Link to="/products" className="inline-flex items-center text-sm font-medium text-white/70 hover:text-[#c87941]">
+                                    Products
+                                </Link>
+                            </li>
+                            <li>
+                                <div className="flex items-center">
+                                    <ChevronRightIcon className="h-5 w-5 text-white/30" />
+                                    <span className="ml-1 text-sm font-medium text-white/50 md:ml-2">{product.name}</span>
+                                </div>
+                            </li>
+                        </ol>
                     </nav>
                 </PageWrapper>
             </div>
             <PageWrapper>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <div>
-                        <img src={product.imageUrl} alt={product.name} className="w-full rounded-lg shadow-lg object-cover aspect-square border border-slate-700"/>
+                        <img
+                            src={product.imageUrl}
+                            alt={product.name}
+                            className="w-full rounded-lg shadow-lg object-cover aspect-square border border-white/10"
+                            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
                     </div>
                     <div>
-                        <h1 className="text-4xl font-bold text-slate-50">{product.name}</h1>
-                        <p className="mt-4 text-lg text-slate-300">{product.shortDescription}</p>
-                        
+                        <h1 className="text-4xl font-bold text-white">{product.name}</h1>
+                        <p className="mt-4 text-lg text-white/70">{product.shortDescription}</p>
+
                         <div className="mt-8">
-                            <h2 className="text-2xl font-semibold text-slate-100">Key Features</h2>
-                            <ul className="mt-4 space-y-2 list-disc list-inside text-slate-300">
+                            <h2 className="text-2xl font-semibold text-white">Key Features</h2>
+                            <ul className="mt-4 space-y-2 list-disc list-inside text-white/70">
                                 {product.features.map((feature, index) => (
                                     <li key={index}>{feature}</li>
                                 ))}
                             </ul>
                         </div>
 
-                         <div className="mt-8">
-                            <h2 className="text-2xl font-semibold text-slate-100">Applications</h2>
+                        <div className="mt-8">
+                            <h2 className="text-2xl font-semibold text-white">Applications</h2>
                             <div className="flex flex-wrap gap-2 mt-4">
                                 {product.applications.map((app, index) => (
-                                    <span key={index} className="bg-blue-900/50 text-blue-300 text-sm font-medium px-3 py-1 rounded-full border border-blue-800">{app}</span>
+                                    <span key={index} className="text-sm font-medium px-3 py-1 rounded-full border" style={{ background: 'rgba(200,121,65,0.1)', borderColor: 'rgba(200,121,65,0.3)', color: '#c87941' }}>{app}</span>
                                 ))}
                             </div>
                         </div>
 
                         <div className="mt-10 flex space-x-4">
-                             <Link to="/contact" className="btn-primary">
+                            <Link to="/contact" className="btn-primary">
                                 Request a Quote
                             </Link>
-                             <a href="#" className="flex items-center btn-secondary">
+                            <a href="#" className="flex items-center btn-secondary">
                                 <ArrowDownTrayIcon className="h-5 w-5 mr-2" />
                                 Download Datasheet
                             </a>
@@ -83,15 +88,15 @@ const ProductDetailPage: React.FC = () => {
                 </div>
 
                 <div className="mt-20">
-                     <h2 className="text-3xl font-bold text-slate-50 text-center mb-8">Technical Specifications</h2>
-                     <div className="max-w-4xl mx-auto overflow-x-auto">
-                        <div className="glass-surface rounded-lg">
+                    <h2 className="text-3xl font-bold text-white text-center mb-8">Technical Specifications</h2>
+                    <div className="max-w-4xl mx-auto overflow-x-auto">
+                        <div className="bg-[#1a1a1f] border border-white/10 rounded-lg">
                             <table className="min-w-full">
                                 <tbody>
-                                    {Object.entries(product.specifications).map(([key, value], index) => (
-                                        <tr key={key} className="border-b border-slate-700 last:border-b-0">
-                                            <td className="px-6 py-4 font-semibold text-slate-200">{key}</td>
-                                            <td className="px-6 py-4 text-slate-300">{value}</td>
+                                    {Object.entries(product.specifications).map(([key, value]) => (
+                                        <tr key={key} className="border-b border-white/10 last:border-b-0">
+                                            <td className="px-6 py-4 font-semibold text-white">{key}</td>
+                                            <td className="px-6 py-4 text-white/70">{value}</td>
                                         </tr>
                                     ))}
                                 </tbody>

@@ -53,7 +53,7 @@ const HeroCardStack: React.FC = () => {
           animate={cardAnimationConfig[index].animate}
           transition={cardAnimationConfig[index].transition}
         >
-          <img src={card.imageUrl} alt={card.title} className="w-full h-full object-cover" />
+          <img src={card.imageUrl} alt={card.title} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
           <h4 className="absolute bottom-4 left-4 text-white font-bold text-base">{card.title}</h4>
         </motion.div>
@@ -155,6 +155,7 @@ const HeroSection: React.FC = () => {
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center"
         style={{ opacity: 0 }}
+        onError={(e) => { (e.target as HTMLVideoElement).style.display = 'none'; }}
       />
 
       {/* Dark overlay */}
@@ -420,6 +421,7 @@ const WhyChooseUs: React.FC = () => {
               src={seedImages.qualityLab}
               alt="Quality testing of transformers at SaiMangalam Electrical & Engineerings."
               className="rounded-xl shadow-lg border border-[#c87941]/20 glow-amber"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
           </div>
         </div>
@@ -510,7 +512,7 @@ const QualityCTASection: React.FC = () => (
 /* ─── Page Assembly ───────────────────────────────────────────────────────── */
 const HomePage: React.FC = () => {
   return (
-    <div>
+    <div className="bg-[#0a0a0a]">
       <HeroSection />
       <StatsSection />
       <WhatWeDoSection />

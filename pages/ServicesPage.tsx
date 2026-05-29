@@ -30,7 +30,7 @@ const ServiceDetailPage: React.FC = () => {
     return (
         <div className="bg-[#0d0d0d] text-white/80">
             <div className="relative bg-slate-800 text-white py-24">
-                <img src={service.heroImage} alt={service.title} className="absolute inset-0 w-full h-full object-cover opacity-30" />
+                <img src={service.heroImage} alt={service.title} className="absolute inset-0 w-full h-full object-cover opacity-30" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                 <PageWrapper className="py-0 relative z-10 text-center">
                     <nav className="flex justify-center mb-4" aria-label="Breadcrumb">
                       <ol className="inline-flex items-center space-x-1 md:space-x-2">
