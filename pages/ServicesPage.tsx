@@ -13,9 +13,9 @@ const ServiceDetailPage: React.FC = () => {
         return (
             <PageWrapper>
                 <div className="text-center py-20">
-                    <h1 className="text-4xl font-bold text-slate-800">Service Not Found</h1>
-                    <p className="mt-4 text-lg text-slate-600">The service you are looking for does not exist.</p>
-                    <Link to="/" className="mt-8 inline-block bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                    <h1 className="text-4xl font-bold text-white">Service Not Found</h1>
+                    <p className="mt-4 text-lg text-white/70">The service you are looking for does not exist.</p>
+                    <Link to="/" className="mt-8 inline-block btn-primary px-6 py-3 rounded-lg">
                         &larr; Back to Home
                     </Link>
                 </div>
@@ -28,7 +28,7 @@ const ServiceDetailPage: React.FC = () => {
         .slice(0, 2);
 
     return (
-        <div className="bg-white">
+        <div className="bg-[#0d0d0d] text-white/80">
             <div className="relative bg-slate-800 text-white py-24">
                 <img src={service.heroImage} alt={service.title} className="absolute inset-0 w-full h-full object-cover opacity-30" />
                 <PageWrapper className="py-0 relative z-10 text-center">
@@ -60,13 +60,13 @@ const ServiceDetailPage: React.FC = () => {
             <PageWrapper>
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     <div className="lg:col-span-2">
-                        <h2 className="text-3xl font-bold text-slate-800">Service Overview</h2>
-                        <p className="mt-4 text-lg text-slate-600">
+                        <h2 className="text-3xl font-bold text-white">Service Overview</h2>
+                        <p className="mt-4 text-lg text-white/70">
                            {service.overview}
                         </p>
                         
-                        <h3 className="text-2xl font-bold text-slate-800 mt-12">Scope of Work</h3>
-                        <ul className="mt-4 space-y-4 text-slate-600">
+                        <h3 className="text-2xl font-bold text-white mt-12">Scope of Work</h3>
+                        <ul className="mt-4 space-y-4 text-white/70">
                            {service.scopeOfWork.map((point, index) => (
                              <li key={index} className="flex items-start">
                                <CheckIcon className="h-6 w-6 text-green-500 mr-3 mt-1 shrink-0" />
@@ -75,32 +75,32 @@ const ServiceDetailPage: React.FC = () => {
                            ))}
                         </ul>
 
-                        <h3 className="text-2xl font-bold text-slate-800 mt-12">Frequently Asked Questions</h3>
+                        <h3 className="text-2xl font-bold text-white mt-12">Frequently Asked Questions</h3>
                         <div className="mt-4 space-y-6">
                             {service.faqs.map((faq, index) => (
-                                <div key={index} className="border-l-4 border-blue-500 pl-4">
-                                    <h4 className="font-semibold text-slate-800">{faq.question}</h4>
-                                    <p className="mt-1 text-slate-600">{faq.answer}</p>
+                                <div key={index} className="border-l-4 border-[#c87941] pl-4">
+                                    <h4 className="font-semibold text-white">{faq.question}</h4>
+                                    <p className="mt-1 text-white/70">{faq.answer}</p>
                                 </div>
                             ))}
                         </div>
                     </div>
 
                     <aside className="lg:col-span-1 space-y-8 lg:sticky top-36 h-min">
-                        <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                            <h3 className="text-xl font-bold text-slate-800">Request a Quote</h3>
-                            <p className="mt-2 text-slate-600">Get a custom quote for {service.title}.</p>
-                            <Link to="/contact" className="mt-4 block w-full text-center bg-blue-600 text-white font-semibold px-5 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-300">
+                        <div className="bg-[#111318] p-6 rounded-lg border border-white/10">
+                            <h3 className="text-xl font-bold text-white">Request a Quote</h3>
+                            <p className="mt-2 text-white/70">Get a custom quote for {service.title}.</p>
+                            <Link to="/contact" className="mt-4 block w-full text-center bg-[#c87941] text-white font-semibold px-5 py-3 rounded-lg hover:bg-[#a0622f] transition-colors duration-300">
                                 Contact Sales
                             </Link>
                         </div>
                         {relatedServices.length > 0 && (
-                          <div className="bg-slate-50 p-6 rounded-lg border border-slate-200">
-                              <h3 className="text-xl font-bold text-slate-800">Related Services</h3>
+                          <div className="bg-[#111318] p-6 rounded-lg border border-white/10">
+                              <h3 className="text-xl font-bold text-white">Related Services</h3>
                               <ul className="mt-4 space-y-3">
                                   {relatedServices.map(related => (
                                       <li key={related.id}>
-                                          <Link to={related.path} className="font-medium text-blue-600 hover:underline flex justify-between items-center group">
+                                          <Link to={related.path} className="font-medium text-[#c87941] hover:underline flex justify-between items-center group">
                                             {related.title}
                                             <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">&rarr;</span>
                                           </Link>

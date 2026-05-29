@@ -49,20 +49,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative w-full overflow-hidden rounded-xl bg-slate-900 shadow-lg transition-all duration-300 ease-out will-change-transform motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:shadow-2xl"
+        className="relative w-full overflow-hidden rounded-xl bg-black shadow-lg transition-all duration-300 ease-out will-change-transform motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:shadow-2xl"
         style={{
           transform: 'translateZ(0) rotateX(var(--rotateX, 0)) rotateY(var(--rotateY, 0))',
           boxShadow: isHovered
-            ? '0 0 30px 4px rgba(14,165,233,0.35), 0 20px 40px rgba(0,0,0,0.5)'
+            ? '0 0 30px 4px rgba(200,121,65,0.3), 0 20px 40px rgba(0,0,0,0.5)'
             : '0 4px 20px rgba(0,0,0,0.4)',
-          border: isHovered ? '1px solid rgba(14,165,233,0.5)' : '1px solid rgba(14,165,233,0.12)',
+          border: isHovered ? '1px solid rgba(200,121,65,0.5)' : '1px solid rgba(200,121,65,0.12)',
           transition: 'box-shadow 0.3s, border-color 0.3s, transform 0.3s',
         }}
       >
         {/* Light-reflection shine overlay */}
         <div className="card-shine" />
 
-        <div className="aspect-w-4 aspect-h-3 bg-slate-800">
+        <div className="aspect-w-4 aspect-h-3 bg-[#111318]">
           <img
             src={product.imageUrl}
             srcSet={`${product.imageUrl} 480w, ${product.imageUrl} 768w, ${product.imageUrl} 1200w`}
@@ -102,17 +102,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           style={{ transform: isHovered ? 'translateY(-44px)' : 'translateY(0)' }}
         >
           <h3 className="text-lg font-bold leading-tight">{product.name}</h3>
-          <p className="text-sm text-slate-200 mt-1 truncate">{product.shortDescription}</p>
+          <p className="text-sm text-white/80 mt-1 truncate">{product.shortDescription}</p>
           <div className="mt-3 flex items-center space-x-3 text-xs font-medium">
             <span
               className="inline-flex items-center rounded-full px-2 py-0.5"
-              style={{ background: 'rgba(245,158,11,0.25)', border: '1px solid rgba(245,158,11,0.5)', color: '#fbbf24' }}
+              style={{ background: 'rgba(200,121,65,0.15)', border: '1px solid rgba(200,121,65,0.4)', color: '#c87941' }}
             >
               <BoltIcon className="h-3 w-3 mr-1" />{product.specifications['Capacity']}
             </span>
             <span
               className="inline-flex items-center rounded-full px-2 py-0.5"
-              style={{ background: 'rgba(245,158,11,0.25)', border: '1px solid rgba(245,158,11,0.5)', color: '#fbbf24' }}
+              style={{ background: 'rgba(200,121,65,0.15)', border: '1px solid rgba(200,121,65,0.4)', color: '#c87941' }}
             >
               <ArrowsPointingOutIcon className="h-3 w-3 mr-1" />{product.specifications['Voltage Class']}
             </span>
@@ -125,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           style={{
             transform: isHovered ? 'translateY(0)' : 'translateY(100%)',
             opacity: isHovered ? 1 : 0,
-            background: 'linear-gradient(135deg, rgba(14,165,233,0.85), rgba(245,158,11,0.75))',
+            background: 'linear-gradient(135deg, rgba(200,121,65,0.9), rgba(160,98,47,0.85))',
           }}
         >
           <span className="text-sm font-bold text-white text-center w-full block">

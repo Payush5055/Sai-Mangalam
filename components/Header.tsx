@@ -51,17 +51,13 @@ const Header: React.FC = () => {
 
   const handleMouseEnter = (panelName: string) => {
     if (leaveTimer.current) clearTimeout(leaveTimer.current);
-    enterTimer.current = window.setTimeout(() => {
-      setActivePanel(panelName);
-    }, 140);
+    enterTimer.current = window.setTimeout(() => { setActivePanel(panelName); }, 140);
   };
 
   const handleMouseLeave = (_isTrigger: boolean) => {
     if (enterTimer.current) clearTimeout(enterTimer.current);
     leaveTimer.current = window.setTimeout(() => {
-      if (!panelInteractionRef.current) {
-        setActivePanel(null);
-      }
+      if (!panelInteractionRef.current) setActivePanel(null);
     }, 120);
   };
 
@@ -99,12 +95,11 @@ const Header: React.FC = () => {
       const viewportWidth = document.documentElement.clientWidth;
       let left = triggerRect.left + (triggerRect.width / 2) - (panelWidth / 2);
       left = Math.max(12, Math.min(left, viewportWidth - panelWidth - 12));
-      const top = triggerRect.bottom + 12;
-      setPanelPosition({ top, left });
+      setPanelPosition({ top: triggerRect.bottom + 12, left });
     }
   }, [activePanel]);
 
-  const navLinkClasses = "relative flex items-center justify-center text-sm font-medium text-slate-200 transition-colors duration-200 ease-in-out hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 rounded-md nav-link-animated";
+  const navLinkClasses = "relative flex items-center justify-center text-sm font-medium text-white/80 transition-colors duration-200 ease-in-out hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-[#c87941] focus-visible:ring-offset-2 rounded-md nav-link-animated";
 
   const renderPanelContent = (panelName: string) => {
     const panelData = panelDataMap[panelName];
@@ -113,25 +108,25 @@ const Header: React.FC = () => {
     const gridCols = isProducts ? 'grid-cols-2' : 'grid-cols-1';
     return (
       <>
-        <div className={`grid ${gridCols} gap-x-8 gap-y-1 text-slate-200`}>
+        <div className={`grid ${gridCols} gap-x-8 gap-y-1 text-white/80`}>
           {panelData.links.map((item: any) => (
-            <Link key={item.name} to={item.path} className="group block p-3 -m-3 rounded-lg hover:bg-slate-700/50 transition-colors duration-200" onClick={() => setActivePanel(null)}>
+            <Link key={item.name} to={item.path} className="group block p-3 -m-3 rounded-lg hover:bg-white/5 transition-colors duration-200" onClick={() => setActivePanel(null)}>
               <div className="flex items-start gap-4">
                 {item.icon && (
-                  <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-slate-800 rounded-lg shadow-sm border border-slate-600 group-hover:border-sky-400 transition-colors">
-                    {React.createElement(item.icon, { className: 'h-6 w-6 text-sky-400' })}
+                  <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-[#111318] rounded-lg shadow-sm border border-white/10 group-hover:border-[#c87941] transition-colors">
+                    {React.createElement(item.icon, { className: 'h-6 w-6 text-[#c87941]' })}
                   </div>
                 )}
                 <div>
-                  <p className="font-semibold text-slate-100">{item.name}</p>
-                  {item.description && <p className="text-sm text-slate-400">{item.description}</p>}
+                  <p className="font-semibold text-white">{item.name}</p>
+                  {item.description && <p className="text-sm text-white/50">{item.description}</p>}
                 </div>
               </div>
             </Link>
           ))}
         </div>
-        <div className="mt-4 border-t border-slate-700/60 pt-4">
-          <Link to={panelData.action.path} className="font-semibold text-sky-400 hover:text-sky-300 hover:underline flex items-center gap-1" onClick={() => setActivePanel(null)}>
+        <div className="mt-4 border-t border-white/10 pt-4">
+          <Link to={panelData.action.path} className="font-semibold text-[#c87941] hover:text-[#e8c49a] hover:underline flex items-center gap-1" onClick={() => setActivePanel(null)}>
             {panelData.action.name}
           </Link>
         </div>
@@ -148,27 +143,24 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="fixed top-0 left-0 right-0 z-50">
-        {/* Top info bar with marquee certifications */}
-        <div className="hidden md:block overflow-hidden"
-          style={{ background: 'rgba(10,15,30,0.9)', borderBottom: '1px solid rgba(14,165,233,0.15)' }}>
+        {/* Top info bar */}
+        <div className="hidden md:block overflow-hidden bg-black" style={{ borderBottom: '1px solid rgba(200,121,65,0.15)' }}>
           <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-9">
-            {/* Contact info left */}
-            <div className="flex items-center gap-x-5 text-xs text-slate-400 shrink-0">
-              <a href="tel:+919881215798" className="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
+            <div className="flex items-center gap-x-5 text-xs text-white/50 shrink-0">
+              <a href="tel:+919881215798" className="flex items-center gap-1.5 hover:text-[#e8c49a] transition-colors">
                 <PhoneIcon className="h-3.5 w-3.5" />
                 <span>+91 9881215798</span>
               </a>
-              <a href="mailto:saimangalam.electrical@gmail.com" className="flex items-center gap-1.5 hover:text-sky-400 transition-colors">
+              <a href="mailto:saimangalam.electrical@gmail.com" className="flex items-center gap-1.5 hover:text-[#e8c49a] transition-colors">
                 <EnvelopeIcon className="h-3.5 w-3.5" />
                 <span>saimangalam.electrical@gmail.com</span>
               </a>
             </div>
-            {/* Marquee certifications right */}
             <div className="overflow-hidden ml-6 flex-1 max-w-xs text-xs">
               <div className="marquee-track whitespace-nowrap">
                 {[...certifications, ...certifications].map((cert, i) => (
-                  <span key={i} className="inline-flex items-center gap-1.5 mr-8 text-amber-400/80 font-medium">
-                    <span className="inline-block w-1 h-1 rounded-full bg-amber-400/70"></span>
+                  <span key={i} className="inline-flex items-center gap-1.5 mr-8 font-medium" style={{ color: '#c87941' }}>
+                    <span className="inline-block w-1 h-1 rounded-full" style={{ background: '#c87941', opacity: 0.7 }}></span>
                     {cert}
                   </span>
                 ))}
@@ -178,37 +170,24 @@ const Header: React.FC = () => {
         </div>
 
         {/* Main nav */}
-        <div
-          className={`transition-all duration-300 ${
-            isScrolled || isMobileMenuOpen
-              ? 'glass-surface border-b border-amber-500/20'
-              : 'bg-transparent'
-          }`}
-        >
+        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'liquid-glass border-b border-[#c87941]/20' : 'bg-transparent'}`}>
           <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
-              {/* Logo */}
               <Link to="/" className="flex items-center space-x-2 group">
-                <img
-                  src="/brand/Logo.jpg"
-                  alt="SaiMangalam Electrical & Engineerings"
-                  className="h-9"
-                />
+                <img src="/brand/Logo.jpg" alt="SaiMangalam Electrical & Engineerings" className="h-9" />
                 <span className="text-white font-semibold hidden sm:inline">
                   SaiMangalam Electrical&nbsp;&amp; Engineerings
                 </span>
-                {/* Amber pulse dot */}
                 <span className="relative ml-1 hidden sm:inline-flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-60"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-400"></span>
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ background: '#c87941' }}></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: '#c87941' }}></span>
                 </span>
               </Link>
 
-              {/* Mobile hamburger */}
               <div className="md:hidden">
                 <button
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  className="text-slate-200 hover:text-sky-300 focus:outline-none"
+                  className="text-white/80 hover:text-[#e8c49a] focus:outline-none"
                   aria-controls="mobile-menu"
                   aria-expanded={isMobileMenuOpen}
                 >
@@ -217,7 +196,6 @@ const Header: React.FC = () => {
                 </button>
               </div>
 
-              {/* Desktop nav links */}
               <div className="hidden md:flex items-center">
                 <ul className="flex items-center gap-x-2 lg:gap-x-4">
                   {data.headerNavLinks.map((link) => (
@@ -239,11 +217,7 @@ const Header: React.FC = () => {
                           const showActiveStyle = !panelDataMap[link.name]
                             ? isPageActive
                             : isPanelActive || (isPageActive && activePanel === null);
-                          return `${navLinkClasses} h-10 px-4 py-2 ${
-                            showActiveStyle
-                              ? 'text-sky-400 border-l-2 border-sky-400 pl-3 bg-sky-500/10'
-                              : ''
-                          }`;
+                          return `${navLinkClasses} h-10 px-4 py-2 ${showActiveStyle ? 'text-[#c87941] border-l-2 border-[#c87941] pl-3 bg-[#c87941]/10' : ''}`;
                         }}
                         aria-haspopup={!!panelDataMap[link.name]}
                         aria-expanded={activePanel === link.name}
@@ -254,9 +228,8 @@ const Header: React.FC = () => {
                     </motion.li>
                   ))}
                 </ul>
-                {/* CTA button */}
                 <motion.div className="ml-6" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  <Link to="/contact" className="btn-primary">
+                  <Link to="/contact" className="btn-primary liquid-glass">
                     Request a Quote
                   </Link>
                 </motion.div>
@@ -268,8 +241,8 @@ const Header: React.FC = () => {
           {isMobileMenuOpen && (
             <div
               id="mobile-menu"
-              className="md:hidden h-[calc(100vh-116px)] overflow-y-auto pb-4 border-t border-slate-700/60"
-              style={{ background: 'rgba(10,15,30,0.97)', backdropFilter: 'blur(16px)' }}
+              className="md:hidden h-[calc(100vh-116px)] overflow-y-auto pb-4 border-t border-white/10"
+              style={{ background: 'rgba(0,0,0,0.97)', backdropFilter: 'blur(16px)' }}
             >
               <ul className="flex flex-col space-y-2 p-4">
                 {data.headerNavLinks.map((link) => {
@@ -279,20 +252,20 @@ const Header: React.FC = () => {
                       <li key={link.name}>
                         <button
                           onClick={() => setMobilePanelsOpen(prev => ({ ...prev, [link.name]: !isOpen }))}
-                          className="w-full text-left flex justify-between items-center p-3 rounded-md hover:bg-slate-800 font-medium text-slate-200"
+                          className="w-full text-left flex justify-between items-center p-3 rounded-md hover:bg-white/5 font-medium text-white/80"
                         >
                           {link.name}
                           <ChevronRightIcon className={`h-5 w-5 transition-transform ${isOpen ? 'rotate-90' : ''}`} />
                         </button>
                         {isOpen && (
-                          <ul className="pl-4 mt-2 space-y-2 border-l-2 border-amber-500/30">
+                          <ul className="pl-4 mt-2 space-y-2 border-l-2 border-[#c87941]/30">
                             {panelDataMap[link.name].links.map((item: any) => (
                               <li key={item.name}>
-                                <RouterNavLink to={item.path} className="block text-slate-300 hover:text-sky-300 py-1">{item.name}</RouterNavLink>
+                                <RouterNavLink to={item.path} className="block text-white/80 hover:text-[#e8c49a] py-1">{item.name}</RouterNavLink>
                               </li>
                             ))}
                             <li>
-                              <RouterNavLink to={panelDataMap[link.name].action.path} className="block font-semibold text-amber-400 hover:underline py-1">
+                              <RouterNavLink to={panelDataMap[link.name].action.path} className="block font-semibold text-[#c87941] hover:underline py-1">
                                 {panelDataMap[link.name].action.name}
                               </RouterNavLink>
                             </li>
@@ -306,7 +279,7 @@ const Header: React.FC = () => {
                       <RouterNavLink
                         to={link.path}
                         className={({ isActive }) =>
-                          `block p-3 rounded-md hover:bg-slate-800 font-medium ${isActive ? 'text-sky-300 bg-sky-500/10 border-l-2 border-sky-400 pl-3' : 'text-slate-200'}`
+                          `block p-3 rounded-md hover:bg-white/5 font-medium ${isActive ? 'text-[#c87941] bg-[#c87941]/10 border-l-2 border-[#c87941] pl-3' : 'text-white/80'}`
                         }
                       >
                         {link.name}
@@ -317,8 +290,8 @@ const Header: React.FC = () => {
                 <li className="mt-4">
                   <Link
                     to="/contact"
-                    className="w-full text-center font-bold px-5 py-3 rounded-lg block"
-                    style={{ background: 'linear-gradient(135deg, #f59e0b, #d97706)', color: '#0a0f1e' }}
+                    className="w-full text-center font-bold px-5 py-3 rounded-lg block text-white"
+                    style={{ background: 'linear-gradient(135deg, #c87941, #a0622f)' }}
                   >
                     Request a Quote
                   </Link>
