@@ -8,61 +8,7 @@ import { seedImages } from '../constants/seed-images';
 import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 
-const heroCards = [
-  { title: 'Distribution Transformers', imageUrl: seedImages.productYard },
-  { title: 'Dry-Type Transformers',     imageUrl: seedImages.productDryType },
-  { title: 'Special Purpose Transformers', imageUrl: seedImages.productSpecial },
-];
-
-/* ─── Hero Card Stack ─────────────────────────────────────────────────────── */
-const HeroCardStack: React.FC = () => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const cardAnimationConfig = [
-    {
-      initial: { opacity: 0, y: 40, rotate: -12, scale: 0.9, height: '250px', width: '180px' },
-      animate: { opacity: 1, y: isHovered ? -20 : 0, rotate: isHovered ? -18 : -6, x: isHovered ? -50 : 0, scale: 0.9 },
-      transition: { type: 'spring' as const, stiffness: 300, damping: 20, delay: 0.2 },
-      className: 'z-10',
-    },
-    {
-      initial: { opacity: 0, y: 40, scale: 0.95, height: '250px', width: '180px' },
-      animate: { opacity: 1, y: isHovered ? -40 : 0, rotate: isHovered ? 4 : 0, scale: 0.95 },
-      transition: { type: 'spring' as const, stiffness: 300, damping: 20, delay: 0.1 },
-      className: 'z-20',
-    },
-    {
-      initial: { opacity: 0, y: 40, rotate: 12, scale: 1, height: '250px', width: '180px' },
-      animate: { opacity: 1, y: isHovered ? -20 : 0, rotate: isHovered ? 18 : 6, x: isHovered ? 50 : 0, scale: 1 },
-      transition: { type: 'spring' as const, stiffness: 300, damping: 20 },
-      className: 'z-30',
-    },
-  ];
-
-  return (
-    <motion.div
-      onHoverStart={() => setIsHovered(true)}
-      onHoverEnd={() => setIsHovered(false)}
-      className="relative h-64 w-72"
-    >
-      {heroCards.map((card, index) => (
-        <motion.div
-          key={index}
-          className={`absolute inset-0 h-full w-full rounded-xl glass-surface overflow-hidden shadow-2xl ${cardAnimationConfig[index].className}`}
-          initial={cardAnimationConfig[index].initial}
-          animate={cardAnimationConfig[index].animate}
-          transition={cardAnimationConfig[index].transition}
-        >
-          <img src={card.imageUrl} alt={card.title} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-          <h4 className="absolute bottom-4 left-4 text-white font-bold text-base">{card.title}</h4>
-        </motion.div>
-      ))}
-    </motion.div>
-  );
-};
-
-/* ─── Floating Particle Dots (kept defined, not used in hero) ─────────────── */
+/* ─── Floating Particle Dots (kept, not used in hero) ────────────────────── */
 const FloatingDots: React.FC = () => {
   const dots = [
     { size: 4, top: '15%', left: '8%', delay: '0s', dur: '4s' },
@@ -82,12 +28,17 @@ const FloatingDots: React.FC = () => {
   );
 };
 
-/* ─── Lightning Bolt (kept defined, not used in hero) ─────────────────────── */
+/* ─── Lightning Bolt (kept, not used in hero) ─────────────────────────────── */
 const LightningBolt: React.FC = () => (
   <svg width="0" height="0" aria-hidden="true" style={{ position: 'absolute' }} />
 );
 
-/* ─── Hero Section (video background) ────────────────────────────────────── */
+/* ─── Section Divider ─────────────────────────────────────────────────────── */
+const SectionDivider: React.FC = () => (
+  <div className="w-full h-px bg-gradient-to-r from-transparent via-[#c87941]/30 to-transparent" />
+);
+
+/* ─── Hero Section ────────────────────────────────────────────────────────── */
 const HeroSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -175,36 +126,47 @@ const HeroSection: React.FC = () => {
       <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none" />
 
       <PageWrapper className="relative z-10 py-0 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
-          <div className="text-center lg:text-left">
+        <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+          >
             <h1
-              className="text-5xl md:text-7xl font-bold leading-tight mb-4"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
+              className="text-5xl md:text-7xl font-bold leading-tight mb-6 text-white"
+              style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 40px rgba(0,0,0,0.6)' }}
             >
               <span className="text-gradient">Create</span>
               <span className="text-white">. Future. </span>
               <span className="text-gradient">Together</span>
               <span className="text-white">.</span>
             </h1>
-            <p className="text-lg md:text-xl text-white/80 mb-8">
-              SaiMangalam engineers and manufactures high-performance transformers for utilities, industry, and renewable energy projects worldwide.
-            </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4">
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link to="/products" className="block btn-primary w-full sm:w-auto text-center">
-                  Explore Our Products
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Link to="/contact" className="block btn-secondary liquid-glass w-full sm:w-auto text-center rounded-lg">
-                  Request a Quote
-                </Link>
-              </motion.div>
-            </div>
-          </div>
-          <div className="hidden lg:flex items-center justify-center [perspective:1200px] h-full">
-            <HeroCardStack />
-          </div>
+          </motion.div>
+          <motion.p
+            className="text-lg md:text-xl text-white/80 mb-10"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+          >
+            SaiMangalam engineers and manufactures high-performance transformers for utilities, industry, and renewable energy projects worldwide.
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/products" className="block btn-primary w-full sm:w-auto text-center">
+                Explore Our Products
+              </Link>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/contact" className="block btn-secondary liquid-glass w-full sm:w-auto text-center rounded-lg">
+                Request a Quote
+              </Link>
+            </motion.div>
+          </motion.div>
         </div>
       </PageWrapper>
     </div>
@@ -251,30 +213,34 @@ const StatsSection: React.FC = () => {
   const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3 });
 
   return (
-    <div ref={ref} className="relative" style={{ background: 'rgba(13,10,8,0.8)' }}>
-      <hr className="section-divider" />
-      <PageWrapper className="py-8 md:py-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          {statsData.map((stat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 24 }}
-              animate={isVisible ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: i * 0.12, duration: 0.55 }}
-              className="glass-surface rounded-xl p-5 text-center"
-            >
-              <div className="text-3xl mb-1">{stat.icon}</div>
-              <div className="text-3xl md:text-4xl font-extrabold text-gradient">
-                {stat.isStatic ? stat.display : (
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={isVisible} />
-                )}
-              </div>
-              <p className="mt-1 text-sm text-white/50">{stat.label}</p>
-            </motion.div>
-          ))}
-        </div>
-      </PageWrapper>
-      <hr className="section-divider" />
+    <div ref={ref} className="relative section-dark overflow-hidden noise-overlay">
+      <div className="orb orb-copper absolute w-96 h-96 -top-20 -right-20" />
+      <div className="orb orb-warm absolute w-64 h-64 bottom-0 left-10" />
+      <div className="relative z-10">
+        <hr className="section-divider" />
+        <PageWrapper className="py-8 md:py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {statsData.map((stat, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 24 }}
+                animate={isVisible ? { opacity: 1, y: 0 } : {}}
+                transition={{ delay: i * 0.12, duration: 0.55 }}
+                className="glass-surface rounded-xl p-5 text-center"
+              >
+                <div className="text-3xl mb-1">{stat.icon}</div>
+                <div className="text-3xl md:text-4xl font-extrabold text-gradient">
+                  {stat.isStatic ? stat.display : (
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={isVisible} />
+                  )}
+                </div>
+                <p className="mt-1 text-sm text-white/50">{stat.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </PageWrapper>
+        <hr className="section-divider" />
+      </div>
     </div>
   );
 };
@@ -290,33 +256,37 @@ const cardVariants = {
 };
 
 const WhatWeDoSection: React.FC = () => (
-  <div className="bg-transparent">
-    <PageWrapper className="py-9 md:py-12 lg:py-16">
-      <div className="text-center mb-12">
-        <h2
-          className="text-3xl font-bold sm:text-4xl text-gradient inline-block"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+  <div className="relative section-darker overflow-hidden">
+    <div className="orb orb-copper absolute w-80 h-80 top-10 left-1/2 -translate-x-1/2" />
+    <div className="relative z-10">
+      <PageWrapper className="py-9 md:py-12 lg:py-16">
+        <div className="text-center mb-12">
+          <div className="w-12 h-0.5 bg-[#c87941] mb-4 mx-auto" />
+          <h2
+            className="text-3xl font-bold sm:text-4xl text-gradient inline-block"
+            style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+          >
+            What We Do
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-white/60">
+            Focused solutions in power distribution and renewable integration.
+          </p>
+        </div>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          What We Do
-        </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-white/80">
-          Focused solutions in power distribution and renewable integration.
-        </p>
-      </div>
-      <motion.div
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        variants={containerVariants}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        {coreServices.map((service) => (
-          <motion.div key={service.id} variants={cardVariants}>
-            <CoreServiceCard service={service} />
-          </motion.div>
-        ))}
-      </motion.div>
-    </PageWrapper>
+          {coreServices.map((service) => (
+            <motion.div key={service.id} variants={cardVariants}>
+              <CoreServiceCard service={service} />
+            </motion.div>
+          ))}
+        </motion.div>
+      </PageWrapper>
+    </div>
   </div>
 );
 
@@ -347,25 +317,29 @@ const ServiceCard: React.FC<{ service: typeof services[0] }> = ({ service }) => 
 );
 
 const ServicesSection: React.FC = () => (
-  <div id="services" style={{ background: 'rgba(10,8,6,0.6)' }}>
-    <PageWrapper className="py-9 md:py-12 lg:py-16">
-      <div className="text-center mb-12">
-        <h2
-          className="text-3xl font-bold sm:text-4xl text-white"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-        >
-          Services
-        </h2>
-        <p className="mt-4 max-w-2xl mx-auto text-lg text-white/80">
-          Lifecycle support from commissioning to overhaul.
-        </p>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {services.map((service) => (
-          <ServiceCard key={service.id} service={service} />
-        ))}
-      </div>
-    </PageWrapper>
+  <div id="services" className="relative section-dark overflow-hidden noise-overlay">
+    <div className="orb orb-warm absolute w-96 h-96 -bottom-20 right-0" />
+    <div className="relative z-10">
+      <PageWrapper className="py-9 md:py-12 lg:py-16">
+        <div className="text-center mb-12">
+          <div className="w-12 h-0.5 bg-[#c87941] mb-4 mx-auto" />
+          <h2
+            className="text-3xl font-bold sm:text-4xl text-white"
+            style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+          >
+            Services
+          </h2>
+          <p className="mt-4 max-w-2xl mx-auto text-lg text-white/60">
+            Lifecycle support from commissioning to overhaul.
+          </p>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service) => (
+            <ServiceCard key={service.id} service={service} />
+          ))}
+        </div>
+      </PageWrapper>
+    </div>
   </div>
 );
 
@@ -379,53 +353,58 @@ const WhyChooseUs: React.FC = () => {
   ];
 
   return (
-    <div className="bg-transparent">
-      <PageWrapper className="py-9 md:py-12 lg:py-16">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2
-              className="text-3xl font-bold sm:text-4xl"
-              style={{ fontFamily: "'Instrument Serif', serif" }}
-            >
-              Why Choose <span className="text-gradient">SaiMangalam</span>?
-            </h2>
-            <p className="mt-4 max-w-2xl text-lg text-white/80">
-              We are the trusted partner for industries that demand reliability and performance. Our commitment to quality, innovation, and customer satisfaction sets us apart.
-            </p>
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="flex items-start"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  viewport={{ once: true }}
-                >
-                  <div
-                    className="flex justify-center items-center h-12 w-12 rounded-full shrink-0 border border-[#c87941]/30 glow-amber"
-                    style={{ background: 'rgba(200,121,65,0.1)' }}
+    <div className="relative section-darker overflow-hidden">
+      <div className="orb orb-copper absolute w-80 h-80 -top-10 right-10" />
+      <div className="orb orb-warm absolute w-64 h-64 bottom-10 left-0" />
+      <div className="relative z-10">
+        <PageWrapper className="py-9 md:py-12 lg:py-16">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="w-12 h-0.5 bg-[#c87941] mb-4" />
+              <h2
+                className="text-3xl font-bold sm:text-4xl text-white"
+                style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+              >
+                Why Choose <span className="text-gradient">SaiMangalam</span>?
+              </h2>
+              <p className="mt-4 max-w-2xl text-lg text-white/60">
+                We are the trusted partner for industries that demand reliability and performance. Our commitment to quality, innovation, and customer satisfaction sets us apart.
+              </p>
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.5 }}
+                    viewport={{ once: true }}
                   >
-                    {feature.icon}
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-bold text-white">{feature.title}</h3>
-                    <p className="mt-1 text-white/50">{feature.description}</p>
-                  </div>
-                </motion.div>
-              ))}
+                    <div
+                      className="flex justify-center items-center h-12 w-12 rounded-full shrink-0 border border-[#c87941]/30 glow-amber"
+                      style={{ background: 'rgba(200,121,65,0.1)' }}
+                    >
+                      {feature.icon}
+                    </div>
+                    <div className="ml-4">
+                      <h3 className="text-lg font-bold text-white">{feature.title}</h3>
+                      <p className="mt-1 text-white/50">{feature.description}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+            <div className="hidden lg:block">
+              <img
+                src={seedImages.qualityLab}
+                alt="Quality testing of transformers at SaiMangalam Electrical & Engineerings."
+                className="rounded-xl shadow-lg border border-[#c87941]/20 glow-amber"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
             </div>
           </div>
-          <div className="hidden lg:block">
-            <img
-              src={seedImages.qualityLab}
-              alt="Quality testing of transformers at SaiMangalam Electrical & Engineerings."
-              className="rounded-xl shadow-lg border border-[#c87941]/20 glow-amber"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-            />
-          </div>
-        </div>
-      </PageWrapper>
+        </PageWrapper>
+      </div>
     </div>
   );
 };
@@ -439,53 +418,58 @@ const trustBadges = [
 ];
 
 const TrustBadgesSection: React.FC = () => (
-  <div style={{ background: 'rgba(10,8,6,0.5)' }}>
-    <hr className="section-divider" />
-    <PageWrapper className="py-10 md:py-14">
-      <div className="text-center mb-10">
-        <h2
-          className="text-2xl font-bold text-white"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-        >
-          Our Certifications &amp; Standards
-        </h2>
-        <p className="mt-2 text-white/50 text-sm">Hover each badge to learn more</p>
-      </div>
-      <div className="flex flex-wrap justify-center gap-8">
-        {trustBadges.map((badge) => (
-          <div key={badge.name} className="badge-flip w-36 h-36">
-            <div className="badge-flip-inner w-36 h-36">
-              <div
-                className="badge-front w-36 h-36 glass-surface rounded-xl flex flex-col items-center justify-center"
-                style={{ border: `2px solid ${badge.color}40`, boxShadow: `0 0 18px 2px ${badge.color}30` }}
-              >
-                <span className="text-2xl font-extrabold" style={{ color: badge.color }}>{badge.name}</span>
-                <span className="text-xs text-white/50 mt-1 text-center px-2">{badge.sub}</span>
-              </div>
-              <div
-                className="badge-back w-36 h-36 rounded-xl flex items-center justify-center p-3 text-center text-xs text-white/80"
-                style={{ background: `linear-gradient(135deg, ${badge.color}22, ${badge.color}44)`, border: `2px solid ${badge.color}60` }}
-              >
-                {badge.back}
+  <div className="relative section-dark overflow-hidden">
+    <div className="relative z-10">
+      <hr className="section-divider" />
+      <PageWrapper className="py-10 md:py-14">
+        <div className="text-center mb-10">
+          <div className="w-12 h-0.5 bg-[#c87941] mb-4 mx-auto" />
+          <h2
+            className="text-2xl font-bold text-white"
+            style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 20px rgba(0,0,0,0.5)' }}
+          >
+            Our Certifications &amp; Standards
+          </h2>
+          <p className="mt-2 text-white/50 text-sm">Hover each badge to learn more</p>
+        </div>
+        <div className="flex flex-wrap justify-center gap-8">
+          {trustBadges.map((badge) => (
+            <div key={badge.name} className="badge-flip w-36 h-36">
+              <div className="badge-flip-inner w-36 h-36">
+                <div
+                  className="badge-front w-36 h-36 glass-surface rounded-xl flex flex-col items-center justify-center"
+                  style={{ border: `2px solid ${badge.color}40`, boxShadow: `0 0 18px 2px ${badge.color}30` }}
+                >
+                  <span className="text-2xl font-extrabold" style={{ color: badge.color }}>{badge.name}</span>
+                  <span className="text-xs text-white/50 mt-1 text-center px-2">{badge.sub}</span>
+                </div>
+                <div
+                  className="badge-back w-36 h-36 rounded-xl flex items-center justify-center p-3 text-center text-xs text-white/80"
+                  style={{ background: `linear-gradient(135deg, ${badge.color}22, ${badge.color}44)`, border: `2px solid ${badge.color}60` }}
+                >
+                  {badge.back}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </PageWrapper>
-    <hr className="section-divider" />
+          ))}
+        </div>
+      </PageWrapper>
+      <hr className="section-divider" />
+    </div>
   </div>
 );
 
 /* ─── Quality CTA Section ─────────────────────────────────────────────────── */
 const QualityCTASection: React.FC = () => (
-  <div className="relative overflow-hidden diagonal-stripes circuit-pattern" style={{ background: 'rgba(10,8,6,0.98)' }}>
+  <div className="relative overflow-hidden diagonal-stripes circuit-pattern" style={{ backgroundColor: '#0f0d0b' }}>
+    <div className="orb orb-copper absolute w-[600px] h-[300px] top-0 left-1/2 -translate-x-1/2 -translate-y-1/2" />
     <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(to right, #c87941, #e8c49a, #c87941)' }} />
     <PageWrapper className="py-16 md:py-20 lg:py-24 relative z-10">
       <div className="text-center max-w-3xl mx-auto">
+        <div className="w-12 h-0.5 bg-[#c87941] mb-6 mx-auto" />
         <motion.h2
           className="text-3xl font-bold sm:text-5xl text-gradient inline-block"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+          style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 30px rgba(0,0,0,0.5)' }}
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -493,7 +477,7 @@ const QualityCTASection: React.FC = () => (
         >
           Committed to Uncompromising Quality
         </motion.h2>
-        <p className="mt-6 text-lg text-white/80">
+        <p className="mt-6 text-lg text-white/60">
           Our quality philosophy is embedded in every step of our process. We adhere to stringent international standards and hold key certifications, ensuring every transformer we deliver is a benchmark of reliability and safety.
         </p>
         <div className="mt-10">
@@ -514,11 +498,17 @@ const HomePage: React.FC = () => {
   return (
     <div className="bg-[#0a0a0a]">
       <HeroSection />
+      <SectionDivider />
       <StatsSection />
+      <SectionDivider />
       <WhatWeDoSection />
+      <SectionDivider />
       <ServicesSection />
+      <SectionDivider />
       <WhyChooseUs />
+      <SectionDivider />
       <TrustBadgesSection />
+      <SectionDivider />
       <QualityCTASection />
     </div>
   );
