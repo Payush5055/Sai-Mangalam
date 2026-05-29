@@ -4,6 +4,7 @@ import * as data from '../constants/data';
 import { Bars3Icon, XMarkIcon, ChevronRightIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/solid';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 const panelDataMap: { [key: string]: any } = {
   'About Us': data.aboutUsMenuData,
@@ -15,6 +16,7 @@ const panelDataMap: { [key: string]: any } = {
 const certifications = ['ISO 9001', 'CE Certified', 'IEEE Standards', 'Founded 1985', 'BIS Compliant', 'NABL Tested'];
 
 const Header: React.FC = () => {
+  const ctaBtnRef = useMagneticEffect<HTMLDivElement>();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activePanel, setActivePanel] = useState<string | null>(null);
@@ -228,11 +230,11 @@ const Header: React.FC = () => {
                     </motion.li>
                   ))}
                 </ul>
-                <motion.div className="ml-6" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <div ref={ctaBtnRef} className="ml-6">
                   <Link to="/contact" className="btn-primary liquid-glass">
                     Request a Quote
                   </Link>
-                </motion.div>
+                </div>
               </div>
             </div>
           </nav>

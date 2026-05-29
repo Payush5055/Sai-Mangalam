@@ -7,6 +7,8 @@ import CoreServiceCard from '../components/CoreServiceCard';
 import { seedImages } from '../constants/seed-images';
 import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
+import gsap from 'gsap';
+import { useMagneticEffect } from '../hooks/useMagneticEffect';
 
 /* ─── Floating Particle Dots (kept, not used in hero) ────────────────────── */
 const FloatingDots: React.FC = () => {
@@ -38,10 +40,124 @@ const SectionDivider: React.FC = () => (
   <div className="w-full h-px bg-gradient-to-r from-transparent via-[#c87941]/30 to-transparent" />
 );
 
+/* ─── Canvas Particle Field ───────────────────────────────────────────────── */
+const ParticleCanvas: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef({ x: -999, y: -999 });
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    interface Particle {
+      x: number; y: number; vx: number; vy: number; radius: number;
+    }
+
+    let particles: Particle[] = [];
+    let animId: number;
+
+    const init = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+      particles = Array.from({ length: 80 }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: 1,
+      }));
+    };
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const mx = mouseRef.current.x;
+      const my = mouseRef.current.y;
+
+      particles.forEach(p => {
+        // Repel from mouse
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 100 && dist > 0) {
+          const force = (100 - dist) / 100;
+          p.vx += (dx / dist) * force * 0.3;
+          p.vy += (dy / dist) * force * 0.3;
+        }
+        // Speed limit
+        const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+        if (speed > 1.5) { p.vx = (p.vx / speed) * 1.5; p.vy = (p.vy / speed) * 1.5; }
+
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fill();
+      });
+
+      // Connect nearby particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(255,255,255,${(1 - dist / 120) * 0.15})`;
+            ctx.lineWidth = 0.3;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      animId = requestAnimationFrame(draw);
+    };
+
+    init();
+    draw();
+
+    const handleResize = () => init();
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      mouseRef.current = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    };
+
+    window.addEventListener('resize', handleResize);
+    canvas.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', handleResize);
+      canvas.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full"
+      style={{ zIndex: 1, pointerEvents: 'none' }}
+    />
+  );
+};
+
 /* ─── Hero Section ────────────────────────────────────────────────────────── */
 const HeroSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const buttonsRef = useRef<HTMLDivElement>(null);
+  const btn1Ref = useMagneticEffect<HTMLDivElement>();
+  const btn2Ref = useMagneticEffect<HTMLDivElement>();
 
+  // Video fade-in/out logic
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -71,16 +187,13 @@ const HeroSection: React.FC = () => {
           if (progress < 1) requestAnimationFrame(animateFadeOut);
         };
         requestAnimationFrame(animateFadeOut);
-        video.style.opacity = '-1'; // sentinel to prevent re-trigger
+        video.style.opacity = '-1';
       }
     };
 
     const handleEnded = () => {
       video.style.opacity = '0';
-      setTimeout(() => {
-        video.currentTime = 0;
-        fadeIn();
-      }, 100);
+      setTimeout(() => { video.currentTime = 0; fadeIn(); }, 100);
     };
 
     video.addEventListener('canplay', fadeIn, { once: true });
@@ -94,6 +207,40 @@ const HeroSection: React.FC = () => {
     };
   }, []);
 
+  // GSAP hero text animations
+  useEffect(() => {
+    const h1 = headlineRef.current;
+    if (!h1) return;
+
+    // Split each text node's characters into spans
+    const spans = h1.querySelectorAll<HTMLSpanElement>('span[data-text]');
+    const allChars: HTMLSpanElement[] = [];
+
+    spans.forEach(span => {
+      const text = span.getAttribute('data-text') ?? '';
+      span.innerHTML = text.split('').map(
+        ch => `<span style="display:inline-block">${ch === ' ' ? '&nbsp;' : ch}</span>`
+      ).join('');
+      allChars.push(...Array.from(span.querySelectorAll<HTMLSpanElement>('span')));
+    });
+
+    const tl = gsap.timeline({ delay: 0.3 });
+    tl.fromTo(allChars,
+      { opacity: 0, y: 60 },
+      { opacity: 1, y: 0, stagger: 0.025, duration: 0.7, ease: 'power3.out' }
+    );
+    tl.fromTo(subtitleRef.current,
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
+      0.8
+    );
+    tl.fromTo(buttonsRef.current,
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      1.1
+    );
+  }, []);
+
   return (
     <div className="relative text-white min-h-screen bg-black flex items-center hero-noise overflow-hidden">
       {/* Video background */}
@@ -105,17 +252,21 @@ const HeroSection: React.FC = () => {
         playsInline
         preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center"
-        style={{ opacity: 0 }}
+        style={{ opacity: 0, zIndex: 0 }}
         onError={(e) => { (e.target as HTMLVideoElement).style.display = 'none'; }}
       />
 
+      {/* Canvas particle field — sits above video */}
+      <ParticleCanvas />
+
       {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/30" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/30" style={{ zIndex: 2 }} />
 
       {/* Copper-tinted grid overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
+          zIndex: 3,
           backgroundImage:
             'linear-gradient(rgba(200,121,65,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(200,121,65,0.04) 1px, transparent 1px)',
           backgroundSize: '60px 60px',
@@ -123,52 +274,45 @@ const HeroSection: React.FC = () => {
       />
 
       {/* Bottom fade into next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-black to-transparent pointer-events-none" style={{ zIndex: 4 }} />
 
-      <PageWrapper className="relative z-10 py-0 w-full">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-0 w-full" style={{ position: 'relative', zIndex: 5 }}>
         <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
+          <h1
+            ref={headlineRef}
+            className="text-5xl md:text-7xl font-bold leading-tight mb-6 text-white"
+            style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 40px rgba(0,0,0,0.6)' }}
           >
-            <h1
-              className="text-5xl md:text-7xl font-bold leading-tight mb-6 text-white"
-              style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 40px rgba(0,0,0,0.6)' }}
-            >
-              <span className="text-gradient">Create</span>
-              <span className="text-white">. Future. </span>
-              <span className="text-gradient">Together</span>
-              <span className="text-white">.</span>
-            </h1>
-          </motion.div>
-          <motion.p
+            <span className="text-gradient" data-text="Create">Create</span>
+            <span className="text-white" data-text=". Future. ">. Future. </span>
+            <span className="text-gradient" data-text="Together">Together</span>
+            <span className="text-white" data-text=".">.</span>
+          </h1>
+          <p
+            ref={subtitleRef}
             className="text-lg md:text-xl text-white/80 mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
+            style={{ opacity: 0 }}
           >
             SaiMangalam engineers and manufactures high-performance transformers for utilities, industry, and renewable energy projects worldwide.
-          </motion.p>
-          <motion.div
+          </p>
+          <div
+            ref={buttonsRef}
             className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
+            style={{ opacity: 0 }}
           >
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <div ref={btn1Ref}>
               <Link to="/products" className="block btn-primary w-full sm:w-auto text-center">
                 Explore Our Products
               </Link>
-            </motion.div>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            </div>
+            <div ref={btn2Ref}>
               <Link to="/contact" className="block btn-secondary liquid-glass w-full sm:w-auto text-center rounded-lg">
                 Request a Quote
               </Link>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
-      </PageWrapper>
+      </div>
     </div>
   );
 };

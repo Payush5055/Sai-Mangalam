@@ -1,9 +1,9 @@
-
-
-import React from 'react';
+import React, { useState } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import IntroScreen from '../components/IntroScreen';
+import SmoothScroll from '../components/SmoothScroll';
 import HomePage from '../pages/HomePage';
 import AboutPage from '../pages/AboutPage';
 import ProductsPage from '../pages/ProductsPage';
@@ -20,40 +20,56 @@ import SolarInstallationPage from '../pages/services/SolarInstallationPage';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
-
   React.useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
   return null;
 };
 
 const App: React.FC = () => {
+  const alreadyShown = sessionStorage.getItem('intro_shown') === 'true';
+  const [introComplete, setIntroComplete] = useState(alreadyShown);
+
   return (
-    <HashRouter>
-      <ScrollToTop />
-      <div className="flex flex-col min-h-screen bg-[#0a0a0a]">
-        <Header />
-        <main className="flex-grow pt-[124px]">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/products" element={<ProductsPage />} />
-            <Route path="/products/:productId" element={<ProductDetailPage />} />
-            <Route path="/services/distribution-transformer-manufacturing" element={<DistributionTransformerManufacturingPage />} />
-            <Route path="/services/power-line-installation-maintenance" element={<PowerLineInstallationPage />} />
-            <Route path="/services/solar-installation" element={<SolarInstallationPage />} />
-            <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
-            <Route path="/industries" element={<IndustriesPage />} />
-            <Route path="/quality" element={<QualityPage />} />
-            <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/careers" element={<CareersPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </HashRouter>
+    <SmoothScroll>
+      <>
+        {!introComplete && (
+          <IntroScreen onComplete={() => setIntroComplete(true)} />
+        )}
+        <div
+          style={{
+            opacity: introComplete ? 1 : 0,
+            transition: 'opacity 0.5s ease',
+            pointerEvents: introComplete ? 'all' : 'none',
+          }}
+        >
+          <HashRouter>
+            <ScrollToTop />
+            <div className="flex flex-col min-h-screen bg-[#0a0a0a]">
+              <Header />
+              <main className="flex-grow pt-[124px]">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/products" element={<ProductsPage />} />
+                  <Route path="/products/:productId" element={<ProductDetailPage />} />
+                  <Route path="/services/distribution-transformer-manufacturing" element={<DistributionTransformerManufacturingPage />} />
+                  <Route path="/services/power-line-installation-maintenance" element={<PowerLineInstallationPage />} />
+                  <Route path="/services/solar-installation" element={<SolarInstallationPage />} />
+                  <Route path="/services/:serviceId" element={<ServiceDetailPage />} />
+                  <Route path="/industries" element={<IndustriesPage />} />
+                  <Route path="/quality" element={<QualityPage />} />
+                  <Route path="/resources" element={<ResourcesPage />} />
+                  <Route path="/careers" element={<CareersPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
+          </HashRouter>
+        </div>
+      </>
+    </SmoothScroll>
   );
 };
 
