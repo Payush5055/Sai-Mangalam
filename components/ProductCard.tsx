@@ -17,12 +17,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     const x = (clientX - left) / width;
     const y = (clientY - top) / height;
 
-    const rotateX = (y - 0.5) * -16;
-    const rotateY = (x - 0.5) * 16;
+    const rotateX = (y - 0.5) * -12;
+    const rotateY = (x - 0.5) * 12;
 
     cardRef.current?.style.setProperty('--rotateX', `${rotateX}deg`);
     cardRef.current?.style.setProperty('--rotateY', `${rotateY}deg`);
-    // Shine position follows mouse
     cardRef.current?.style.setProperty('--mouse-x', `${x * 100}%`);
     cardRef.current?.style.setProperty('--mouse-y', `${y * 100}%`);
   };
@@ -49,20 +48,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative w-full overflow-hidden rounded-xl bg-black shadow-lg transition-all duration-300 ease-out will-change-transform motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:shadow-2xl"
+        className="relative w-full overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out will-change-transform motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:shadow-xl"
         style={{
           transform: 'translateZ(0) rotateX(var(--rotateX, 0)) rotateY(var(--rotateY, 0))',
           boxShadow: isHovered
-            ? '0 0 30px 4px rgba(200,121,65,0.3), 0 20px 40px rgba(0,0,0,0.5)'
-            : '0 4px 20px rgba(0,0,0,0.4)',
-          border: isHovered ? '1px solid rgba(200,121,65,0.5)' : '1px solid rgba(200,121,65,0.12)',
+            ? '0 12px 40px rgba(45,90,61,0.18), 0 2px 8px rgba(0,0,0,0.08)'
+            : '0 2px 12px rgba(0,0,0,0.08)',
+          border: isHovered ? '1px solid rgba(45,90,61,0.4)' : '1px solid #ddd8cf',
           transition: 'box-shadow 0.3s, border-color 0.3s, transform 0.3s',
         }}
       >
         {/* Light-reflection shine overlay */}
         <div className="card-shine" />
 
-        <div className="aspect-w-4 aspect-h-3 bg-[#111318]">
+        <div className="aspect-w-4 aspect-h-3 bg-[#eeeae2]">
           <img
             src={product.imageUrl}
             srcSet={`${product.imageUrl} 480w, ${product.imageUrl} 768w, ${product.imageUrl} 1200w`}
@@ -95,7 +94,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
         {/* Content */}
         <div
@@ -107,13 +106,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           <div className="mt-3 flex items-center space-x-3 text-xs font-medium">
             <span
               className="inline-flex items-center rounded-full px-2 py-0.5"
-              style={{ background: 'rgba(200,121,65,0.15)', border: '1px solid rgba(200,121,65,0.4)', color: '#c87941' }}
+              style={{ background: 'rgba(45,90,61,0.8)', border: '1px solid rgba(74,222,128,0.3)', color: '#bbf7d0' }}
             >
               <BoltIcon className="h-3 w-3 mr-1" />{product.specifications['Capacity']}
             </span>
             <span
               className="inline-flex items-center rounded-full px-2 py-0.5"
-              style={{ background: 'rgba(200,121,65,0.15)', border: '1px solid rgba(200,121,65,0.4)', color: '#c87941' }}
+              style={{ background: 'rgba(45,90,61,0.8)', border: '1px solid rgba(74,222,128,0.3)', color: '#bbf7d0' }}
             >
               <ArrowsPointingOutIcon className="h-3 w-3 mr-1" />{product.specifications['Voltage Class']}
             </span>
@@ -126,7 +125,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           style={{
             transform: isHovered ? 'translateY(0)' : 'translateY(100%)',
             opacity: isHovered ? 1 : 0,
-            background: 'linear-gradient(135deg, rgba(200,121,65,0.9), rgba(160,98,47,0.85))',
+            background: '#2d5a3d',
           }}
         >
           <span className="text-sm font-bold text-white text-center w-full block">

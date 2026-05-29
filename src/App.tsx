@@ -45,7 +45,7 @@ const App: React.FC = () => {
         >
           <HashRouter>
             <ScrollToTop />
-            <div className="flex flex-col min-h-screen bg-[#0a0a0a]">
+            <div className="flex flex-col min-h-screen bg-[#f4f1eb]">
               <Header />
               <main className="flex-grow pt-[124px]">
                 <Routes>

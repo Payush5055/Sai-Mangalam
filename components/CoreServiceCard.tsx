@@ -11,14 +11,14 @@ interface CoreServiceCardProps {
 const CoreServiceCard: React.FC<CoreServiceCardProps> = ({ service }) => {
   return (
     <motion.div
-      whileHover={{ y: -6, boxShadow: '0 0 30px rgba(200,121,65,0.2)' }}
+      whileHover={{ y: -6, boxShadow: '0 8px 32px rgba(0,0,0,0.12)' }}
       transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-      className="group relative liquid-glass rounded-xl flex flex-col overflow-hidden border border-[#c87941]/15 hover:border-[#c87941]/40 transition-all duration-300"
+      className="group relative card-light rounded-xl flex flex-col overflow-hidden hover:border-[#2d5a3d]/30 transition-all duration-300"
     >
-      {/* Copper gradient top-border on hover */}
+      {/* Green gradient top-border on hover */}
       <div
         className="absolute top-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: 'linear-gradient(to right, #c87941, #e8c49a, #c87941)' }}
+        style={{ background: 'linear-gradient(to right, #2d5a3d, #4a8c60, #2d5a3d)' }}
       />
 
       {/* Image */}
@@ -30,18 +30,15 @@ const CoreServiceCard: React.FC<CoreServiceCardProps> = ({ service }) => {
           loading="lazy"
           onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
         />
-        {/* Copper diagonal overlay on hover */}
         <div
           className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-          style={{ background: 'linear-gradient(135deg, rgba(200,121,65,0.3) 0%, rgba(232,196,154,0.2) 100%)' }}
+          style={{ background: 'linear-gradient(135deg, rgba(45,90,61,0.25) 0%, rgba(74,140,96,0.15) 100%)' }}
         />
-        {/* Category badge */}
         <div
-          className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold text-white liquid-glass"
+          className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-xs font-bold text-white"
           style={{
-            background: 'rgba(200,121,65,0.7)',
-            border: '1px solid rgba(200,121,65,0.5)',
-            boxShadow: '0 0 10px rgba(200,121,65,0.4)',
+            background: 'rgba(45,90,61,0.85)',
+            border: '1px solid rgba(45,90,61,0.5)',
           }}
         >
           {service.category ?? 'Service'}
@@ -49,30 +46,30 @@ const CoreServiceCard: React.FC<CoreServiceCardProps> = ({ service }) => {
       </div>
 
       <div className="p-6 flex flex-col flex-grow">
-        <h3 className="text-xl font-bold text-white">
+        <h3 className="text-xl font-bold text-[#1a1814]">
           <Link to={service.learnMoreUrl} className="hover:underline focus:outline-none">
             <span className="absolute inset-0" aria-hidden="true" />
             {service.title}
           </Link>
         </h3>
-        <p className="mt-2 text-white/80 flex-grow">{service.description}</p>
-        <ul className="mt-4 space-y-2 text-sm text-white/50">
+        <p className="mt-2 text-[#6b6258] flex-grow">{service.description}</p>
+        <ul className="mt-4 space-y-2 text-sm text-[#6b6258]">
           {service.details.map((detail, index) => (
             <li key={index} className="flex items-start">
-              <ChevronRightIcon className="h-5 w-5 text-[#c87941] mr-2 shrink-0 mt-px" />
+              <ChevronRightIcon className="h-5 w-5 text-[#2d5a3d] mr-2 shrink-0 mt-px" />
               <span>{detail}</span>
             </li>
           ))}
         </ul>
-        <div className="mt-6 pt-4 border-t border-white/10 flex flex-wrap gap-4 items-center justify-between">
-          <p className="font-semibold text-[#c87941] flex items-center gap-1">
+        <div className="mt-6 pt-4 border-t border-[#ddd8cf] flex flex-wrap gap-4 items-center justify-between">
+          <p className="font-semibold text-[#2d5a3d] flex items-center gap-1">
             Learn more <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">&rarr;</span>
           </p>
           {service.viewSpecsUrl && (
             <Link
               to={service.viewSpecsUrl}
               onClick={(e) => e.stopPropagation()}
-              className="relative z-10 text-sm font-medium text-white/50 hover:text-[#c87941] hover:underline"
+              className="relative z-10 text-sm font-medium text-[#6b6258] hover:text-[#2d5a3d] hover:underline"
             >
               View specs &rarr;
             </Link>

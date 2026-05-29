@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import gsap from 'gsap';
+import * as THREE from 'three';
 
 interface IntroScreenProps {
   onComplete: () => void;
@@ -7,14 +7,8 @@ interface IntroScreenProps {
 
 const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const lineRef = useRef<HTMLDivElement>(null);
-  const lettersRef = useRef<HTMLSpanElement[]>([]);
-  const subRef = useRef<HTMLParagraphElement>(null);
-  const taglineRef = useRef<HTMLParagraphElement>(null);
-  const progressTrackRef = useRef<HTMLDivElement>(null);
-  const progressFillRef = useRef<HTMLDivElement>(null);
-
-  const name = 'SAIMANGALAM';
+  const canvasRef = useRef<HTMLDivElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (sessionStorage.getItem('intro_shown') === 'true') {
@@ -22,63 +16,230 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
       return;
     }
 
-    const tl = gsap.timeline({
-      onComplete: () => {
-        sessionStorage.setItem('intro_shown', 'true');
-        gsap.to(containerRef.current, {
-          opacity: 0,
-          y: -30,
-          duration: 0.8,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            if (containerRef.current) containerRef.current.style.display = 'none';
-            onComplete();
-          },
-        });
-      },
-    });
+    const container = containerRef.current;
+    const canvasContainer = canvasRef.current;
+    if (!container || !canvasContainer) return;
 
-    // Thin accent line animates in
-    tl.fromTo(
-      lineRef.current,
-      { width: 0 },
-      { width: 120, duration: 0.6, ease: 'power2.inOut' }
-    );
+    // ── Three.js scene setup ──
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a0a);
+    scene.fog = new THREE.FogExp2(0x0a0a0a, 0.045);
 
-    // Letters stagger in
-    tl.fromTo(
-      lettersRef.current,
-      { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, stagger: 0.04, duration: 0.6, ease: 'power3.out' },
-      '-=0.2'
-    );
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(0, 0, 8);
 
-    // Subtitle line
-    tl.fromTo(
-      subRef.current,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-      '-=0.1'
-    );
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    canvasContainer.appendChild(renderer.domElement);
 
-    // Tagline
-    tl.fromTo(
-      taglineRef.current,
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-      '+=0.1'
-    );
+    // ── Lighting ──
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(0x4ade80, 2, 20);
+    pointLight.position.set(3, 4, 5);
+    scene.add(pointLight);
+    const pointLight2 = new THREE.PointLight(0x86efac, 1.5, 15);
+    pointLight2.position.set(-4, -2, 3);
+    scene.add(pointLight2);
 
-    // Progress fill
-    tl.fromTo(
-      progressFillRef.current,
-      { width: 0 },
-      { width: 80, duration: 3, ease: 'none' },
-      0
-    );
+    // ── Transformer wireframe group ──
+    const transformerGroup = new THREE.Group();
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0x4ade80, wireframe: true });
+    const wireMat2 = new THREE.MeshBasicMaterial({ color: 0x86efac, wireframe: true });
+    const wireMat3 = new THREE.MeshBasicMaterial({ color: 0xa3f7bf, wireframe: true });
 
-    // Hold for a beat before exit (total ~3.2s)
-    tl.to({}, { duration: 0.2 });
+    // Main tank body
+    const tank = new THREE.Mesh(new THREE.BoxGeometry(2, 2.5, 1.2), wireMat);
+    transformerGroup.add(tank);
+
+    // Cooling fins
+    for (let i = -2; i <= 2; i++) {
+      const fin = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1.8, 0.6), wireMat2);
+      fin.position.set(i * 0.28, 0, 0.85);
+      transformerGroup.add(fin);
+    }
+
+    // Top lid
+    const lid = new THREE.Mesh(new THREE.BoxGeometry(2.2, 0.12, 1.4), wireMat3);
+    lid.position.y = 1.3;
+    transformerGroup.add(lid);
+
+    // Primary bushing (cylinder on top)
+    const bush1 = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 1.2, 8), wireMat);
+    bush1.position.set(-0.5, 2.0, 0);
+    transformerGroup.add(bush1);
+
+    const bush2 = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 1.2, 8), wireMat);
+    bush2.position.set(0.5, 2.0, 0);
+    transformerGroup.add(bush2);
+
+    // HV rings on bushings
+    const torusMat = new THREE.MeshBasicMaterial({ color: 0xbbf7d0, wireframe: true });
+    for (let y = 0.1; y < 1.1; y += 0.3) {
+      const ring1 = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.03, 6, 16), torusMat);
+      ring1.position.set(-0.5, 1.5 + y, 0);
+      ring1.rotation.x = Math.PI / 2;
+      transformerGroup.add(ring1);
+
+      const ring2 = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.03, 6, 16), torusMat);
+      ring2.position.set(0.5, 1.5 + y, 0);
+      ring2.rotation.x = Math.PI / 2;
+      transformerGroup.add(ring2);
+    }
+
+    // Base / plinth
+    const base = new THREE.Mesh(new THREE.BoxGeometry(2.4, 0.2, 1.6), wireMat2);
+    base.position.y = -1.35;
+    transformerGroup.add(base);
+
+    // Wheels
+    for (let i = -1; i <= 1; i += 2) {
+      for (let j = -1; j <= 1; j += 2) {
+        const wheel = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.15, 0.1, 8), wireMat3);
+        wheel.position.set(i * 0.9, -1.52, j * 0.6);
+        wheel.rotation.z = Math.PI / 2;
+        transformerGroup.add(wheel);
+      }
+    }
+
+    transformerGroup.position.set(0, -0.3, 0);
+    scene.add(transformerGroup);
+
+    // ── Particles ──
+    const particleCount = 300;
+    const positions = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount; i++) {
+      const theta = Math.random() * Math.PI * 2;
+      const phi = Math.acos(2 * Math.random() - 1);
+      const r = 3 + Math.random() * 4;
+      positions[i * 3]     = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i * 3 + 2] = r * Math.cos(phi);
+    }
+    const pGeo = new THREE.BufferGeometry();
+    pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const pMat = new THREE.PointsMaterial({ color: 0x4ade80, size: 0.04, transparent: true, opacity: 0.7 });
+    const particles = new THREE.Points(pGeo, pMat);
+    scene.add(particles);
+
+    // ── Electric arc lines ──
+    const arcGroup = new THREE.Group();
+    const arcMat = new THREE.LineBasicMaterial({ color: 0xbbf7d0, transparent: true, opacity: 0.6 });
+    for (let a = 0; a < 6; a++) {
+      const pts: THREE.Vector3[] = [];
+      const startY = 2.6 + Math.random() * 0.4;
+      const startX = (Math.random() - 0.5) * 0.4;
+      for (let k = 0; k < 8; k++) {
+        pts.push(new THREE.Vector3(
+          startX + (Math.random() - 0.5) * 0.5 * k * 0.3,
+          startY + k * 0.25,
+          (Math.random() - 0.5) * 0.3
+        ));
+      }
+      const arcGeo = new THREE.BufferGeometry().setFromPoints(pts);
+      arcGroup.add(new THREE.Line(arcGeo, arcMat));
+    }
+    scene.add(arcGroup);
+
+    // ── Mouse parallax ──
+    const mouse = { x: 0, y: 0 };
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.x = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouse.y = -(e.clientY / window.innerHeight - 0.5) * 2;
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // ── Resize ──
+    const handleResize = () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    };
+    window.addEventListener('resize', handleResize);
+
+    // ── Animation loop ──
+    let animId: number;
+    const clock = new THREE.Clock();
+    let elapsed = 0;
+
+    const animate = () => {
+      animId = requestAnimationFrame(animate);
+      const delta = clock.getDelta();
+      elapsed += delta;
+
+      // Rotate transformer
+      transformerGroup.rotation.y = elapsed * 0.3 + Math.sin(elapsed * 0.5) * 0.2;
+      transformerGroup.position.y = -0.3 + Math.sin(elapsed * 0.8) * 0.08;
+
+      // Rotate particles slowly
+      particles.rotation.y = elapsed * 0.05;
+      particles.rotation.x = elapsed * 0.02;
+
+      // Flicker arcs
+      arcGroup.children.forEach((line, i) => {
+        const mat = (line as THREE.Line).material as THREE.LineBasicMaterial;
+        mat.opacity = 0.3 + Math.abs(Math.sin(elapsed * 8 + i)) * 0.7;
+        line.visible = (elapsed * 10 + i) % 3 > 1;
+      });
+
+      // Camera parallax
+      camera.position.x += (mouse.x * 1.5 - camera.position.x) * 0.05;
+      camera.position.y += (mouse.y * 1.0 - camera.position.y) * 0.05;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    // ── HTML overlay text animation ──
+    const overlay = overlayRef.current;
+    if (overlay) {
+      const nameEl = overlay.querySelector<HTMLDivElement>('.intro-name');
+      const subEl = overlay.querySelector<HTMLDivElement>('.intro-sub');
+      const tagEl = overlay.querySelector<HTMLDivElement>('.intro-tag');
+      const progressEl = overlay.querySelector<HTMLDivElement>('.intro-progress-fill');
+
+      if (nameEl) {
+        setTimeout(() => { nameEl.style.opacity = '1'; nameEl.style.transform = 'translateY(0)'; }, 400);
+      }
+      if (subEl) {
+        setTimeout(() => { subEl.style.opacity = '1'; subEl.style.transform = 'translateY(0)'; }, 900);
+      }
+      if (tagEl) {
+        setTimeout(() => { tagEl.style.opacity = '1'; }, 1400);
+      }
+      if (progressEl) {
+        setTimeout(() => {
+          progressEl.style.transition = 'width 3s linear';
+          progressEl.style.width = '100%';
+        }, 200);
+      }
+    }
+
+    // ── Exit after 4.5s ──
+    const exitTimer = setTimeout(() => {
+      if (container) {
+        container.style.transition = 'opacity 0.8s ease';
+        container.style.opacity = '0';
+        setTimeout(() => {
+          if (container) container.style.display = 'none';
+          sessionStorage.setItem('intro_shown', 'true');
+          onComplete();
+        }, 800);
+      }
+    }, 4500);
+
+    return () => {
+      clearTimeout(exitTimer);
+      cancelAnimationFrame(animId);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', handleResize);
+      renderer.dispose();
+      if (canvasContainer.contains(renderer.domElement)) {
+        canvasContainer.removeChild(renderer.domElement);
+      }
+    };
   }, [onComplete]);
 
   return (
@@ -88,103 +249,97 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
         position: 'fixed',
         inset: 0,
         zIndex: 9999,
-        backgroundColor: '#f5f2ed',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
+        backgroundColor: '#0a0a0a',
+        overflow: 'hidden',
       }}
     >
-      {/* Accent line */}
-      <div
-        ref={lineRef}
-        style={{
-          height: 1,
-          backgroundColor: '#1a1814',
-          marginBottom: 24,
-          width: 0,
-        }}
-      />
+      {/* Three.js canvas mount point */}
+      <div ref={canvasRef} style={{ position: 'absolute', inset: 0 }} />
 
-      {/* Company name */}
-      <div style={{ textAlign: 'center' }}>
+      {/* HTML text overlay */}
+      <div
+        ref={overlayRef}
+        style={{
+          position: 'absolute',
+          inset: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'flex-end',
+          paddingBottom: '12%',
+          pointerEvents: 'none',
+        }}
+      >
         <div
+          className="intro-name"
           style={{
             fontFamily: "'Instrument Serif', serif",
-            fontSize: 'clamp(32px, 6vw, 72px)',
+            fontSize: 'clamp(28px, 5vw, 64px)',
             fontWeight: 400,
-            letterSpacing: '0.25em',
-            color: '#1a1814',
+            letterSpacing: '0.22em',
+            color: '#f0fdf4',
             lineHeight: 1,
-            display: 'flex',
+            opacity: 0,
+            transform: 'translateY(24px)',
+            transition: 'opacity 0.8s ease, transform 0.8s ease',
+            textShadow: '0 0 40px rgba(74,222,128,0.4)',
           }}
         >
-          {name.split('').map((char, i) => (
-            <span
-              key={i}
-              ref={el => { if (el) lettersRef.current[i] = el; }}
-              style={{ display: 'inline-block', opacity: 0 }}
-            >
-              {char}
-            </span>
-          ))}
+          SAIMANGALAM
         </div>
-
-        <p
-          ref={subRef}
+        <div
+          className="intro-sub"
           style={{
             fontFamily: "'Instrument Serif', serif",
-            fontSize: 'clamp(10px, 1.4vw, 18px)',
+            fontSize: 'clamp(9px, 1.2vw, 15px)',
             fontWeight: 400,
             letterSpacing: '0.5em',
-            color: '#8a8070',
+            color: 'rgba(187,247,208,0.7)',
             marginTop: 10,
             opacity: 0,
+            transform: 'translateY(12px)',
+            transition: 'opacity 0.7s ease, transform 0.7s ease',
           }}
         >
           ELECTRICAL &amp; ENGINEERINGS
-        </p>
-      </div>
-
-      {/* Tagline */}
-      <p
-        ref={taglineRef}
-        style={{
-          fontFamily: "'Instrument Serif', serif",
-          fontStyle: 'italic',
-          fontSize: 14,
-          color: '#8a8070',
-          letterSpacing: '0.15em',
-          marginTop: 28,
-          opacity: 0,
-        }}
-      >
-        Powering India Since 1985
-      </p>
-
-      {/* Progress bar */}
-      <div
-        ref={progressTrackRef}
-        style={{
-          position: 'absolute',
-          bottom: 48,
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: 80,
-          height: 1,
-          backgroundColor: 'rgba(26,24,20,0.15)',
-          overflow: 'hidden',
-        }}
-      >
+        </div>
         <div
-          ref={progressFillRef}
+          className="intro-tag"
           style={{
-            height: '100%',
-            backgroundColor: '#1a1814',
-            opacity: 0.4,
-            width: 0,
+            fontFamily: "'Instrument Serif', serif",
+            fontStyle: 'italic',
+            fontSize: 13,
+            color: 'rgba(134,239,172,0.5)',
+            letterSpacing: '0.15em',
+            marginTop: 20,
+            opacity: 0,
+            transition: 'opacity 0.8s ease',
           }}
-        />
+        >
+          Powering India Since 1985
+        </div>
+
+        {/* Progress line */}
+        <div
+          style={{
+            marginTop: 32,
+            width: 120,
+            height: 1,
+            backgroundColor: 'rgba(74,222,128,0.15)',
+            overflow: 'hidden',
+            borderRadius: 1,
+          }}
+        >
+          <div
+            className="intro-progress-fill"
+            style={{
+              height: '100%',
+              backgroundColor: '#4ade80',
+              opacity: 0.6,
+              width: '0%',
+            }}
+          />
+        </div>
       </div>
     </div>
   );
