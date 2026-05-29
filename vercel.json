@@ -14,6 +14,10 @@
   "routes": [
     { "src": "/api/(.*)", "dest": "/backend/server.mjs" },
     { "src": "/assets/(.*)", "dest": "/assets/$1" },
+    { "src": "/brand/(.*)", "dest": "/brand/$1" },
+    { "src": "/theme.css", "dest": "/theme.css" },
+    { "src": "/manifest.json", "dest": "/manifest.json" },
+    { "src": "^/([^/]+\\.(?:css|js|json|ico|svg|png|jpg|jpeg|webp|avif|woff|woff2|ttf|mp4|webm))$", "dest": "/$1" },
     { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
