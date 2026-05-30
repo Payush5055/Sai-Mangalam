@@ -393,7 +393,7 @@ const SplitSection1: React.FC = () => {
       <div
         ref={containerRef}
         className="relative overflow-hidden flex items-center justify-center"
-        style={{ background: '#0a0c14', minHeight: '420px' }}
+        style={{ background: '#0a0c14', minHeight: '500px' }}
       >
         {/* Radial gradient background */}
         <div style={{
@@ -403,23 +403,23 @@ const SplitSection1: React.FC = () => {
 
         {/* Arc ring 1 */}
         <div className="transformer-arc transformer-arc-1" style={{
-          width: 340, height: 200,
+          width: 500, height: 300,
           top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%) translateY(20px)',
+          transform: 'translate(-50%, -50%)',
         }} />
 
         {/* Arc ring 2 */}
         <div className="transformer-arc transformer-arc-2" style={{
-          width: 400, height: 240,
+          width: 600, height: 360,
           top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%) translateY(20px)',
+          transform: 'translate(-50%, -50%)',
           borderColor: 'rgba(100,160,255,0.15)',
           borderStyle: 'dashed',
         }} />
 
         {/* Glow blob */}
         <div className="transformer-glow" style={{
-          width: 280, height: 180,
+          width: 320, height: 200,
           top: '50%', left: '50%',
           transform: 'translate(-50%, -40%)',
           background: 'radial-gradient(ellipse, rgba(60,120,255,0.2) 0%, transparent 70%)',
@@ -427,7 +427,7 @@ const SplitSection1: React.FC = () => {
         }} />
 
         {/* Floating transformer image */}
-        <div ref={imgWrapRef} className="transformer-float relative z-10" style={{ width: '85%', maxWidth: 380, marginTop: 20 }}>
+        <div ref={imgWrapRef} className="transformer-float relative z-10" style={{ width: '95%', maxWidth: 520 }}>
           <img
             src={seedImages.electric3DTransformer}
             alt="3D Distribution Transformer"

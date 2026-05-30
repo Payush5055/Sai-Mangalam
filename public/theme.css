@@ -317,3 +317,9 @@ body {
 
 .transformer-arc-1 { animation: arcRotate 8s linear infinite; }
 .transformer-arc-2 { animation: arcRotateReverse 12s linear infinite; }
+
+/* ─── Electric cursor — hide default, restore pointer feel ─────────────────── */
+*, *::before, *::after { cursor: none !important; }
+a, button, [role="button"], input, select, textarea, label, .cursor-pointer {
+  cursor: none !important;
+}

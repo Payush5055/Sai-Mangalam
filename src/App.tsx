@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import ElectricCursor from './components/ElectricCursor';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import IntroScreen from '../components/IntroScreen';
@@ -62,6 +63,7 @@ const App: React.FC = () => {
   return (
     <SmoothScroll>
       <>
+        <ElectricCursor />
         {!introComplete && (
           <IntroScreen onComplete={() => setIntroComplete(true)} />
         )}
