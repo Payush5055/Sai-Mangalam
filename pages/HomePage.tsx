@@ -26,7 +26,7 @@ const HeroSection: React.FC = () => {
       const doFade = (ts: number) => {
         if (start === null) start = ts;
         const p = Math.min((ts - start) / 800, 1);
-        video.style.opacity = String(p * 0.55);
+        video.style.opacity = String(p * 0.85);
         if (p < 1) requestAnimationFrame(doFade);
       };
       requestAnimationFrame(doFade);
@@ -64,7 +64,7 @@ const HeroSection: React.FC = () => {
         ref={videoRef}
         src="/assets/transformer-hero.mp4"
         poster={seedImages.hero}
-        muted playsInline preload="auto"
+        loop muted playsInline preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center"
         style={{ opacity: 0, zIndex: 0 }}
         onError={(e) => { (e.target as HTMLVideoElement).style.display = 'none'; }}
@@ -224,13 +224,13 @@ const SplitSection1: React.FC = () => {
   const imgRef = useRef<HTMLImageElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (imgRef.current) gsap.fromTo(imgRef.current, { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 80%', once: true } });
+    if (imgRef.current) gsap.fromTo(imgRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 85%', once: true } });
     if (textRef.current) gsap.fromTo(textRef.current, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: textRef.current, start: 'top 80%', once: true } });
   }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
       <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
-        <img ref={imgRef} src={seedImages.productYard} alt="Distribution transformers" className="w-full h-full object-cover" style={{ minHeight: 200 }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <img ref={imgRef} src={seedImages.productYard} alt="Distribution transformers" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
         <div className="absolute inset-0 bg-[#f4f1eb]/10" />
       </div>
       <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
@@ -256,7 +256,7 @@ const SplitSection2: React.FC = () => {
   const imgRef = useRef<HTMLImageElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (imgRef.current) gsap.fromTo(imgRef.current, { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 80%', once: true } });
+    if (imgRef.current) gsap.fromTo(imgRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 85%', once: true } });
     if (textRef.current) gsap.fromTo(textRef.current, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: textRef.current, start: 'top 80%', once: true } });
   }, []);
   return (
@@ -276,7 +276,7 @@ const SplitSection2: React.FC = () => {
         <Link to="/services/solar-installation" className="split-link">Learn more</Link>
       </div>
       <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
-        <img ref={imgRef} src={seedImages.industriesRenewable} alt="Solar installation" className="w-full h-full object-cover" style={{ minHeight: 200 }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <img ref={imgRef} src={seedImages.industriesRenewable} alt="Solar installation" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
       </div>
     </div>
   );
@@ -309,27 +309,58 @@ const MosaicSection: React.FC = () => {
           </h2>
           <Link to="/services/distribution-transformer-manufacturing" style={{ fontSize: 10, color: '#2d5a3d', letterSpacing: '0.12em', textTransform: 'uppercase' }}>View all →</Link>
         </div>
-        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-3 gap-[1px] bg-[#ddd8cf]">
-          {MOSAIC.map((item, i) => (
-            <div key={i} data-mosaic="" className={`bg-[#f4f1eb] relative overflow-hidden cursor-pointer group ${item.wide ? 'sm:col-span-2' : ''}`}>
-              <div className={`overflow-hidden ${item.wide ? 'aspect-[2/1]' : 'aspect-[4/3]'}`}>
-                <img
-                  src={item.img} alt={item.title}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-[1.03]"
-                  style={{ opacity: 0.7 }}
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                />
-              </div>
-              <div className="mosaic-arrow">
-                <ArrowUpRightIcon style={{ width: 12, height: 12 }} />
-              </div>
-              <div className="px-4 py-3">
-                <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{item.cat}</div>
-                <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{item.title}</div>
-                <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{item.sub}</div>
-              </div>
+        <div ref={gridRef} className="grid grid-cols-3 gap-[1px] bg-[#ddd8cf]">
+          {/* Card 1 — wide, spans 2 columns */}
+          <div data-mosaic="" className="col-span-2 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+            <div className="overflow-hidden aspect-[2/1]">
+              <img
+                src={MOSAIC[0].img} alt={MOSAIC[0].title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                style={{ opacity: 0.7, willChange: 'transform' }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
             </div>
-          ))}
+            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
+            <div className="px-4 py-3">
+              <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[0].cat}</div>
+              <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[0].title}</div>
+              <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[0].sub}</div>
+            </div>
+          </div>
+          {/* Card 3 — row-span-2, fills entire right column */}
+          <div data-mosaic="" className="row-span-2 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group flex flex-col h-full">
+            <div className="overflow-hidden flex-1">
+              <img
+                src={MOSAIC[2].img} alt={MOSAIC[2].title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                style={{ opacity: 0.7, willChange: 'transform' }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+            </div>
+            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
+            <div className="px-4 py-3">
+              <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[2].cat}</div>
+              <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[2].title}</div>
+              <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[2].sub}</div>
+            </div>
+          </div>
+          {/* Card 2 — normal */}
+          <div data-mosaic="" className="bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+            <div className="overflow-hidden aspect-[4/3]">
+              <img
+                src={MOSAIC[1].img} alt={MOSAIC[1].title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                style={{ opacity: 0.7, willChange: 'transform' }}
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+              />
+            </div>
+            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
+            <div className="px-4 py-3">
+              <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[1].cat}</div>
+              <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[1].title}</div>
+              <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[1].sub}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
