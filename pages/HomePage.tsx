@@ -62,7 +62,7 @@ const HeroSection: React.FC = () => {
     <div className="relative text-white min-h-screen bg-[#0a0908] flex items-center overflow-hidden">
       <video
         ref={videoRef}
-        src="/assets/transformer-hero.mp4"
+        src="/assets/Transformer_assembly_in_factory.mp4"
         poster={seedImages.hero}
         loop muted playsInline preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center"
@@ -219,19 +219,148 @@ const FullBleedSection: React.FC = () => {
   );
 };
 
+/* ─── Animated SVG Schematic ─────────────────────────────────────────────────── */
+const AnimatedSchematic: React.FC = () => {
+  const primaryRectRef = useRef<SVGRectElement>(null);
+  const secondaryRectRef = useRef<SVGRectElement>(null);
+  const primaryLinesRef = useRef<SVGLineElement[]>([]);
+  const secondaryLinesRef = useRef<SVGLineElement[]>([]);
+  const laminationLinesRef = useRef<SVGLineElement[]>([]);
+  const labelsRef = useRef<SVGGElement>(null);
+
+  useEffect(() => {
+    const tl = gsap.timeline({ scrollTrigger: { trigger: primaryRectRef.current, start: 'top 85%', once: true } });
+
+    // Draw primary winding rect
+    if (primaryRectRef.current) {
+      gsap.set(primaryRectRef.current, { strokeDasharray: 300, strokeDashoffset: 300 });
+      tl.to(primaryRectRef.current, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.out' }, 0);
+    }
+    // Draw secondary winding rect
+    if (secondaryRectRef.current) {
+      gsap.set(secondaryRectRef.current, { strokeDasharray: 300, strokeDashoffset: 300 });
+      tl.to(secondaryRectRef.current, { strokeDashoffset: 0, duration: 1.2, ease: 'power2.out' }, 0.3);
+    }
+    // Fade in copper lines
+    if (primaryLinesRef.current.length) {
+      gsap.set(primaryLinesRef.current, { opacity: 0 });
+      tl.to(primaryLinesRef.current, { opacity: 1, stagger: 0.04, duration: 0.3, ease: 'power2.out' }, 0.5);
+    }
+    // Fade in secondary lines
+    if (secondaryLinesRef.current.length) {
+      gsap.set(secondaryLinesRef.current, { opacity: 0 });
+      tl.to(secondaryLinesRef.current, { opacity: 1, stagger: 0.04, duration: 0.3, ease: 'power2.out' }, 0.5);
+    }
+    // Draw lamination lines
+    if (laminationLinesRef.current.length) {
+      laminationLinesRef.current.forEach(l => {
+        const len = (l as SVGLineElement).getTotalLength ? 116 : 116;
+        gsap.set(l, { strokeDasharray: len, strokeDashoffset: len });
+      });
+      tl.to(laminationLinesRef.current, { strokeDashoffset: 0, stagger: 0.03, duration: 0.4, ease: 'power2.out' }, 0.2);
+    }
+    // Fade up labels
+    if (labelsRef.current) {
+      gsap.set(labelsRef.current, { opacity: 0, y: 8 });
+      tl.to(labelsRef.current, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, 1.8);
+    }
+  }, []);
+
+  const copperLineOpacities = [0.4, 0.5, 0.6, 0.65, 0.7, 0.65, 0.6, 0.65, 0.7, 0.65, 0.6, 0.5, 0.6, 0.4];
+
+  return (
+    <svg viewBox="0 0 500 320" width="100%" height="100%" style={{ maxHeight: 320 }} aria-label="Transformer cross-section schematic">
+      <defs>
+        <marker id="arrowCopper" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#c87941" />
+        </marker>
+        <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <path d="M0,0 L0,6 L8,3 z" fill="#2d5a3d" />
+        </marker>
+        <style>{`
+          @keyframes flowLeft { from { stroke-dashoffset: 28; } to { stroke-dashoffset: 0; } }
+          @keyframes flowRight { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 28; } }
+        `}</style>
+      </defs>
+
+      {/* Core block */}
+      <rect x={180} y={40} width={140} height={240} rx={4} fill="#e5e1d8" stroke="#c5bfb5" strokeWidth={0.5} />
+      <rect x={192} y={52} width={116} height={216} rx={3} fill="#f4f1eb" stroke="#ddd8cf" strokeWidth={0.5} />
+      {Array.from({ length: 10 }, (_, i) => (
+        <line
+          key={i}
+          ref={el => { if (el) laminationLinesRef.current[i] = el; }}
+          x1={192} y1={72 + i * 20} x2={308} y2={72 + i * 20}
+          stroke="#ddd8cf" strokeWidth={0.5}
+        />
+      ))}
+
+      {/* Primary winding block */}
+      <rect x={80} y={40} width={92} height={240} rx={4} fill="#fdf8f0" stroke="#c5bfb5" strokeWidth={1.5}
+        ref={primaryRectRef} />
+      {copperLineOpacities.map((op, i) => (
+        <line
+          key={i}
+          ref={el => { if (el) primaryLinesRef.current[i] = el; }}
+          x1={88} y1={56 + i * 16} x2={164} y2={56 + i * 16}
+          stroke="#c87941" strokeWidth={1.5} opacity={op}
+        />
+      ))}
+
+      {/* Secondary winding block */}
+      <rect x={328} y={40} width={92} height={240} rx={4} fill="#f0f8f0" stroke="#c5bfb5" strokeWidth={1.5}
+        ref={secondaryRectRef} />
+      {copperLineOpacities.map((op, i) => (
+        <line
+          key={i}
+          ref={el => { if (el) secondaryLinesRef.current[i] = el; }}
+          x1={336} y1={56 + i * 16} x2={412} y2={56 + i * 16}
+          stroke="#2d5a3d" strokeWidth={1.5} opacity={op}
+        />
+      ))}
+
+      {/* Animated current paths */}
+      <path d="M20,160 L74,160" stroke="#c87941" strokeWidth={2}
+        strokeDasharray="8 6" markerEnd="url(#arrowCopper)"
+        style={{ animation: 'flowLeft 1.5s linear infinite' }} />
+      <path d="M426,160 L480,160" stroke="#2d5a3d" strokeWidth={2}
+        strokeDasharray="8 6" markerEnd="url(#arrowGreen)"
+        style={{ animation: 'flowRight 1.5s linear infinite' }} />
+
+      {/* Labels */}
+      <g ref={labelsRef}>
+        {/* Core label */}
+        <text x={250} y={170} textAnchor="middle" fontFamily="'Instrument Serif', serif" fontStyle="italic" fontSize={11} fill="#a09585">Steel core</text>
+        <text x={250} y={184} textAnchor="middle" fontFamily="'Instrument Serif', serif" fontStyle="italic" fontSize={9} fill="#a09585">CRGO laminations</text>
+
+        {/* Primary labels */}
+        <text x={126} y={294} textAnchor="middle" fontSize={11} fill="#1a1814" fontWeight={500}>Primary</text>
+        <text x={126} y={307} textAnchor="middle" fontSize={10} fill="#a09585">11 kV</text>
+
+        {/* Secondary labels */}
+        <text x={374} y={294} textAnchor="middle" fontSize={11} fill="#1a1814" fontWeight={500}>Secondary</text>
+        <text x={374} y={307} textAnchor="middle" fontSize={10} fill="#a09585">433 V</text>
+
+        {/* Arrow labels */}
+        <text x={47} y={178} textAnchor="middle" fontSize={11} fill="#6b6258">AC Input</text>
+        <text x={47} y={191} textAnchor="middle" fontSize={11} fill="#6b6258">11 kV</text>
+        <text x={453} y={178} textAnchor="middle" fontSize={11} fill="#6b6258">AC Output</text>
+        <text x={453} y={191} textAnchor="middle" fontSize={11} fill="#6b6258">433 V</text>
+      </g>
+    </svg>
+  );
+};
+
 /* ─── Split 1: Transformers ──────────────────────────────────────────────────── */
 const SplitSection1: React.FC = () => {
-  const imgRef = useRef<HTMLImageElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    if (imgRef.current) gsap.fromTo(imgRef.current, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 85%', once: true } });
     if (textRef.current) gsap.fromTo(textRef.current, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: textRef.current, start: 'top 80%', once: true } });
   }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
-      <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
-        <img ref={imgRef} src={seedImages.productYard} alt="Distribution transformers" loading="lazy" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform', objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-        <div className="absolute inset-0 bg-[#f4f1eb]/10" />
+      <div className="bg-[#f4f1eb] p-8 flex items-center justify-center" style={{ minHeight: 320 }}>
+        <AnimatedSchematic />
       </div>
       <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
         <div className="eyebrow">Manufacturing</div>

@@ -7,11 +7,11 @@ import qualityLabImg from '../src/assets/qualityLab.jpg'
 import industrialImg from '../src/assets/Industrial.jpg'
 import commercialImg from '../src/assets/Commercial.jpeg'
 import logoImg from '../src/assets/Logo.jpg'
-import adobeImg from '../src/assets/AdobeStock_247812631_Preview.jpeg'
+import adobeImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 
 // New Canva-generated images
-import factoryInteriorImg from '../src/assets/factory-interior.jpg'
+import factoryInteriorImg from '../src/assets/"Cinematic_close-up_of_a_large.jpg'
 import qualityTestingImg from '../src/assets/quality-testing.jpg'
 import aerialSubstationImg from '../src/assets/aerial-substation.jpg'
 import copperWindingsImg from '../src/assets/copper-windings.jpg'
