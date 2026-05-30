@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
+
+const TransformerModel = lazy(() => import('../src/components/TransformerModel'));
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { seedImages } from '../constants/seed-images';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -359,8 +361,21 @@ const SplitSection1: React.FC = () => {
   }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
-      <div className="bg-[#f4f1eb] p-8 flex items-center justify-center" style={{ minHeight: 320 }}>
-        <AnimatedSchematic />
+      <div className="relative overflow-hidden bg-[#eeeae2]" style={{ minHeight: '420px' }}>
+        <Suspense fallback={
+          <div className="w-full h-full flex items-center justify-center min-h-[420px] bg-[#eeeae2]">
+            <div style={{ color: '#a09585', fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Loading…</div>
+          </div>
+        }>
+          <TransformerModel />
+        </Suspense>
+        <div style={{
+          position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)',
+          fontSize: 9, color: 'rgba(26,24,20,0.35)', letterSpacing: '0.15em',
+          textTransform: 'uppercase', whiteSpace: 'nowrap', pointerEvents: 'none',
+        }}>
+          Drag to rotate
+        </div>
       </div>
       <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
         <div className="eyebrow">Manufacturing</div>
