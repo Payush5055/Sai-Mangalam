@@ -493,9 +493,9 @@ const SplitSection2: React.FC = () => {
 
 /* ─── Mosaic Services ────────────────────────────────────────────────────────── */
 const MOSAIC = [
-  { cat: 'On-site',   title: 'Installation & Commissioning', sub: 'Site-ready delivery, testing, and energization.',     img: seedImages.factoryInterior, objPos: 'center center', wide: true },
-  { cat: 'Scheduled', title: 'Preventive Maintenance',        sub: 'Oil analysis, thermography, routine checks.',         img: seedImages.qualityLab,      objPos: 'center center', wide: false },
-  { cat: 'Workshop',  title: 'Repairs & Overhauls',           sub: 'Winding repair, core refurbishment, leak fixes.',     img: seedImages.rdTeam,          objPos: 'center center', wide: false },
+  { cat: 'On-site',   title: 'Installation & Commissioning', sub: 'Site-ready delivery, testing, and energization.',  img: seedImages.factoryInterior,    objPos: 'center center', wide: true },
+  { cat: 'Scheduled', title: 'Preventive Maintenance',       sub: 'Oil analysis, thermography, routine checks.',      img: seedImages.servicesTechnician, objPos: 'center top',    wide: false },
+  { cat: 'Workshop',  title: 'Repairs & Overhauls',          sub: 'Winding repair, core refurbishment, leak fixes.',  img: seedImages.qualityInspection,  objPos: 'center top',    wide: false },
 ];
 
 const MosaicSection: React.FC = () => {
@@ -545,7 +545,6 @@ const MosaicSection: React.FC = () => {
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[2].objPos }}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
             <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12, color: 'white' }} /></div>
@@ -559,11 +558,10 @@ const MosaicSection: React.FC = () => {
           <div data-mosaic="" className="bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
-                src={seedImages.qualityLab} alt={MOSAIC[1].title}
+                src={MOSAIC[1].img} alt={MOSAIC[1].title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[1].objPos }}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
             <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
