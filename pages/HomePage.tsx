@@ -526,7 +526,7 @@ const MosaicSection: React.FC = () => {
                 src={MOSAIC[0].img} alt={MOSAIC[0].title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 0.7, willChange: 'transform', objectPosition: MOSAIC[0].objPos }}
+                style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[0].objPos }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
@@ -538,31 +538,31 @@ const MosaicSection: React.FC = () => {
             </div>
           </div>
           {/* Card 3 — row-span-2, fills entire right column */}
-          <div data-mosaic="" className="row-span-2 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group flex flex-col h-full">
+          <div data-mosaic="" className="row-span-2 bg-[#1a1814] relative overflow-hidden cursor-pointer group flex flex-col h-full">
             <div className="overflow-hidden flex-1">
               <img
                 src={MOSAIC[2].img} alt={MOSAIC[2].title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 0.7, willChange: 'transform', objectPosition: MOSAIC[2].objPos }}
+                style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[2].objPos }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
-            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
+            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12, color: 'white' }} /></div>
             <div className="px-4 py-3">
-              <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[2].cat}</div>
-              <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[2].title}</div>
-              <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[2].sub}</div>
+              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[2].cat}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[2].title}</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55 }}>{MOSAIC[2].sub}</div>
             </div>
           </div>
           {/* Card 2 — normal */}
           <div data-mosaic="" className="bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
-                src={MOSAIC[1].img} alt={MOSAIC[1].title}
+                src={seedImages.qualityLab} alt={MOSAIC[1].title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 0.7, willChange: 'transform', objectPosition: MOSAIC[1].objPos }}
+                style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[1].objPos }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
