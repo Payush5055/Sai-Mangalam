@@ -15,7 +15,7 @@ import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 import factoryInteriorImg from '../src/assets/Cinematic_close-up_of_a_large.jpeg'
 import qualityTestingImg from '../src/assets/quality-testing.jpg'
 import aerialSubstationImg from '../src/assets/aerial-substation.jpg'
-import copperWindingsImg from '../src/assets/copper-windings.jpg'
+import copperWindingsImg from '../src/assets/Coils_image.png'
 import solarFarmImg from '../src/assets/solar-farm.jpg'
 import htTowerImg from '../src/assets/ht-tower.jpg'
 
