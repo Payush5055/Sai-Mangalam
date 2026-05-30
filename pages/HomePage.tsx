@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
+import CinematicBand from '../src/components/CinematicBand';
 import { seedImages } from '../constants/seed-images';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import gsap from 'gsap';
@@ -722,6 +723,7 @@ const HomePage: React.FC = () => (
     <HeroSection />
     <MarqueeSection />
     <StatsSection />
+    <CinematicBand />
     <FullBleedSection />
     <SplitSection1 />
     <SplitSection2 />
