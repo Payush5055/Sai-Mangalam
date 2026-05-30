@@ -11,7 +11,7 @@ import adobeImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 
 // New Canva-generated images
-import factoryInteriorImg from '../src/assets/"Cinematic_close-up_of_a_large.jpg'
+import factoryInteriorImg from '../src/assets/Cinematic_close-up_of_a_large.jpg'
 import qualityTestingImg from '../src/assets/quality-testing.jpg'
 import aerialSubstationImg from '../src/assets/aerial-substation.jpg'
 import copperWindingsImg from '../src/assets/copper-windings.jpg'
