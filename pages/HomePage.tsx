@@ -493,9 +493,38 @@ const SplitSection2: React.FC = () => {
 
 /* ─── Mosaic Services ────────────────────────────────────────────────────────── */
 const MOSAIC = [
-  { cat: 'On-site',   title: 'Installation & Commissioning', sub: 'Site-ready delivery, testing, and energization.',  img: seedImages.factoryInterior,    objPos: 'center center', wide: true },
-  { cat: 'Scheduled', title: 'Preventive Maintenance',       sub: 'Oil analysis, thermography, routine checks.',      img: seedImages.servicesTechnician, objPos: 'center top',    wide: false },
-  { cat: 'Workshop',  title: 'Repairs & Overhauls',          sub: 'Winding repair, core refurbishment, leak fixes.',  img: seedImages.qualityInspection,  objPos: 'center top',    wide: false },
+  {
+    cat: 'On-site',
+    title: 'Installation & Commissioning',
+    sub: 'Site-ready delivery, testing, and energization.',
+    img: seedImages.factoryInterior,
+    objPos: 'center center',
+    wide: true,
+  },
+  {
+    cat: 'Scheduled',
+    title: 'Preventive Maintenance',
+    sub: 'Oil analysis, thermography, routine checks.',
+    img: seedImages.qualityLab,
+    objPos: 'center center',
+    wide: false,
+  },
+  {
+    cat: 'Quality',
+    title: 'Testing & Calibration',
+    sub: 'Routine, type, and special tests per IEC/IS.',
+    img: seedImages.transformerQuality,
+    objPos: 'center center',
+    wide: false,
+  },
+  {
+    cat: 'Workshop',
+    title: 'Repairs & Overhauls',
+    sub: 'Winding repair, core refurbishment, leak fixes.',
+    img: seedImages.qualityInspection,
+    objPos: 'center top',
+    wide: false,
+  },
 ];
 
 const MosaicSection: React.FC = () => {
@@ -518,16 +547,15 @@ const MosaicSection: React.FC = () => {
           </h2>
           <Link to="/services/distribution-transformer-manufacturing" style={{ fontSize: 10, color: '#2d5a3d', letterSpacing: '0.12em', textTransform: 'uppercase' }}>View all →</Link>
         </div>
-        <div ref={gridRef} className="grid grid-cols-3 gap-[1px] bg-[#ddd8cf]">
-          {/* Card 1 — wide, spans 2 columns */}
-          <div data-mosaic="" className="col-span-2 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+        <div ref={gridRef} className="grid grid-cols-3 grid-rows-2 gap-[1px] bg-[#ddd8cf]">
+          {/* Card 1 — col-span-2 row-span-1 */}
+          <div data-mosaic="" className="col-span-2 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[2/1]">
               <img
                 src={MOSAIC[0].img} alt={MOSAIC[0].title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                 style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[0].objPos }}
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
             <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
@@ -537,25 +565,25 @@ const MosaicSection: React.FC = () => {
               <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[0].sub}</div>
             </div>
           </div>
-          {/* Card 3 — row-span-2, fills entire right column */}
-          <div data-mosaic="" className="row-span-2 bg-[#1a1814] relative overflow-hidden cursor-pointer group flex flex-col h-full">
-            <div className="overflow-hidden flex-1">
+          {/* Card 4 — col-span-1 row-span-2 (tall dark, placed before Card 2/3 for CSS grid) */}
+          <div data-mosaic="" className="col-span-1 row-span-2 bg-[#1a1814] cursor-pointer group flex flex-col overflow-hidden">
+            <div className="flex-1 overflow-hidden">
               <img
-                src={MOSAIC[2].img} alt={MOSAIC[2].title}
+                src={MOSAIC[3].img} alt={MOSAIC[3].title}
                 loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[2].objPos }}
+                style={{ opacity: 1, willChange: 'transform', objectPosition: 'center top' }}
               />
             </div>
             <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12, color: 'white' }} /></div>
-            <div className="px-4 py-3">
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[2].cat}</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[2].title}</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55 }}>{MOSAIC[2].sub}</div>
+            <div className="px-4 py-3 bg-[#1a1814]">
+              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[3].cat}</div>
+              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[3].title}</div>
+              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55 }}>{MOSAIC[3].sub}</div>
             </div>
           </div>
-          {/* Card 2 — normal */}
-          <div data-mosaic="" className="bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          {/* Card 2 — col-span-1 row-span-1 */}
+          <div data-mosaic="" className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
                 src={MOSAIC[1].img} alt={MOSAIC[1].title}
@@ -569,6 +597,23 @@ const MosaicSection: React.FC = () => {
               <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[1].cat}</div>
               <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[1].title}</div>
               <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[1].sub}</div>
+            </div>
+          </div>
+          {/* Card 3 — col-span-1 row-span-1 */}
+          <div data-mosaic="" className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+            <div className="overflow-hidden aspect-[4/3]">
+              <img
+                src={MOSAIC[2].img} alt={MOSAIC[2].title}
+                loading="lazy"
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                style={{ opacity: 1, willChange: 'transform', objectPosition: MOSAIC[2].objPos }}
+              />
+            </div>
+            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12 }} /></div>
+            <div className="px-4 py-3">
+              <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[2].cat}</div>
+              <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[2].title}</div>
+              <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[2].sub}</div>
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import heroImg from '../src/assets/transformer-voltage-main.jpg'
+import transformerQualityImg from '../src/assets/Transformer_Quality.jpeg'
 import electric3DTransformerImg from '../src/assets/Electric_3D_Transformer.jpeg'
-import distributionImg from '../src/assets/distribution_transformer.jpg'
+import distributionImg from '../src/assets/Cinematic_close-up.jpeg'
 import lineImg from '../src/assets/Line.jpg'
 import solarImg from '../src/assets/Solar.jpg'
 import solarPanelImg from '../src/assets/SolarPanel.jpg'
@@ -57,6 +58,7 @@ export const seedImages = {
 
   // 3D render
   electric3DTransformer: electric3DTransformerImg,
+  transformerQuality: transformerQualityImg,
 
   // Video (placeholder)
   productLoop: {
