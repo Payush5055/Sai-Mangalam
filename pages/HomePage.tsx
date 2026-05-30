@@ -1,7 +1,5 @@
-import React, { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-
-const TransformerModel = lazy(() => import('../src/components/TransformerModel'));
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { seedImages } from '../constants/seed-images';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -356,25 +354,98 @@ const AnimatedSchematic: React.FC = () => {
 /* ─── Split 1: Transformers ──────────────────────────────────────────────────── */
 const SplitSection1: React.FC = () => {
   const textRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imgWrapRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     if (textRef.current) gsap.fromTo(textRef.current, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: textRef.current, start: 'top 80%', once: true } });
   }, []);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const img = imgWrapRef.current;
+    if (!container || !img) return;
+
+    const handleMouseEnter = () => img.classList.remove('transformer-float');
+    const handleMouseLeave = () => {
+      img.style.transform = '';
+      img.classList.add('transformer-float');
+    };
+    const handleMouseMove = (e: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      img.style.transform = `perspective(800px) rotateX(${y * -8}deg) rotateY(${x * 10}deg)`;
+    };
+
+    container.addEventListener('mouseenter', handleMouseEnter);
+    container.addEventListener('mouseleave', handleMouseLeave);
+    container.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      container.removeEventListener('mouseenter', handleMouseEnter);
+      container.removeEventListener('mouseleave', handleMouseLeave);
+      container.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
-      <div className="relative overflow-hidden bg-[#eeeae2]" style={{ minHeight: '420px' }}>
-        <Suspense fallback={
-          <div className="w-full h-full flex items-center justify-center min-h-[420px] bg-[#eeeae2]">
-            <div style={{ color: '#a09585', fontSize: 11, letterSpacing: '0.15em', textTransform: 'uppercase' }}>Loading…</div>
-          </div>
-        }>
-          <TransformerModel />
-        </Suspense>
+      <div
+        ref={containerRef}
+        className="relative overflow-hidden flex items-center justify-center"
+        style={{ background: '#0a0c14', minHeight: '420px' }}
+      >
+        {/* Radial gradient background */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none',
+          background: 'radial-gradient(ellipse 80% 60% at 50% 60%, rgba(20,30,60,0.9) 0%, #0a0c14 100%)',
+        }} />
+
+        {/* Arc ring 1 */}
+        <div className="transformer-arc transformer-arc-1" style={{
+          width: 340, height: 200,
+          top: '50%', left: '50%',
+          transform: 'translate(-50%, -50%) translateY(20px)',
+        }} />
+
+        {/* Arc ring 2 */}
+        <div className="transformer-arc transformer-arc-2" style={{
+          width: 400, height: 240,
+          top: '50%', left: '50%',
+          transform: 'translate(-50%, -50%) translateY(20px)',
+          borderColor: 'rgba(100,160,255,0.15)',
+          borderStyle: 'dashed',
+        }} />
+
+        {/* Glow blob */}
+        <div className="transformer-glow" style={{
+          width: 280, height: 180,
+          top: '50%', left: '50%',
+          transform: 'translate(-50%, -40%)',
+          background: 'radial-gradient(ellipse, rgba(60,120,255,0.2) 0%, transparent 70%)',
+          animationDelay: '1s',
+        }} />
+
+        {/* Floating transformer image */}
+        <div ref={imgWrapRef} className="transformer-float relative z-10" style={{ width: '85%', maxWidth: 380, marginTop: 20 }}>
+          <img
+            src={seedImages.electric3DTransformer}
+            alt="3D Distribution Transformer"
+            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain' }}
+          />
+        </div>
+
+        {/* Spec tags */}
         <div style={{
           position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)',
-          fontSize: 9, color: 'rgba(26,24,20,0.35)', letterSpacing: '0.15em',
-          textTransform: 'uppercase', whiteSpace: 'nowrap', pointerEvents: 'none',
+          display: 'flex', gap: 16, pointerEvents: 'none',
         }}>
-          Drag to rotate
+          {['16 kVA', '5 MVA', 'ONAN'].map(spec => (
+            <span key={spec} style={{
+              fontSize: 9, color: 'rgba(100,160,255,0.5)',
+              letterSpacing: '0.2em', textTransform: 'uppercase',
+            }}>{spec}</span>
+          ))}
         </div>
       </div>
       <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">

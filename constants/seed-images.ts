@@ -1,4 +1,5 @@
 import heroImg from '../src/assets/transformer-voltage-main.jpg'
+import electric3DTransformerImg from '../src/assets/Electric_3D_Transformer.jpeg'
 import distributionImg from '../src/assets/distribution_transformer.jpg'
 import lineImg from '../src/assets/Line.jpg'
 import solarImg from '../src/assets/Solar.jpg'
@@ -53,6 +54,9 @@ export const seedImages = {
   // Pages
   careersHero: factoryInteriorImg,
   contactMap: aerialSubstationImg,
+
+  // 3D render
+  electric3DTransformer: electric3DTransformerImg,
 
   // Video (placeholder)
   productLoop: {

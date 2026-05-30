@@ -263,3 +263,57 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .marquee-scroll, .marquee-track { animation: none; }
 }
+
+/* ─── Transformer cinematic float ──────────────────────────────────────────── */
+@keyframes floatTransformer {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  25% { transform: translateY(-12px) rotate(0deg); }
+  50% { transform: translateY(-18px) rotate(1deg); }
+  75% { transform: translateY(-8px) rotate(0deg); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.05); }
+}
+
+@keyframes arcRotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes arcRotateReverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+.transformer-float {
+  animation: floatTransformer 6s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+  filter: drop-shadow(0 20px 40px rgba(100, 160, 255, 0.3))
+          drop-shadow(0 0 60px rgba(100, 160, 255, 0.15));
+  transition: filter 0.3s ease;
+}
+
+.transformer-float:hover {
+  filter: drop-shadow(0 24px 48px rgba(100, 160, 255, 0.5))
+          drop-shadow(0 0 80px rgba(100, 160, 255, 0.25));
+}
+
+.transformer-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+.transformer-arc {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(100, 160, 255, 0.25);
+  pointer-events: none;
+}
+
+.transformer-arc-1 { animation: arcRotate 8s linear infinite; }
+.transformer-arc-2 { animation: arcRotateReverse 12s linear infinite; }
