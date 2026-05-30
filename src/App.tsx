@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -17,18 +17,47 @@ import ContactPage from '../pages/ContactPage';
 import DistributionTransformerManufacturingPage from '../pages/services/DistributionTransformerManufacturingPage';
 import PowerLineInstallationPage from '../pages/services/PowerLineInstallationPage';
 import SolarInstallationPage from '../pages/services/SolarInstallationPage';
+import gsap from 'gsap';
 
 const ScrollToTop: React.FC = () => {
   const { pathname } = useLocation();
-  React.useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  React.useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 };
 
 const App: React.FC = () => {
   const alreadyShown = sessionStorage.getItem('intro_shown') === 'true';
   const [introComplete, setIntroComplete] = useState(alreadyShown);
+  const siteRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!introComplete || !siteRef.current) return;
+    if (alreadyShown) {
+      // No intro was shown — make site immediately visible
+      siteRef.current.style.opacity = '1';
+      siteRef.current.style.visibility = 'visible';
+    } else {
+      // Animate site in after intro
+      setTimeout(() => {
+        if (siteRef.current) {
+          gsap.fromTo(
+            siteRef.current,
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+          );
+        }
+      }, 50);
+    }
+  }, [introComplete, alreadyShown]);
+
+  const siteStyle: React.CSSProperties = alreadyShown
+    ? {}
+    : {
+        visibility: introComplete ? 'visible' : 'hidden',
+        position: introComplete ? 'relative' : 'fixed',
+        width: '100%',
+        opacity: 0,
+      };
 
   return (
     <SmoothScroll>
@@ -36,13 +65,7 @@ const App: React.FC = () => {
         {!introComplete && (
           <IntroScreen onComplete={() => setIntroComplete(true)} />
         )}
-        <div
-          style={{
-            opacity: introComplete ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-            pointerEvents: introComplete ? 'all' : 'none',
-          }}
-        >
+        <div ref={siteRef} style={siteStyle}>
           <HashRouter>
             <ScrollToTop />
             <div className="flex flex-col min-h-screen bg-[#f4f1eb]">

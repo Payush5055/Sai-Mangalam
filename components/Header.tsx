@@ -103,7 +103,7 @@ const Header: React.FC = () => {
     }
   }, [activePanel]);
 
-  const navLinkClasses = "relative flex items-center justify-center text-sm font-medium text-[#4a4540] transition-colors duration-200 ease-in-out hover:text-[#2d5a3d] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2d5a3d] focus-visible:ring-offset-2 rounded-md nav-link-animated";
+  const navLinkClasses = "relative flex items-center justify-center text-sm font-medium text-[#a09585] transition-colors duration-200 ease-in-out hover:text-[#1a1814] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2d5a3d] focus-visible:ring-offset-2 rounded-md nav-link-animated";
 
   const renderPanelContent = (panelName: string) => {
     const panelData = panelDataMap[panelName];
@@ -174,17 +174,13 @@ const Header: React.FC = () => {
         </div>
 
         {/* Main nav */}
-        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/90 backdrop-blur-md border-b border-[#ddd8cf]' : 'bg-[#f4f1eb]'}`}>
+        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/90 backdrop-blur-sm border-b border-[#ddd8cf] shadow-[0_1px_12px_rgba(26,24,20,0.06)]' : 'bg-[#f4f1eb] border-b border-[#ddd8cf]'}`}>
           <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
               <Link to="/" className="flex items-center space-x-2 group">
                 <img src="/brand/Logo.jpg" alt="SaiMangalam Electrical & Engineerings" className="h-9" />
-                <span className="text-[#1a1814] font-semibold hidden sm:inline">
+                <span className="hidden sm:inline text-[#1a1814]" style={{ fontFamily: "'Instrument Serif', serif", fontSize: '16px', fontWeight: 400 }}>
                   SaiMangalam Electrical&nbsp;&amp; Engineerings
-                </span>
-                <span className="relative ml-1 hidden sm:inline-flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-60" style={{ background: '#c87941' }}></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2" style={{ background: '#c87941' }}></span>
                 </span>
               </Link>
 
@@ -294,7 +290,7 @@ const Header: React.FC = () => {
                 <li className="mt-4">
                   <Link
                     to="/contact"
-                    className="w-full text-center font-bold px-5 py-3 rounded-lg block text-white bg-[#2d5a3d] hover:bg-[#1e3e2a] transition-colors"
+                    className="w-full text-center block btn-primary"
                   >
                     Request a Quote
                   </Link>

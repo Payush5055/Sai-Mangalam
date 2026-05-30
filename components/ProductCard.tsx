@@ -48,7 +48,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative w-full overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 ease-out will-change-transform motion-safe:group-hover:scale-[1.03] motion-safe:group-hover:shadow-xl"
+        className="relative w-full overflow-hidden rounded-none bg-white transition-all duration-300 ease-out will-change-transform motion-safe:group-hover:shadow-xl"
         style={{
           transform: 'translateZ(0) rotateX(var(--rotateX, 0)) rotateY(var(--rotateY, 0))',
           boxShadow: isHovered
@@ -67,7 +67,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             srcSet={`${product.imageUrl} 480w, ${product.imageUrl} 768w, ${product.imageUrl} 1200w`}
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
             alt={product.name}
-            className="h-full w-full object-cover transition-opacity duration-300"
+            className="h-full w-full object-cover transition-opacity duration-300 group-hover:opacity-100"
+            style={{ opacity: 0.85 }}
             loading="lazy"
             decoding="async"
             width="800"
@@ -94,7 +95,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/60 via-black/20 to-transparent" />
 
         {/* Content */}
         <div

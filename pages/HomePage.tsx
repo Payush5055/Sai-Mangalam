@@ -1,181 +1,120 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import PageWrapper from '../components/PageWrapper';
-import { coreServices, services } from '../constants/data';
-import { CheckBadgeIcon, GlobeAltIcon, AcademicCapIcon, BoltIcon } from '@heroicons/react/24/outline';
-import CoreServiceCard from '../components/CoreServiceCard';
+import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { seedImages } from '../constants/seed-images';
-import { motion } from 'framer-motion';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import gsap from 'gsap';
-import { useMagneticEffect } from '../hooks/useMagneticEffect';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-/* ─── Section Divider ─────────────────────────────────────────────────────── */
-const SectionDivider: React.FC = () => (
-  <div className="w-full h-px bg-gradient-to-r from-transparent via-[#2d5a3d]/20 to-transparent" />
-);
+gsap.registerPlugin(ScrollTrigger);
 
-/* ─── Hero Section ────────────────────────────────────────────────────────── */
+/* ─── Hero ───────────────────────────────────────────────────────────────────── */
 const HeroSection: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const eyebrowRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonsRef = useRef<HTMLDivElement>(null);
-  const btn1Ref = useMagneticEffect<HTMLDivElement>();
-  const btn2Ref = useMagneticEffect<HTMLDivElement>();
+  const wordInnerRefs = useRef<HTMLSpanElement[]>([]);
 
-  // Video fade-in/out logic
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-
     const fadeIn = () => {
       video.style.opacity = '0';
       video.play().catch(() => {});
       let start: number | null = null;
-      const animateFadeIn = (ts: number) => {
+      const doFade = (ts: number) => {
         if (start === null) start = ts;
-        const progress = Math.min((ts - start) / 500, 1);
-        video.style.opacity = String(progress);
-        if (progress < 1) requestAnimationFrame(animateFadeIn);
+        const p = Math.min((ts - start) / 800, 1);
+        video.style.opacity = String(p * 0.55);
+        if (p < 1) requestAnimationFrame(doFade);
       };
-      requestAnimationFrame(animateFadeIn);
+      requestAnimationFrame(doFade);
     };
-
-    const handleTimeUpdate = () => {
-      if (!video.duration) return;
-      const remaining = video.duration - video.currentTime;
-      if (remaining <= 0.55 && parseFloat(video.style.opacity ?? '1') > 0) {
-        let start: number | null = null;
-        const animateFadeOut = (ts: number) => {
-          if (start === null) start = ts;
-          const progress = Math.min((ts - start) / 500, 1);
-          video.style.opacity = String(1 - progress);
-          if (progress < 1) requestAnimationFrame(animateFadeOut);
-        };
-        requestAnimationFrame(animateFadeOut);
-        video.style.opacity = '-1';
-      }
-    };
-
-    const handleEnded = () => {
-      video.style.opacity = '0';
-      setTimeout(() => { video.currentTime = 0; fadeIn(); }, 100);
-    };
-
     video.addEventListener('canplay', fadeIn, { once: true });
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('ended', handleEnded);
-
-    return () => {
-      video.removeEventListener('canplay', fadeIn);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('ended', handleEnded);
-    };
+    return () => video.removeEventListener('canplay', fadeIn);
   }, []);
 
-  // GSAP word-reveal hero text animations
   useEffect(() => {
-    const h1 = headlineRef.current;
-    if (!h1) return;
-
-    // Wrap each word in overflow:hidden + animated inner div
-    const wordWrappers = h1.querySelectorAll<HTMLSpanElement>('[data-word]');
-    const innerDivs: HTMLSpanElement[] = [];
-
-    wordWrappers.forEach(wrapper => {
-      wrapper.style.display = 'inline-block';
-      wrapper.style.overflow = 'hidden';
-      const inner = wrapper.querySelector<HTMLSpanElement>('[data-word-inner]');
-      if (inner) {
-        inner.style.display = 'inline-block';
-        inner.style.transform = 'translateY(100%)';
-        innerDivs.push(inner);
-      }
-    });
-
     const tl = gsap.timeline({ delay: 0.3 });
-    tl.to(innerDivs,
-      { y: '0%', stagger: 0.12, duration: 0.7, ease: 'power3.out' }
-    );
-    tl.fromTo(subtitleRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' },
-      0.5
-    );
-    tl.fromTo(buttonsRef.current,
-      { opacity: 0, y: 15 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-      0.8
-    );
+    if (eyebrowRef.current) {
+      tl.fromTo(eyebrowRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' });
+    }
+    const inners = wordInnerRefs.current.filter(Boolean);
+    if (inners.length) {
+      tl.fromTo(inners, { y: '100%' }, { y: '0%', duration: 0.9, stagger: 0.1, ease: 'power4.out' }, '-=0.3');
+    }
+    if (subtitleRef.current) {
+      tl.fromTo(subtitleRef.current, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4');
+    }
+    if (buttonsRef.current) {
+      tl.fromTo(buttonsRef.current, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' }, '-=0.4');
+    }
   }, []);
+
+  const words = [
+    { text: 'Create.', italic: false },
+    { text: 'Future.', italic: true, muted: true },
+    { text: 'Together.', italic: false },
+  ];
 
   return (
-    <div className="relative text-white min-h-screen bg-black flex items-center hero-noise overflow-hidden">
-      {/* Video background */}
+    <div className="relative text-white min-h-screen bg-[#0a0908] flex items-center overflow-hidden">
       <video
         ref={videoRef}
         src="/assets/transformer-hero.mp4"
         poster={seedImages.hero}
-        muted
-        playsInline
-        preload="auto"
+        muted playsInline preload="auto"
         className="absolute inset-0 w-full h-full object-cover object-center"
         style={{ opacity: 0, zIndex: 0 }}
         onError={(e) => { (e.target as HTMLVideoElement).style.display = 'none'; }}
       />
-
-      {/* Dark overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/30" style={{ zIndex: 2 }} />
-
-      {/* Bottom fade into cream section */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#f4f1eb] to-transparent pointer-events-none" style={{ zIndex: 4 }} />
-
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8 py-0 w-full" style={{ position: 'relative', zIndex: 5 }}>
-        <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
-          {/* Eyebrow pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-widest mb-6 border border-white/20 bg-white/10 text-white/80">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-            Trusted since 1985
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(10,9,8,0.88) 0%, rgba(10,9,8,0.55) 60%, rgba(10,9,8,0.25) 100%)', zIndex: 1 }} />
+      <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to top, #f4f1eb, transparent)', zIndex: 4 }} />
+      <div className="max-w-screen-xl mx-auto px-8 w-full relative" style={{ zIndex: 5 }}>
+        <div className="max-w-lg">
+          <div ref={eyebrowRef} className="flex items-center gap-2 mb-6" style={{ opacity: 0 }}>
+            <span style={{ display: 'block', width: 16, height: '0.5px', background: 'rgba(255,255,255,0.2)', flexShrink: 0 }} />
+            <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
+              Electrical &amp; Engineerings · Est. 1985
+            </span>
           </div>
-
-          <h1
-            ref={headlineRef}
-            className="text-5xl md:text-7xl font-bold leading-tight mb-6 text-white"
-            style={{ fontFamily: "'Instrument Serif', serif", textShadow: '0 2px 40px rgba(0,0,0,0.6)' }}
-          >
-            <span data-word style={{ marginRight: '0.25em' }}>
-              <span data-word-inner className="text-gradient">Create</span>
-            </span>
-            <span data-word style={{ marginRight: '0.25em' }}>
-              <span data-word-inner>Future.</span>
-            </span>
-            <span data-word>
-              <span data-word-inner className="text-gradient">Together</span>
-            </span>
+          <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, lineHeight: 1.0, letterSpacing: '-0.01em', margin: 0 }}>
+            {words.map((w, i) => (
+              <span key={i} style={{ display: 'block', overflow: 'hidden' }}>
+                <span
+                  ref={el => { if (el) wordInnerRefs.current[i] = el; }}
+                  style={{
+                    display: 'block',
+                    fontSize: 54,
+                    color: w.muted ? 'rgba(255,255,255,0.4)' : '#ffffff',
+                    fontStyle: w.italic ? 'italic' : 'normal',
+                  }}
+                >{w.text}</span>
+              </span>
+            ))}
           </h1>
           <p
             ref={subtitleRef}
-            className="text-lg md:text-xl text-white/80 mb-10"
-            style={{ opacity: 0 }}
+            style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', lineHeight: 1.75, maxWidth: 320, marginTop: 20, marginBottom: 32, opacity: 0 }}
           >
-            SaiMangalam engineers and manufactures high-performance transformers for utilities, industry, and renewable energy projects worldwide.
+            SaiMangalam engineers and manufactures high-performance transformers for utilities, industry, and renewable energy.
           </p>
-          <div
-            ref={buttonsRef}
-            className="flex flex-col sm:flex-row items-center justify-center lg:justify-start space-y-4 sm:space-y-0 sm:space-x-4"
-            style={{ opacity: 0 }}
-          >
-            <div ref={btn1Ref}>
-              <Link to="/products" className="block btn-primary w-full sm:w-auto text-center">
-                Explore Our Products
-              </Link>
-            </div>
-            <div ref={btn2Ref}>
-              <Link to="/contact" className="block btn-secondary w-full sm:w-auto text-center rounded-lg">
-                Request a Quote
-              </Link>
-            </div>
+          <div ref={buttonsRef} className="flex items-center gap-3" style={{ opacity: 0 }}>
+            <Link
+              to="/products"
+              style={{ background: '#fff', color: '#1a1814', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '10px 22px', display: 'inline-block' }}
+              className="hover:bg-white/90 transition-colors"
+            >
+              Our Products
+            </Link>
+            <Link
+              to="/contact"
+              style={{ background: 'transparent', color: 'rgba(255,255,255,0.5)', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '9.5px 22px', border: '0.5px solid rgba(255,255,255,0.2)', display: 'inline-block' }}
+              className="hover:border-white/40 hover:text-white/70 transition-colors"
+            >
+              Request a Quote
+            </Link>
           </div>
         </div>
       </div>
@@ -183,341 +122,327 @@ const HeroSection: React.FC = () => {
   );
 };
 
-/* ─── Animated Counter ────────────────────────────────────────────────────── */
-interface CounterProps { target: number; suffix?: string; isVisible: boolean; }
-const AnimatedCounter: React.FC<CounterProps> = ({ target, suffix = '', isVisible }) => {
+/* ─── Marquee ────────────────────────────────────────────────────────────────── */
+const MARQUEE_ITEMS = ['ISO 9001:2015', 'CE Certified', 'IEEE Standards', 'Founded 1985', '500+ Projects', 'BIS/IEC Compliant', 'Shahada, Maharashtra', '35+ Years'];
+
+const MarqueeSection: React.FC = () => (
+  <div className="bg-[#eeeae2] border-y border-[#ddd8cf] py-3 overflow-hidden">
+    <div className="marquee-scroll">
+      {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+        <span key={i} className="flex items-center gap-2.5 shrink-0 mr-9" style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
+          <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#2d5a3d', opacity: 0.6, display: 'inline-block', flexShrink: 0 }} />
+          {item}
+        </span>
+      ))}
+    </div>
+  </div>
+);
+
+/* ─── Stats ──────────────────────────────────────────────────────────────────── */
+interface CounterProps { target: number; suffix?: string; isVisible: boolean; display?: string; }
+const AnimatedCounter: React.FC<CounterProps> = ({ target, suffix = '', isVisible, display }) => {
   const [count, setCount] = useState(0);
   const started = useRef(false);
-
   useEffect(() => {
-    if (!isVisible || started.current) return;
+    if (!isVisible || started.current || !target) return;
     started.current = true;
-    const duration = 1800;
     const steps = 60;
-    const increment = target / steps;
     let current = 0;
-    const interval = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(interval);
-      } else {
-        setCount(Math.floor(current));
-      }
-    }, duration / steps);
-    return () => clearInterval(interval);
+    const iv = setInterval(() => {
+      current += target / steps;
+      if (current >= target) { setCount(target); clearInterval(iv); }
+      else setCount(Math.floor(current));
+    }, 1800 / steps);
+    return () => clearInterval(iv);
   }, [isVisible, target]);
-
-  return <span>{count}{suffix}</span>;
+  if (display) return <>{display}</>;
+  return <>{count}{suffix}</>;
 };
 
-/* ─── Stats Section ───────────────────────────────────────────────────────── */
-const statsData = [
-  { label: 'Years of Excellence', value: 35,   suffix: '+', icon: '🏭' },
-  { label: 'Projects Delivered',  value: 500,  suffix: '+', icon: '⚡' },
-  { label: 'Quality Standard',    value: 9001, suffix: '', icon: '🏆', isStatic: true, display: 'ISO 9001' },
-  { label: 'States Served',       value: 4,    suffix: '', icon: '🗺️' },
+const STATS = [
+  { label: 'Years of Excellence', value: 35,  suffix: '+' },
+  { label: 'Projects Delivered',  value: 500, suffix: '+' },
+  { label: 'Quality Standard',    value: 0,   display: 'ISO 9001' },
+  { label: 'States Served',       value: 4,   suffix: '' },
 ];
 
 const StatsSection: React.FC = () => {
   const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3 });
-
   return (
-    <div ref={ref} className="relative bg-[#f4f1eb] overflow-hidden">
-      <div className="relative z-10">
-        <hr className="section-divider" />
-        <PageWrapper className="py-8 md:py-10">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {statsData.map((stat, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                animate={isVisible ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: i * 0.12, duration: 0.55 }}
-                className="bg-white border border-[#ddd8cf] rounded-xl p-5 text-center shadow-sm"
-              >
-                <div className="text-3xl mb-1">{stat.icon}</div>
-                <div
-                  className="text-3xl md:text-4xl font-light text-[#1a1814]"
-                  style={{ fontFamily: "'Instrument Serif', serif" }}
-                >
-                  {stat.isStatic ? stat.display : (
-                    <AnimatedCounter target={stat.value} suffix={stat.suffix} isVisible={isVisible} />
-                  )}
-                </div>
-                <p className="mt-1 text-sm text-[#6b6258]">{stat.label}</p>
-              </motion.div>
-            ))}
+    <div ref={ref} className="bg-[#f4f1eb] border-b border-[#ddd8cf]">
+      <div className="max-w-screen-xl mx-auto grid grid-cols-2 md:grid-cols-4">
+        {STATS.map((s, i) => (
+          <div key={i} className={`px-7 py-6 ${i < STATS.length - 1 ? 'border-r border-[#ddd8cf]' : ''}`}>
+            <div style={{ fontFamily: "'Instrument Serif', serif", fontSize: 36, color: '#1a1814', fontWeight: 400 }}>
+              <AnimatedCounter target={s.value} suffix={s.suffix} isVisible={isVisible} display={s.display} />
+            </div>
+            <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginTop: 4 }}>{s.label}</div>
           </div>
-        </PageWrapper>
-        <hr className="section-divider" />
+        ))}
       </div>
     </div>
   );
 };
 
-/* ─── What We Do Section ──────────────────────────────────────────────────── */
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.15 } },
-};
-const cardVariants = {
-  hidden:  { opacity: 0, y: 32 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.55 } },
-};
-
-const WhatWeDoSection: React.FC = () => (
-  <div className="relative bg-[#eeeae2] overflow-hidden">
-    <div className="relative z-10">
-      <PageWrapper className="py-9 md:py-12 lg:py-16">
-        <div className="text-center mb-12">
-          <div className="w-12 h-0.5 bg-[#2d5a3d] mb-4 mx-auto" />
-          <h2
-            className="text-3xl font-bold sm:text-4xl text-[#1a1814] inline-block"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            What We Do
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-[#6b6258]">
-            Focused solutions in power distribution and renewable integration.
-          </p>
-        </div>
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
-          {coreServices.map((service) => (
-            <motion.div key={service.id} variants={cardVariants}>
-              <CoreServiceCard service={service} />
-            </motion.div>
-          ))}
-        </motion.div>
-      </PageWrapper>
-    </div>
-  </div>
-);
-
-/* ─── Service Card ────────────────────────────────────────────────────────── */
-const ServiceCard: React.FC<{ service: typeof services[0] }> = ({ service }) => (
-  <motion.div
-    whileHover={{ y: -5, scale: 1.02 }}
-    transition={{ type: 'spring', stiffness: 400, damping: 20 }}
-    className="bg-white border border-[#ddd8cf] p-6 rounded-xl flex flex-col items-start text-left border-l-4 hover:border-l-[#2d5a3d] transition-all duration-300 shadow-sm"
-    style={{ boxShadow: 'none' }}
-  >
-    <div
-      className="flex justify-center items-center h-12 w-12 rounded-full mb-4 shrink-0 border border-[#2d5a3d]/20 transition-all duration-300"
-      style={{ background: 'rgba(45,90,61,0.08)' }}
-    >
-      {React.cloneElement(service.icon, { className: 'h-6 w-6 text-[#2d5a3d]' })}
-    </div>
-    <h3 className="text-lg font-bold text-[#1a1814]">{service.title}</h3>
-    <p className="mt-2 text-[#6b6258] flex-grow">{service.description}</p>
-    <Link
-      to={service.path}
-      aria-label={`Learn more about ${service.title}`}
-      className="mt-4 font-semibold text-[#2d5a3d] hover:underline flex items-center gap-1 group"
-    >
-      Learn more <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">&rarr;</span>
-    </Link>
-  </motion.div>
-);
-
-const ServicesSection: React.FC = () => (
-  <div id="services" className="relative bg-[#f4f1eb] overflow-hidden">
-    <div className="relative z-10">
-      <PageWrapper className="py-9 md:py-12 lg:py-16">
-        <div className="text-center mb-12">
-          <div className="w-12 h-0.5 bg-[#2d5a3d] mb-4 mx-auto" />
-          <h2
-            className="text-3xl font-bold sm:text-4xl text-[#1a1814]"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            Services
-          </h2>
-          <p className="mt-4 max-w-2xl mx-auto text-lg text-[#6b6258]">
-            Lifecycle support from commissioning to overhaul.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
-        </div>
-      </PageWrapper>
-    </div>
-  </div>
-);
-
-/* ─── Why Choose Us ───────────────────────────────────────────────────────── */
-const WhyChooseUs: React.FC = () => {
-  const features = [
-    { icon: <CheckBadgeIcon className="h-8 w-8 text-[#2d5a3d]" />, title: 'Certified Quality',       description: 'Adhering to the highest international standards (ISO, CE, IEEE) for guaranteed performance.' },
-    { icon: <GlobeAltIcon   className="h-8 w-8 text-[#2d5a3d]" />, title: 'Global Presence',         description: 'Serving clients across continents with a robust supply chain and distribution network.' },
-    { icon: <AcademicCapIcon className="h-8 w-8 text-[#2d5a3d]"/>, title: '35+ Years of Experience', description: 'Decades of industry leadership and technological innovation in transformer manufacturing.' },
-    { icon: <BoltIcon       className="h-8 w-8 text-[#2d5a3d]" />, title: 'Custom Solutions',        description: 'Engineering expertise to design and build transformers tailored to your unique specifications.' },
-  ];
-
+/* ─── FullBleed About ────────────────────────────────────────────────────────── */
+const FullBleedSection: React.FC = () => {
+  const headRef = useRef<HTMLHeadingElement>(null);
+  const textRef = useRef<HTMLParagraphElement>(null);
+  useEffect(() => {
+    [headRef, textRef].forEach((r, i) => {
+      if (!r.current) return;
+      gsap.fromTo(r.current, { opacity: 0, y: 24 }, {
+        opacity: 1, y: 0, duration: 0.8 - i * 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: r.current, start: 'top 85%', once: true }
+      });
+    });
+  }, []);
   return (
-    <div className="relative bg-[#eeeae2] overflow-hidden">
-      <div className="relative z-10">
-        <PageWrapper className="py-9 md:py-12 lg:py-16">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <div className="w-12 h-0.5 bg-[#2d5a3d] mb-4" />
-              <h2
-                className="text-3xl font-bold sm:text-4xl text-[#1a1814]"
-                style={{ fontFamily: "'Instrument Serif', serif" }}
-              >
-                Why Choose <span className="text-[#2d5a3d]">SaiMangalam</span>?
-              </h2>
-              <p className="mt-4 max-w-2xl text-lg text-[#6b6258]">
-                We are the trusted partner for industries that demand reliability and performance. Our commitment to quality, innovation, and customer satisfaction sets us apart.
-              </p>
-              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={index}
-                    className="flex items-start"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    viewport={{ once: true }}
-                  >
-                    <div
-                      className="flex justify-center items-center h-12 w-12 rounded-full shrink-0 border border-[#2d5a3d]/20"
-                      style={{ background: 'rgba(45,90,61,0.08)' }}
-                    >
-                      {feature.icon}
-                    </div>
-                    <div className="ml-4">
-                      <h3 className="text-lg font-bold text-[#1a1814]">{feature.title}</h3>
-                      <p className="mt-1 text-[#6b6258]">{feature.description}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-            <div className="hidden lg:block">
-              <img
-                src={seedImages.qualityLab}
-                alt="Quality testing of transformers at SaiMangalam Electrical & Engineerings."
-                className="rounded-xl shadow-lg border border-[#ddd8cf]"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-              />
-            </div>
-          </div>
-        </PageWrapper>
+    <div className="relative overflow-hidden" style={{ height: 320 }}>
+      <img src={seedImages.factoryHistoric} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(244,241,235,0.97), rgba(244,241,235,0.80) 50%, transparent)' }} />
+      <div className="absolute right-9 top-1/2 -translate-y-1/2 pointer-events-none select-none" style={{ fontFamily: "'Instrument Serif', serif", fontSize: 100, color: '#1a1814', opacity: 0.04 }}>1985</div>
+      <div className="relative z-10 h-full flex flex-col justify-center max-w-screen-xl mx-auto px-9">
+        <div style={{ maxWidth: 380 }}>
+          <div className="eyebrow">About SaiMangalam</div>
+          <h2 ref={headRef} style={{ fontFamily: "'Instrument Serif', serif", fontSize: 32, color: '#1a1814', fontWeight: 400, lineHeight: 1.15, marginTop: 8 }}>
+            Engineering reliability<br />
+            <span style={{ fontStyle: 'italic', color: '#6b6258' }}>for four decades</span>
+          </h2>
+          <p ref={textRef} style={{ fontSize: 12, color: '#6b6258', lineHeight: 1.75, marginTop: 12, marginBottom: 20 }}>
+            From a single workshop in Shahada to serving utilities across Maharashtra — built on precision, quality, and trust.
+          </p>
+          <Link to="/about" className="split-link">Read our story</Link>
+        </div>
       </div>
     </div>
   );
 };
 
-/* ─── Trust Badges Section ────────────────────────────────────────────────── */
-const trustBadges = [
-  { name: 'ISO 9001', sub: 'Quality Management',    color: '#2d5a3d', back: 'Certified quality management system ensuring consistent product excellence.' },
-  { name: 'CE',       sub: 'European Conformity',   color: '#4a8c60', back: 'European safety, health, and environmental protection standards.' },
-  { name: 'IEEE',     sub: 'Standards Compliant',   color: '#2d5a3d', back: 'Meets Institute of Electrical and Electronics Engineers specifications.' },
-  { name: 'BIS',      sub: 'Bureau of Indian Std.', color: '#4a8c60', back: 'Certified by the Bureau of Indian Standards for domestic quality assurance.' },
+/* ─── Split 1: Transformers ──────────────────────────────────────────────────── */
+const SplitSection1: React.FC = () => {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (imgRef.current) gsap.fromTo(imgRef.current, { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 80%', once: true } });
+    if (textRef.current) gsap.fromTo(textRef.current, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: textRef.current, start: 'top 80%', once: true } });
+  }, []);
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
+      <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
+        <img ref={imgRef} src={seedImages.productYard} alt="Distribution transformers" className="w-full h-full object-cover" style={{ minHeight: 200 }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <div className="absolute inset-0 bg-[#f4f1eb]/10" />
+      </div>
+      <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
+        <div className="eyebrow">Manufacturing</div>
+        <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400, lineHeight: 1.2, marginTop: 8 }}>
+          Distribution Transformer<br />
+          <span style={{ fontStyle: 'italic', color: '#6b6258' }}>Manufacturing</span>
+        </h3>
+        <div className="flex flex-wrap mt-3 mb-3">
+          {['16 kVA – 5 MVA', 'Oil-cooled', 'Dry-type', 'BIS/IEC'].map(t => <span key={t} className="spec-tag">{t}</span>)}
+        </div>
+        <p style={{ fontSize: 12, color: '#6b6258', lineHeight: 1.75, marginBottom: 20 }}>
+          Custom-engineered transformers for 11–33 kV networks. Every unit tested to IEC/IS standards before delivery.
+        </p>
+        <Link to="/products" className="split-link">Learn more</Link>
+      </div>
+    </div>
+  );
+};
+
+/* ─── Split 2: Solar ─────────────────────────────────────────────────────────── */
+const SplitSection2: React.FC = () => {
+  const imgRef = useRef<HTMLImageElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (imgRef.current) gsap.fromTo(imgRef.current, { scale: 1.08, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.0, ease: 'power2.out', scrollTrigger: { trigger: imgRef.current, start: 'top 80%', once: true } });
+    if (textRef.current) gsap.fromTo(textRef.current, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: textRef.current, start: 'top 80%', once: true } });
+  }, []);
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
+      <div ref={textRef} className="bg-[#eeeae2] px-10 py-10 flex flex-col justify-center">
+        <div className="eyebrow">Renewables</div>
+        <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400, lineHeight: 1.2, marginTop: 8 }}>
+          Solar Installation<br />
+          <span style={{ fontStyle: 'italic', color: '#6b6258' }}>&amp; Integration</span>
+        </h3>
+        <div className="flex flex-wrap mt-3 mb-3">
+          {['Rooftop', 'Ground-mount', 'Net metering', 'EPC'].map(t => <span key={t} className="spec-tag">{t}</span>)}
+        </div>
+        <p style={{ fontSize: 12, color: '#6b6258', lineHeight: 1.75, marginBottom: 20 }}>
+          End-to-end EPC — from site survey to panel installation, inverter setup, and transformer integration.
+        </p>
+        <Link to="/services/solar-installation" className="split-link">Learn more</Link>
+      </div>
+      <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
+        <img ref={imgRef} src={seedImages.industriesRenewable} alt="Solar installation" className="w-full h-full object-cover" style={{ minHeight: 200 }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+      </div>
+    </div>
+  );
+};
+
+/* ─── Mosaic Services ────────────────────────────────────────────────────────── */
+const MOSAIC = [
+  { cat: 'On-site',   title: 'Installation & Commissioning', sub: 'Site-ready delivery, testing, and energization.',     img: seedImages.factoryInterior, wide: true },
+  { cat: 'Scheduled', title: 'Preventive Maintenance',        sub: 'Oil analysis, thermography, routine checks.',         img: seedImages.warehouse,       wide: false },
+  { cat: 'Workshop',  title: 'Repairs & Overhauls',           sub: 'Winding repair, core refurbishment, leak fixes.',     img: seedImages.qualityLab,      wide: false },
 ];
 
-const TrustBadgesSection: React.FC = () => (
-  <div className="relative bg-[#f4f1eb] overflow-hidden">
-    <div className="relative z-10">
-      <hr className="section-divider" />
-      <PageWrapper className="py-10 md:py-14">
-        <div className="text-center mb-10">
-          <div className="w-12 h-0.5 bg-[#2d5a3d] mb-4 mx-auto" />
-          <h2
-            className="text-2xl font-bold text-[#1a1814]"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
-          >
-            Our Certifications &amp; Standards
+const MosaicSection: React.FC = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const cards = Array.from(grid.querySelectorAll<HTMLElement>('[data-mosaic]'));
+    gsap.fromTo(cards, { opacity: 0, y: 24 }, {
+      opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: 'power2.out',
+      scrollTrigger: { trigger: grid, start: 'top 80%', once: true }
+    });
+  }, []);
+  return (
+    <div id="services" className="bg-[#eeeae2] px-8 py-10 border-t border-[#ddd8cf]">
+      <div className="max-w-screen-xl mx-auto">
+        <div className="flex justify-between items-end mb-6">
+          <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400 }}>
+            Our <span style={{ fontStyle: 'italic', color: '#6b6258' }}>Services</span>
           </h2>
-          <p className="mt-2 text-[#6b6258] text-sm">Hover each badge to learn more</p>
+          <Link to="/services/distribution-transformer-manufacturing" style={{ fontSize: 10, color: '#2d5a3d', letterSpacing: '0.12em', textTransform: 'uppercase' }}>View all →</Link>
         </div>
-        <div className="flex flex-wrap justify-center gap-8">
-          {trustBadges.map((badge) => (
-            <div key={badge.name} className="badge-flip w-36 h-36">
-              <div className="badge-flip-inner w-36 h-36">
-                <div
-                  className="badge-front w-36 h-36 bg-white border rounded-xl flex flex-col items-center justify-center"
-                  style={{ border: `2px solid ${badge.color}30`, boxShadow: `0 4px 16px ${badge.color}15` }}
-                >
-                  <span className="text-2xl font-extrabold" style={{ color: badge.color }}>{badge.name}</span>
-                  <span className="text-xs text-[#6b6258] mt-1 text-center px-2">{badge.sub}</span>
-                </div>
-                <div
-                  className="badge-back w-36 h-36 rounded-xl flex items-center justify-center p-3 text-center text-xs text-white"
-                  style={{ background: badge.color, border: `2px solid ${badge.color}` }}
-                >
-                  {badge.back}
-                </div>
+        <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-3 gap-[1px] bg-[#ddd8cf]">
+          {MOSAIC.map((item, i) => (
+            <div key={i} data-mosaic="" className={`bg-[#f4f1eb] relative overflow-hidden cursor-pointer group ${item.wide ? 'sm:col-span-2' : ''}`}>
+              <div className={`overflow-hidden ${item.wide ? 'aspect-[2/1]' : 'aspect-[4/3]'}`}>
+                <img
+                  src={item.img} alt={item.title}
+                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-[1.03]"
+                  style={{ opacity: 0.7 }}
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              </div>
+              <div className="mosaic-arrow">
+                <ArrowUpRightIcon style={{ width: 12, height: 12 }} />
+              </div>
+              <div className="px-4 py-3">
+                <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{item.cat}</div>
+                <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{item.title}</div>
+                <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{item.sub}</div>
               </div>
             </div>
           ))}
         </div>
-      </PageWrapper>
-      <hr className="section-divider" />
-    </div>
-  </div>
-);
-
-/* ─── Quality CTA Section ─────────────────────────────────────────────────── */
-const QualityCTASection: React.FC = () => (
-  <div className="relative overflow-hidden" style={{ backgroundColor: '#1a1814' }}>
-    <div className="absolute top-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(to right, #2d5a3d, #4ade80, #2d5a3d)' }} />
-    <PageWrapper className="py-16 md:py-20 lg:py-24 relative z-10">
-      <div className="text-center max-w-3xl mx-auto">
-        <div className="w-12 h-0.5 bg-[#2d5a3d] mb-6 mx-auto" />
-        <motion.h2
-          className="text-3xl font-bold sm:text-5xl text-white inline-block"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-        >
-          Committed to Uncompromising Quality
-        </motion.h2>
-        <p className="mt-6 text-lg text-white/60">
-          Our quality philosophy is embedded in every step of our process. We adhere to stringent international standards and hold key certifications, ensuring every transformer we deliver is a benchmark of reliability and safety.
-        </p>
-        <div className="mt-10">
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
-            <Link to="/quality" className="inline-block btn-primary px-10 py-4 text-lg">
-              Learn More About Our Quality
-            </Link>
-          </motion.div>
-        </div>
       </div>
-    </PageWrapper>
-    <div className="absolute bottom-0 left-0 right-0 h-1" style={{ background: 'linear-gradient(to right, #4ade80, #2d5a3d, #4ade80)' }} />
-  </div>
-);
-
-/* ─── Page Assembly ───────────────────────────────────────────────────────── */
-const HomePage: React.FC = () => {
-  return (
-    <div className="bg-[#f4f1eb]">
-      <HeroSection />
-      <SectionDivider />
-      <StatsSection />
-      <SectionDivider />
-      <WhatWeDoSection />
-      <SectionDivider />
-      <ServicesSection />
-      <SectionDivider />
-      <WhyChooseUs />
-      <SectionDivider />
-      <TrustBadgesSection />
-      <SectionDivider />
-      <QualityCTASection />
     </div>
   );
 };
+
+/* ─── Editorial List ─────────────────────────────────────────────────────────── */
+const LIST_ITEMS = [
+  { title: 'Distribution Transformer Manufacturing', sub: '16 kVA – 5 MVA · BIS/IEC',           tag: 'Mfg',     path: '/products' },
+  { title: 'Solar Installation',                     sub: 'Rooftop & ground-mount · EPC',         tag: 'Solar',   path: '/services/solar-installation' },
+  { title: 'Power Line Installation',                sub: 'HT/LT · Rural electrification',        tag: 'Infra',   path: '/services/power-line-installation-maintenance' },
+  { title: 'Repairs & Overhauls',                    sub: 'Winding · Core · Insulation',          tag: 'Service', path: '/contact' },
+  { title: 'Testing & Calibration',                  sub: 'IEC/IS · Routine · Type · Special',   tag: 'QA',      path: '/quality' },
+];
+
+const EditorialListSection: React.FC = () => {
+  const headRef = useRef<HTMLHeadingElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (headRef.current) gsap.fromTo(headRef.current, { opacity: 0, y: 30 }, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: headRef.current, start: 'top 85%', once: true }
+    });
+    if (listRef.current) {
+      const items = Array.from(listRef.current.querySelectorAll<HTMLElement>('[data-li]'));
+      gsap.fromTo(items, { opacity: 0, x: -16 }, {
+        opacity: 1, x: 0, duration: 0.5, stagger: 0.07, ease: 'power2.out',
+        scrollTrigger: { trigger: listRef.current, start: 'top 80%', once: true }
+      });
+    }
+  }, []);
+  return (
+    <div className="bg-[#f4f1eb] px-8 py-10 border-t border-[#ddd8cf]">
+      <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <div>
+          <div className="accent-bar" />
+          <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 4 }}>What We Do</div>
+          <h2 ref={headRef} style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400, lineHeight: 1.2 }}>
+            Built for<br />
+            <span style={{ fontStyle: 'italic', color: '#6b6258' }}>every scale</span>
+          </h2>
+          <p style={{ fontSize: 12, color: '#6b6258', lineHeight: 1.75, marginTop: 12, marginBottom: 20 }}>
+            From rural electrification to industrial substations — transformers that last decades.
+          </p>
+          <div className="flex gap-2 flex-wrap">
+            {['ISO 9001', 'Since 1985', 'BIS/IEC'].map(pill => (
+              <span key={pill} style={{ fontSize: 9, background: 'rgba(45,90,61,0.07)', color: '#2d5a3d', padding: '4px 10px', letterSpacing: '0.1em' }}>{pill}</span>
+            ))}
+          </div>
+        </div>
+        <div ref={listRef} className="border-t border-[#c5bfb5]">
+          {LIST_ITEMS.map((item, i) => (
+            <Link key={i} to={item.path} data-li="" className="flex gap-3 py-3 border-b border-[#ddd8cf] last:border-b-0 items-center cursor-pointer group no-underline" style={{ textDecoration: 'none' }}>
+              <span className="list-dot group-hover:scale-150 transition-transform mt-0" style={{ marginTop: 1 }} />
+              <div className="flex-1">
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#1a1814', transition: 'color 0.2s' }} className="group-hover:text-[#2d5a3d]">{item.title}</div>
+                <div style={{ fontSize: 10, color: '#a09585', marginTop: 2, letterSpacing: '0.05em' }}>{item.sub}</div>
+              </div>
+              <span style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.1em', textTransform: 'uppercase', flexShrink: 0 }}>{item.tag}</span>
+              <ArrowUpRightIcon className="opacity-30 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all flex-shrink-0" style={{ width: 12, height: 12, color: '#2d5a3d' }} />
+            </Link>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* ─── Quality CTA ────────────────────────────────────────────────────────────── */
+const QualityCTASection: React.FC = () => {
+  const headRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (!headRef.current) return;
+    gsap.fromTo(headRef.current, { opacity: 0, y: 30 }, {
+      opacity: 1, y: 0, duration: 0.8, ease: 'power3.out',
+      scrollTrigger: { trigger: headRef.current, start: 'top 85%', once: true }
+    });
+  }, []);
+  return (
+    <div className="bg-[#1a1814] py-14 px-8 text-center border-t" style={{ borderColor: 'rgba(221,216,207,0.15)' }}>
+      <div className="max-w-screen-xl mx-auto">
+        <div className="accent-bar mx-auto" />
+        <h2 ref={headRef} style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#fff', fontWeight: 400 }}>
+          Committed to Uncompromising Quality
+        </h2>
+        <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)', maxWidth: 420, margin: '8px auto 28px', lineHeight: 1.75 }}>
+          Our quality philosophy is embedded in every step of our process. Stringent international standards ensure every transformer is a benchmark of reliability.
+        </p>
+        <Link
+          to="/quality"
+          style={{ background: '#fff', color: '#1a1814', fontSize: 10, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '10px 28px', display: 'inline-block' }}
+          className="hover:bg-white/90 transition-colors"
+        >
+          Learn More About Our Quality
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+/* ─── Page ───────────────────────────────────────────────────────────────────── */
+const HomePage: React.FC = () => (
+  <div className="bg-[#f4f1eb]">
+    <HeroSection />
+    <MarqueeSection />
+    <StatsSection />
+    <FullBleedSection />
+    <SplitSection1 />
+    <SplitSection2 />
+    <MosaicSection />
+    <EditorialListSection />
+    <QualityCTASection />
+  </div>
+);
 
 export default HomePage;
