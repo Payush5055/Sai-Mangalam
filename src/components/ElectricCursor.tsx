@@ -19,19 +19,15 @@ export default function ElectricCursor() {
   const prevMouseRef = useRef({ x: 0, y: 0 })
   const particlesRef = useRef<Particle[]>([])
   const rafRef = useRef<number>(0)
-  const dotRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if ('ontouchstart' in window) return
 
     const canvas = canvasRef.current
-    const dot = dotRef.current
-    if (!canvas || !dot) return
+    if (!canvas) return
 
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
-    document.body.style.cursor = 'none'
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -69,9 +65,6 @@ export default function ElectricCursor() {
       prevMouseRef.current = { ...mouseRef.current }
       mouseRef.current = { x: e.clientX, y: e.clientY }
 
-      dot.style.left = e.clientX + 'px'
-      dot.style.top = e.clientY + 'px'
-
       const dx = e.clientX - prevMouseRef.current.x
       const dy = e.clientY - prevMouseRef.current.y
       const speed = Math.sqrt(dx * dx + dy * dy)
@@ -86,30 +79,13 @@ export default function ElectricCursor() {
 
     window.addEventListener('mousemove', onMouseMove)
 
-    // Scale dot on interactive elements
-    const interactiveEls = document.querySelectorAll('a, button, [role="button"]')
-    const onEnter = () => {
-      dot.style.width = '14px'
-      dot.style.height = '14px'
-      dot.style.background = 'rgba(160, 210, 255, 1)'
-    }
-    const onLeave = () => {
-      dot.style.width = '8px'
-      dot.style.height = '8px'
-      dot.style.background = 'rgba(120, 180, 255, 0.9)'
-    }
-    interactiveEls.forEach(el => {
-      el.addEventListener('mouseenter', onEnter)
-      el.addEventListener('mouseleave', onLeave)
-    })
-
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       particlesRef.current = particlesRef.current.filter(p => p.life > 0)
 
       for (const p of particlesRef.current) {
         const progress = p.life / p.maxLife
-        const alpha = progress * 0.9
+        const alpha = progress * 0.65
 
         ctx.save()
         ctx.translate(p.x, p.y)
@@ -169,41 +145,20 @@ export default function ElectricCursor() {
     animate()
 
     return () => {
-      document.body.style.cursor = ''
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('resize', resize)
       cancelAnimationFrame(rafRef.current)
-      interactiveEls.forEach(el => {
-        el.removeEventListener('mouseenter', onEnter)
-        el.removeEventListener('mouseleave', onLeave)
-      })
     }
   }, [])
 
   return (
-    <>
-      <canvas
-        ref={canvasRef}
-        style={{
-          position: 'fixed', top: 0, left: 0,
-          width: '100vw', height: '100vh',
-          pointerEvents: 'none', zIndex: 9999,
-        }}
-      />
-      <div
-        ref={dotRef}
-        style={{
-          position: 'fixed',
-          width: 8, height: 8,
-          borderRadius: '50%',
-          background: 'rgba(120, 180, 255, 0.9)',
-          boxShadow: '0 0 8px rgba(100, 160, 255, 0.8), 0 0 16px rgba(100, 160, 255, 0.4)',
-          transform: 'translate(-50%, -50%)',
-          pointerEvents: 'none',
-          zIndex: 10000,
-          transition: 'width 0.1s ease, height 0.1s ease, background 0.1s ease',
-        }}
-      />
-    </>
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'fixed', top: 0, left: 0,
+        width: '100vw', height: '100vh',
+        pointerEvents: 'none', zIndex: 9999,
+      }}
+    />
   )
 }

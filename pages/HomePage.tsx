@@ -392,15 +392,9 @@ const SplitSection1: React.FC = () => {
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
       <div
         ref={containerRef}
-        className="relative overflow-hidden flex items-center justify-center"
+        className="relative overflow-hidden"
         style={{ background: '#0a0c14', minHeight: '500px' }}
       >
-        {/* Radial gradient background */}
-        <div style={{
-          position: 'absolute', inset: 0, pointerEvents: 'none',
-          background: 'radial-gradient(ellipse 80% 60% at 50% 60%, rgba(20,30,60,0.9) 0%, #0a0c14 100%)',
-        }} />
-
         {/* Arc ring 1 */}
         <div className="transformer-arc transformer-arc-1" style={{
           width: 500, height: 300,
@@ -426,12 +420,12 @@ const SplitSection1: React.FC = () => {
           animationDelay: '1s',
         }} />
 
-        {/* Floating transformer image */}
-        <div ref={imgWrapRef} className="transformer-float relative z-10" style={{ width: '95%', maxWidth: 520 }}>
+        {/* Floating transformer image — fills panel, blends into dark bg */}
+        <div ref={imgWrapRef} className="transformer-float" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
           <img
             src={seedImages.electric3DTransformer}
             alt="3D Distribution Transformer"
-            style={{ width: '100%', height: 'auto', display: 'block', objectFit: 'contain' }}
+            style={{ mixBlendMode: 'lighten', width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
           />
         </div>
 
