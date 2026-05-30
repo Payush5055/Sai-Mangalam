@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'; // Add useRef
 import PageWrapper from '../components/PageWrapper';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
-import { seedImages } from '../constants/seed-images';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Spinner: React.FC = () => (
@@ -148,21 +147,21 @@ const ContactPage: React.FC = () => {
                             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-[#6b6258]">Full Name</label>
-                                    <input type="text" id="name" value={formData.name} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.name ? inputErrorClasses : ''}`} placeholder="John Doe" required aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
+                                    <input type="text" id="name" value={formData.name} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.name ? inputErrorClasses : ''}`} placeholder="Your full name" required aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
                                     {errors.name && <p id="name-error" className="mt-1 text-sm text-red-400">{errors.name}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-[#6b6258]">Email</label>
-                                    <input type="email" id="email" value={formData.email} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.email ? inputErrorClasses : ''}`} placeholder="patilaayush262@gmail.com" required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
+                                    <input type="email" id="email" value={formData.email} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.email ? inputErrorClasses : ''}`} placeholder="your@email.com" required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
                                     {errors.email && <p id="email-error" className="mt-1 text-sm text-red-400">{errors.email}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="phone" className="block text-sm font-medium text-[#6b6258]">Phone</label>
-                                    <input type="tel" id="phone" value={formData.phone} onChange={handleChange} className="mt-1 block w-full px-3 py-2 form-input" placeholder="+91 9881215798"/>
+                                    <input type="tel" id="phone" value={formData.phone} onChange={handleChange} className="mt-1 block w-full px-3 py-2 form-input" placeholder="+91 XXXXXXXXXX"/>
                                 </div>
                                 <div>
                                     <label htmlFor="message" className="block text-sm font-medium text-[#6b6258]">Message</label>
-                                    <textarea id="message" rows={5} value={formData.message} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.message ? inputErrorClasses : ''}`} placeholder="Your inquiry..." required aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined}></textarea>
+                                    <textarea id="message" rows={5} value={formData.message} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.message ? inputErrorClasses : ''}`} placeholder="Tell us about your requirement..." required aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined}></textarea>
                                     {errors.message && <p id="message-error" className="mt-1 text-sm text-red-400">{errors.message}</p>}
                                 </div>
                                 <div>
@@ -231,30 +230,42 @@ const ContactPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="space-y-8">
-                        <div className="bg-white border border-[#ddd8cf] p-6 rounded-lg shadow-sm">
-                            <h3 className="text-xl font-bold text-[#1a1814]">Contact Information</h3>
-                            <ul className="mt-4 space-y-3 text-[#6b6258]">
+                        <div className="bg-white border border-[#ddd8cf] p-6">
+                            <h3 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 22, color: '#1a1814' }}>Contact Information</h3>
+                            <ul className="mt-4 space-y-3 text-sm leading-relaxed text-[#6b6258]">
                                 <li className="flex items-start">
-                                    <MapPinIcon className="h-6 w-6 text-[#2d5a3d] mr-3 mt-1 flex-shrink-0"/>
+                                    <MapPinIcon className="h-5 w-5 text-[#2d5a3d] mr-3 mt-0.5 flex-shrink-0"/>
                                     <span>
-                                        <strong>Head Office:</strong><br/>
-                                        123 Power Lane, Electra City, EC 54321
+                                        <strong className="text-[#1a1814]">Head Office:</strong><br/>
+                                        SR.NO.253/2, Plot No. 9<br/>
+                                        Kukdel, Shivar-Prakasha Road<br/>
+                                        Shahada, Dist-Nandurbar 425409<br/>
+                                        Maharashtra, India
                                     </span>
                                 </li>
                                 <li className="flex items-center">
-                                    <PhoneIcon className="h-6 w-6 text-[#2d5a3d] mr-3"/>
+                                    <PhoneIcon className="h-5 w-5 text-[#2d5a3d] mr-3 flex-shrink-0"/>
                                     <span>+91 9881215798</span>
                                 </li>
                                 <li className="flex items-center">
-                                    <EnvelopeIcon className="h-6 w-6 text-[#2d5a3d] mr-3"/>
+                                    <EnvelopeIcon className="h-5 w-5 text-[#2d5a3d] mr-3 flex-shrink-0"/>
                                     <span>saimangalam.electrical@gmail.com</span>
                                 </li>
                             </ul>
                         </div>
                         <div>
-                            <h3 className="text-xl font-bold text-[#1a1814]">Our Location</h3>
-                            <div className="mt-4 rounded-lg overflow-hidden shadow-md border border-[#ddd8cf]">
-                                <img src={seedImages.contactMap} alt="Map showing the location of SaiMangalam Head Office" className="w-full h-auto object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                            <h3 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 22, color: '#1a1814' }}>Our Location</h3>
+                            <div style={{ width: '100%', height: 320, overflow: 'hidden', border: '0.5px solid #ddd8cf', marginTop: 16 }}>
+                                <iframe
+                                    title="SaiMangalam Office Location"
+                                    src="https://maps.google.com/maps?q=Shahada,+Nandurbar,+Maharashtra+425409,+India&t=&z=14&ie=UTF8&iwloc=&output=embed"
+                                    width="100%"
+                                    height="320"
+                                    style={{ border: 0, display: 'block' }}
+                                    allowFullScreen
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                />
                             </div>
                         </div>
                     </div>
