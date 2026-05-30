@@ -199,7 +199,7 @@ const FullBleedSection: React.FC = () => {
   }, []);
   return (
     <div className="relative overflow-hidden" style={{ height: 320 }}>
-      <img src={seedImages.factoryHistoric} alt="" className="absolute inset-0 w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+      <img src={seedImages.industriesGrid} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center bottom' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(244,241,235,0.97), rgba(244,241,235,0.80) 50%, transparent)' }} />
       <div className="absolute right-9 top-1/2 -translate-y-1/2 pointer-events-none select-none" style={{ fontFamily: "'Instrument Serif', serif", fontSize: 100, color: '#1a1814', opacity: 0.04 }}>1985</div>
       <div className="relative z-10 h-full flex flex-col justify-center max-w-screen-xl mx-auto px-9">
@@ -230,7 +230,7 @@ const SplitSection1: React.FC = () => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
       <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
-        <img ref={imgRef} src={seedImages.productYard} alt="Distribution transformers" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <img ref={imgRef} src={seedImages.productYard} alt="Distribution transformers" loading="lazy" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform', objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
         <div className="absolute inset-0 bg-[#f4f1eb]/10" />
       </div>
       <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
@@ -276,7 +276,7 @@ const SplitSection2: React.FC = () => {
         <Link to="/services/solar-installation" className="split-link">Learn more</Link>
       </div>
       <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
-        <img ref={imgRef} src={seedImages.industriesRenewable} alt="Solar installation" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <img ref={imgRef} src={seedImages.industriesRenewable} alt="Solar installation" loading="lazy" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform', objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
       </div>
     </div>
   );
@@ -284,9 +284,9 @@ const SplitSection2: React.FC = () => {
 
 /* ─── Mosaic Services ────────────────────────────────────────────────────────── */
 const MOSAIC = [
-  { cat: 'On-site',   title: 'Installation & Commissioning', sub: 'Site-ready delivery, testing, and energization.',     img: seedImages.factoryInterior, wide: true },
-  { cat: 'Scheduled', title: 'Preventive Maintenance',        sub: 'Oil analysis, thermography, routine checks.',         img: seedImages.warehouse,       wide: false },
-  { cat: 'Workshop',  title: 'Repairs & Overhauls',           sub: 'Winding repair, core refurbishment, leak fixes.',     img: seedImages.qualityLab,      wide: false },
+  { cat: 'On-site',   title: 'Installation & Commissioning', sub: 'Site-ready delivery, testing, and energization.',     img: seedImages.factoryInterior, objPos: 'center center', wide: true },
+  { cat: 'Scheduled', title: 'Preventive Maintenance',        sub: 'Oil analysis, thermography, routine checks.',         img: seedImages.qualityLab,      objPos: 'center center', wide: false },
+  { cat: 'Workshop',  title: 'Repairs & Overhauls',           sub: 'Winding repair, core refurbishment, leak fixes.',     img: seedImages.rdTeam,          objPos: 'center center', wide: false },
 ];
 
 const MosaicSection: React.FC = () => {
@@ -315,8 +315,9 @@ const MosaicSection: React.FC = () => {
             <div className="overflow-hidden aspect-[2/1]">
               <img
                 src={MOSAIC[0].img} alt={MOSAIC[0].title}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 0.7, willChange: 'transform' }}
+                style={{ opacity: 0.7, willChange: 'transform', objectPosition: MOSAIC[0].objPos }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
@@ -332,8 +333,9 @@ const MosaicSection: React.FC = () => {
             <div className="overflow-hidden flex-1">
               <img
                 src={MOSAIC[2].img} alt={MOSAIC[2].title}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 0.7, willChange: 'transform' }}
+                style={{ opacity: 0.7, willChange: 'transform', objectPosition: MOSAIC[2].objPos }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>
@@ -349,8 +351,9 @@ const MosaicSection: React.FC = () => {
             <div className="overflow-hidden aspect-[4/3]">
               <img
                 src={MOSAIC[1].img} alt={MOSAIC[1].title}
+                loading="lazy"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                style={{ opacity: 0.7, willChange: 'transform' }}
+                style={{ opacity: 0.7, willChange: 'transform', objectPosition: MOSAIC[1].objPos }}
                 onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
               />
             </div>

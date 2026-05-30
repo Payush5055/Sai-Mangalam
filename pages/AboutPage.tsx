@@ -53,9 +53,9 @@ const AboutPage: React.FC = () => {
                 <PageWrapper>
                     <h2 className="text-3xl font-bold text-[#1a1814] text-center mb-12" style={{ fontFamily: "'Instrument Serif', serif" }}>Our Manufacturing Facilities</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <img src={seedImages.factoryInterior} alt="Modern factory interior with machinery" className="rounded-lg shadow-md w-full h-64 object-cover border border-[#ddd8cf]" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                        <img src={seedImages.rdTeam} alt="Research and Development Team collaborating" className="rounded-lg shadow-md w-full h-64 object-cover border border-[#ddd8cf]" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                        <img src={seedImages.warehouse} alt="Warehouse with stacked transformer components" className="rounded-lg shadow-md w-full h-64 object-cover border border-[#ddd8cf]" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                        <img src={seedImages.factoryInterior} alt="Modern factory interior with machinery" loading="lazy" className="rounded-lg shadow-md w-full h-64 object-cover border border-[#ddd8cf]" style={{ objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                        <img src={seedImages.rdTeam} alt="Research and Development Team collaborating" loading="lazy" className="rounded-lg shadow-md w-full h-64 object-cover border border-[#ddd8cf]" style={{ objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                        <img src={seedImages.warehouse} alt="Warehouse with stacked transformer components" loading="lazy" className="rounded-lg shadow-md w-full h-64 object-cover border border-[#ddd8cf]" style={{ objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                     </div>
                     <p className="mt-8 text-lg text-[#6b6258] max-w-4xl mx-auto text-center">
                         Our state-of-the-art manufacturing plants are equipped with the latest technology and automated systems, ensuring precision, efficiency, and scalability. We invest heavily in R&amp;D to stay at the forefront of the industry.

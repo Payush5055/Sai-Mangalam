@@ -12,7 +12,9 @@ const CareersPage: React.FC = () => {
                 <img
                     src={seedImages.careersHero}
                     alt="Team of engineers collaborating in a modern office"
+                    loading="lazy"
                     className="absolute inset-0 w-full h-full object-cover opacity-30"
+                    style={{ objectPosition: 'center center' }}
                     onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                 />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.8))' }} />

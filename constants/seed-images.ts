@@ -1,38 +1,62 @@
-import heroImg from '../src/assets/transformer-voltage-main.jpg';
-import productYardImg from '../src/assets/distribution_transformer.jpg';
-import lineImg from '../src/assets/Line.jpg';
-import qualityLabImg from '../src/assets/qualityLab.jpg';
-import solarPanelImg from '../src/assets/SolarPanel.jpg';
-import solarImg from '../src/assets/Solar.jpg';
-import industrialImg from '../src/assets/Industrial.jpg';
-import commercialImg from '../src/assets/Commercial.jpeg';
-import adobeImg from '../src/assets/AdobeStock_247812631_Preview.jpeg';
-import aerialImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg';
+import heroImg from '../src/assets/transformer-voltage-main.jpg'
+import distributionImg from '../src/assets/distribution_transformer.jpg'
+import lineImg from '../src/assets/Line.jpg'
+import solarImg from '../src/assets/Solar.jpg'
+import solarPanelImg from '../src/assets/SolarPanel.jpg'
+import qualityLabImg from '../src/assets/qualityLab.jpg'
+import industrialImg from '../src/assets/Industrial.jpg'
+import commercialImg from '../src/assets/Commercial.jpeg'
+import logoImg from '../src/assets/Logo.jpg'
+import adobeImg from '../src/assets/AdobeStock_247812631_Preview.jpeg'
+import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
+
+// New Canva-generated images
+import factoryInteriorImg from '../src/assets/factory-interior.jpg'
+import qualityTestingImg from '../src/assets/quality-testing.jpg'
+import aerialSubstationImg from '../src/assets/aerial-substation.jpg'
+import copperWindingsImg from '../src/assets/copper-windings.jpg'
+import solarFarmImg from '../src/assets/solar-farm.jpg'
+import htTowerImg from '../src/assets/ht-tower.jpg'
 
 export const seedImages = {
+  // Core
   hero: heroImg,
-  productYard: productYardImg,
+  logo: logoImg,
+
+  // Products
+  productYard: distributionImg,
   productDryType: lineImg,
-  productSpecial: lineImg,
-  qualityLab: qualityLabImg,
-  qualityInspection: qualityLabImg,
+  productSpecial: adobeImg,
+
+  // Quality
+  qualityLab: qualityTestingImg,
+  qualityInspection: copperWindingsImg,
   qualityDocs: qualityLabImg,
-  solarPanel: solarPanelImg,
-  industriesGrid: lineImg,
-  industriesRenewable: solarImg,
+
+  // Solar
+  solarPanel: solarFarmImg,
+  solarPanelOriginal: solarPanelImg,
+
+  // Industries
+  industriesGrid: aerialSubstationImg,
+  industriesRenewable: solarFarmImg,
   industriesIndustrial: industrialImg,
   industriesInfra: commercialImg,
-  servicesTechnician: adobeImg,
-  factoryHistoric: productYardImg,
-  factoryInterior: industrialImg,
-  rdTeam: adobeImg,
-  warehouse: commercialImg,
-  careersHero: aerialImg,
-  contactMap: aerialImg,
 
-  // Video loop for product card hover
+  // Services & Factory
+  servicesTechnician: htTowerImg,
+  factoryHistoric: adobeImg,
+  factoryInterior: factoryInteriorImg,
+  rdTeam: copperWindingsImg,
+  warehouse: distributionImg,
+
+  // Pages
+  careersHero: factoryInteriorImg,
+  contactMap: aerialSubstationImg,
+
+  // Video (placeholder)
   productLoop: {
-    mp4: '/assets/transformer-hero.mp4',
-    webp: '/assets/transformer-hero.mp4',
+    mp4: '',
+    webp: '',
   },
-};
+}
