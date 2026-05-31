@@ -12,11 +12,6 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
   const overlayRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (sessionStorage.getItem('intro_shown') === 'true') {
-      onComplete();
-      return;
-    }
-
     const container = containerRef.current;
     const canvasContainer = canvasRef.current;
     if (!container || !canvasContainer) return;
@@ -227,7 +222,6 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
           ease: 'power1.in',
           onComplete: () => {
             container.style.display = 'none';
-            sessionStorage.setItem('intro_shown', 'true');
             onComplete();
           },
         });
