@@ -56,7 +56,7 @@ const ProductsPage: React.FC = () => {
             {active !== ALL ? ` — ${active}` : ''}
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-[#ddd8cf]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-[#ddd8cf]">
           {filtered.map((product) => (
             <div key={product.id} className="bg-[#f4f1eb]">
               <ProductCard product={product} />

@@ -49,27 +49,33 @@ const QualityPage: React.FC = () => {
           <ul className="space-y-1">
             {qualityPageData.sections.map((section, i) => (
               <li key={section.id}>
-                <a
-                  href={`#${section.id}`}
-                  className="group flex items-center gap-2 py-1.5 text-sm text-[#6b6258] hover:text-[#2d5a3d] transition-colors duration-200"
+                <button
+                  onClick={() => {
+                    const el = document.getElementById(section.id);
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                  className="group flex items-center gap-2 py-1.5 text-sm text-[#6b6258] hover:text-[#2d5a3d] transition-colors duration-200 text-left w-full"
                 >
                   <span className="text-[10px] text-[#a09585]">{String(i + 1).padStart(2, '0')}</span>
                   <span className="border-b border-transparent group-hover:border-[#2d5a3d]/40 transition-colors duration-200 leading-snug">
                     {section.title}
                   </span>
-                </a>
+                </button>
               </li>
             ))}
             <li>
-              <a
-                href="#downloads"
-                className="group flex items-center gap-2 py-1.5 text-sm text-[#6b6258] hover:text-[#2d5a3d] transition-colors duration-200"
+              <button
+                onClick={() => {
+                  const el = document.getElementById('downloads');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                className="group flex items-center gap-2 py-1.5 text-sm text-[#6b6258] hover:text-[#2d5a3d] transition-colors duration-200 text-left w-full"
               >
                 <span className="text-[10px] text-[#a09585]">{String(qualityPageData.sections.length + 1).padStart(2, '0')}</span>
                 <span className="border-b border-transparent group-hover:border-[#2d5a3d]/40 transition-colors duration-200">
                   Quality Documents
                 </span>
-              </a>
+              </button>
             </li>
           </ul>
         </aside>
