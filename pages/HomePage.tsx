@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowUpRightIcon } from '@heroicons/react/24/outline';
 import { seedImages } from '../constants/seed-images';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
@@ -429,18 +429,6 @@ const SplitSection1: React.FC = () => {
           />
         </div>
 
-        {/* Spec tags */}
-        <div style={{
-          position: 'absolute', bottom: 16, left: '50%', transform: 'translateX(-50%)',
-          display: 'flex', gap: 16, pointerEvents: 'none',
-        }}>
-          {['16 kVA', '5 MVA', 'ONAN'].map(spec => (
-            <span key={spec} style={{
-              fontSize: 9, color: 'rgba(100,160,255,0.5)',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-            }}>{spec}</span>
-          ))}
-        </div>
       </div>
       <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
         <div className="eyebrow">Manufacturing</div>
@@ -500,6 +488,7 @@ const MOSAIC = [
     img: seedImages.factoryInterior,
     objPos: 'center center',
     wide: true,
+    path: '/services',
   },
   {
     cat: 'Scheduled',
@@ -508,6 +497,7 @@ const MOSAIC = [
     img: seedImages.qualityLab,
     objPos: 'center center',
     wide: false,
+    path: '/services',
   },
   {
     cat: 'Quality',
@@ -516,6 +506,7 @@ const MOSAIC = [
     img: seedImages.transformerTesting,
     objPos: 'center center',
     wide: false,
+    path: '/quality',
   },
   {
     cat: 'Workshop',
@@ -524,10 +515,12 @@ const MOSAIC = [
     img: seedImages.qualityInspection,
     objPos: 'center top',
     wide: false,
+    path: '/services',
   },
 ];
 
 const MosaicSection: React.FC = () => {
+  const navigate = useNavigate();
   const gridRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const grid = gridRef.current;
@@ -549,7 +542,7 @@ const MosaicSection: React.FC = () => {
         </div>
         <div ref={gridRef} className="grid grid-cols-3 grid-rows-2 gap-[1px] bg-[#ddd8cf]">
           {/* Card 1 — col-span-2 row-span-1 */}
-          <div data-mosaic="" className="col-span-2 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[0].path)} className="col-span-2 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[2/1]">
               <img
                 src={MOSAIC[0].img} alt={MOSAIC[0].title}
@@ -565,8 +558,8 @@ const MosaicSection: React.FC = () => {
               <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[0].sub}</div>
             </div>
           </div>
-          {/* Card 4 — col-span-1 row-span-2 (tall dark, placed before Card 2/3 for CSS grid) */}
-          <div data-mosaic="" className="col-span-1 row-span-2 bg-[#1a1814] cursor-pointer group flex flex-col overflow-hidden">
+          {/* Card 4 — col-span-1 row-span-2 (placed before Card 2/3 for CSS grid) */}
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[3].path)} className="col-span-1 row-span-2 bg-[#f4f1eb] cursor-pointer group flex flex-col overflow-hidden">
             <div className="flex-1 overflow-hidden">
               <img
                 src={MOSAIC[3].img} alt={MOSAIC[3].title}
@@ -575,15 +568,15 @@ const MosaicSection: React.FC = () => {
                 style={{ opacity: 1, willChange: 'transform', objectPosition: 'center top' }}
               />
             </div>
-            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12, color: 'white' }} /></div>
-            <div className="px-4 py-3 bg-[#1a1814]">
-              <div style={{ fontSize: 9, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[3].cat}</div>
-              <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.9)', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[3].title}</div>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.5)', lineHeight: 1.55 }}>{MOSAIC[3].sub}</div>
+            <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12, color: '#2d5a3d' }} /></div>
+            <div className="px-4 py-3 bg-[#f4f1eb]">
+              <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[3].cat}</div>
+              <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[3].title}</div>
+              <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[3].sub}</div>
             </div>
           </div>
           {/* Card 2 — col-span-1 row-span-1 */}
-          <div data-mosaic="" className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[1].path)} className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
                 src={MOSAIC[1].img} alt={MOSAIC[1].title}
@@ -600,7 +593,7 @@ const MosaicSection: React.FC = () => {
             </div>
           </div>
           {/* Card 3 — col-span-1 row-span-1 */}
-          <div data-mosaic="" className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[2].path)} className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
                 src={MOSAIC[2].img} alt={MOSAIC[2].title}

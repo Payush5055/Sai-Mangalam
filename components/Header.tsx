@@ -174,7 +174,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Main nav */}
-        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-white/90 backdrop-blur-sm border-b border-[#ddd8cf] shadow-[0_1px_12px_rgba(26,24,20,0.06)]' : 'bg-[#f4f1eb] border-b border-[#ddd8cf]'}`}>
+        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-[#f4f1eb]/95 backdrop-blur-sm border-b border-[#ddd8cf] shadow-[0_1px_12px_rgba(26,24,20,0.06)]' : 'bg-[#f4f1eb] border-b border-[#ddd8cf]'}`}>
           <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
               <Link to="/" className="flex items-center space-x-2 group">

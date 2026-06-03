@@ -60,7 +60,7 @@ export const products: Product[] = [
         name: 'Distribution Transformers',
         category: 'Oil-Immersed',
         shortDescription: 'Reliable and efficient power distribution for urban and rural networks.',
-        imageUrl: seedImages.crispTransformer,
+        imageUrl: seedImages.productYard,
         secondaryImageUrl: seedImages.productLoop.mp4,
         applications: ['Utilities', 'Residential', 'Commercial', 'Renewables'],
         features: ['BIS/IEC compliant designs', 'Low loss and high efficiency', 'Robust construction for long life', 'Wide range of fittings and accessories'],
