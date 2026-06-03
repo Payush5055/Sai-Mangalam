@@ -55,7 +55,6 @@ const App: React.FC = () => {
     ? {}
     : {
         visibility: introComplete ? 'visible' : 'hidden',
-        position: introComplete ? 'relative' : 'fixed',
         width: '100%',
         opacity: 0,
       };

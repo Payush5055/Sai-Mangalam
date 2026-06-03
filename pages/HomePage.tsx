@@ -488,7 +488,7 @@ const MOSAIC = [
     img: seedImages.factoryInterior,
     objPos: 'center center',
     wide: true,
-    path: '/services',
+    path: '/contact',
   },
   {
     cat: 'Scheduled',
@@ -497,7 +497,7 @@ const MOSAIC = [
     img: seedImages.qualityLab,
     objPos: 'center center',
     wide: false,
-    path: '/services',
+    path: '/contact',
   },
   {
     cat: 'Quality',
@@ -515,7 +515,7 @@ const MOSAIC = [
     img: seedImages.qualityInspection,
     objPos: 'center top',
     wide: false,
-    path: '/services',
+    path: '/contact',
   },
 ];
 
