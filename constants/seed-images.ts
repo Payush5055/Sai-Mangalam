@@ -1,6 +1,6 @@
 import heroImg from '../src/assets/transformer-voltage-main.jpg'
 import transformerQualityImg from '../src/assets/Transformer_Quality.jpeg'
-import electric3DTransformerImg from '../src/assets/transformer_90_degrees.jpeg'
+import electric3DTransformerImg from '../src/assets/Transformer_Interior.png.jpeg'
 import distributionImg from '../src/assets/Cinematic_close-up.jpeg'
 import lineImg from '../src/assets/Line.jpg'
 import solarImg from '../src/assets/Solar.jpg'
@@ -13,7 +13,7 @@ import adobeImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 
 // New Canva-generated images
-import factoryInteriorImg from '../src/assets/Cinematic_close-up_of_a_large.jpeg'
+import factoryInteriorImg from '../src/assets/Transformer_Factory.png'
 import qualityTestingImg from '../src/assets/quality-testing.jpg'
 import aerialSubstationImg from '../src/assets/aerial-substation.jpg'
 import copperWindingsImg from '../src/assets/Coils_image.png'
@@ -21,7 +21,7 @@ import solarFarmImg from '../src/assets/SOLAR_Image.png'
 import htTowerImg from '../src/assets/ht-tower.jpg'
 import crispTransformerImg from '../src/assets/CrispTransformerIllustration.jpg'
 import crispSolarImg from '../src/assets/Crisp-Solar-Panel.jpg'
-import transformerTestingImg from '../src/assets/Transformer-Testing-Scene.jpg'
+import transformerTestingImg from '../src/assets/Transformer_Image.png'
 
 export const seedImages = {
   // Core
