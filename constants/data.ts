@@ -60,7 +60,7 @@ export const products: Product[] = [
         name: 'Distribution Transformers',
         category: 'Oil-Immersed',
         shortDescription: 'Reliable and efficient power distribution for urban and rural networks.',
-        imageUrl: seedImages.productYard,
+        imageUrl: seedImages.crispTransformer,
         secondaryImageUrl: seedImages.productLoop.mp4,
         applications: ['Utilities', 'Residential', 'Commercial', 'Renewables'],
         features: ['BIS/IEC compliant designs', 'Low loss and high efficiency', 'Robust construction for long life', 'Wide range of fittings and accessories'],
@@ -77,7 +77,7 @@ export const products: Product[] = [
     name: 'Solar Panels',
     category: 'Renewable Energy',
     shortDescription: 'Professional installation of rooftop and ground-mount solar panels, including grid tie-in, inverters, and electrical wiring for efficient renewable energy integration.',
-    imageUrl: seedImages.solarPanel,
+    imageUrl: seedImages.crispSolar,
     applications: ['Residential Rooftops', 'Commercial Buildings', 'Ground-Mount Farms', 'Grid-Tied Systems'],
     features: ['High-efficiency PV modules with anti-reflective coating', 'DC-to-AC inverter integration', 'Weather-resistant mounting and wiring', 'Monitoring for performance optimization'],
     specifications: {

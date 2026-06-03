@@ -123,7 +123,7 @@ const HeroSection: React.FC = () => {
 };
 
 /* ─── Marquee ────────────────────────────────────────────────────────────────── */
-const MARQUEE_ITEMS = ['ISO 9001:2015', 'CE Certified', 'IEEE Standards', 'Founded 1985', '500+ Projects', 'BIS/IEC Compliant', 'Shahada, Maharashtra', '35+ Years'];
+const MARQUEE_ITEMS = ['ISO 9001:2015', 'CE Certified', 'IEEE Standards', 'Founded 2017', '3000+ Projects', 'BIS/IEC Compliant', 'Shahada, Maharashtra', '8+ Years'];
 
 const MarqueeSection: React.FC = () => (
   <div className="bg-[#eeeae2] border-y border-[#ddd8cf] py-3 overflow-hidden">
@@ -160,10 +160,10 @@ const AnimatedCounter: React.FC<CounterProps> = ({ target, suffix = '', isVisibl
 };
 
 const STATS = [
-  { label: 'Years of Excellence', value: 35,  suffix: '+' },
-  { label: 'Projects Delivered',  value: 500, suffix: '+' },
-  { label: 'Quality Standard',    value: 0,   display: 'ISO 9001' },
-  { label: 'States Served',       value: 4,   suffix: '' },
+  { label: 'Years of Excellence', value: 8,    suffix: '+' },
+  { label: 'Projects Delivered',  value: 3000, suffix: '+' },
+  { label: 'Quality Standard',    value: 0,    display: 'ISO 9001' },
+  { label: 'States Served',       value: 1,    suffix: '' },
 ];
 
 const StatsSection: React.FC = () => {
@@ -513,7 +513,7 @@ const MOSAIC = [
     cat: 'Quality',
     title: 'Testing & Calibration',
     sub: 'Routine, type, and special tests per IEC/IS.',
-    img: seedImages.transformerQuality,
+    img: seedImages.transformerTesting,
     objPos: 'center center',
     wide: false,
   },

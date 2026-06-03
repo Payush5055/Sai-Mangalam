@@ -19,6 +19,9 @@ import aerialSubstationImg from '../src/assets/aerial-substation.jpg'
 import copperWindingsImg from '../src/assets/Coils_image.png'
 import solarFarmImg from '../src/assets/SOLAR_Image.png'
 import htTowerImg from '../src/assets/ht-tower.jpg'
+import crispTransformerImg from '../src/assets/CrispTransformerIllustration.jpg'
+import crispSolarImg from '../src/assets/Crisp-Solar-Panel.jpg'
+import transformerTestingImg from '../src/assets/Transformer-Testing-Scene.jpg'
 
 export const seedImages = {
   // Core
@@ -59,6 +62,11 @@ export const seedImages = {
   // 3D render
   electric3DTransformer: electric3DTransformerImg,
   transformerQuality: transformerQualityImg,
+
+  // New crisp product images
+  crispTransformer: crispTransformerImg,
+  crispSolar: crispSolarImg,
+  transformerTesting: transformerTestingImg,
 
   // Video (placeholder)
   productLoop: {
