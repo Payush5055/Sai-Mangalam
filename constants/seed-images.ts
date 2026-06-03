@@ -1,6 +1,6 @@
 import heroImg from '../src/assets/transformer-voltage-main.jpg'
 import transformerQualityImg from '../src/assets/Transformer_Quality.jpeg'
-import electric3DTransformerImg from '../src/assets/Transformer_Interior.png.jpeg'
+import electric3DTransformerImg from '../src/assets/Transformer_Interior.png'
 import distributionImg from '../src/assets/Cinematic_close-up.jpeg'
 import lineImg from '../src/assets/Line.jpg'
 import solarImg from '../src/assets/Solar.jpg'
