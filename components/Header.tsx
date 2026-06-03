@@ -13,7 +13,7 @@ const panelDataMap: { [key: string]: any } = {
   'Quality': data.qualityMenuData,
 };
 
-const certifications = ['ISO 9001', 'CE Certified', 'IEEE Standards', 'Founded 1985', 'BIS Compliant', 'NABL Tested'];
+const certifications = ['ISO 9001', 'CE Certified', 'IEEE Standards', 'Founded 2019', 'BIS Compliant', 'NABL Tested'];
 
 
 

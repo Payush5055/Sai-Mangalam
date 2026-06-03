@@ -41,7 +41,7 @@ const AboutPage: React.FC = () => {
               Decades of engineering trust
             </h2>
             <p className="text-sm text-[#6b6258] leading-7 mb-3">
-              Founded in 1985, SaiMangalam began with a vision to revolutionize the power industry. From a modest workshop, we have grown into a global manufacturing powerhouse, consistently pushing the boundaries of innovation.
+              Founded in 2019, SaiMangalam began with a vision to revolutionize the power industry. From a modest workshop, we have grown into a global manufacturing powerhouse, consistently pushing the boundaries of innovation.
             </p>
             <p className="text-sm text-[#6b6258] leading-7">
               Our journey is marked by significant milestones, from developing our first high-voltage transformer in the 90s to pioneering eco-friendly dry-type transformers in the 2000s. Today, we stand as a testament to engineering excellence and unwavering commitment to our clients.

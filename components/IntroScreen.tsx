@@ -304,7 +304,7 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
             transition: 'opacity 0.8s ease',
           }}
         >
-          Powering India Since 1985
+          Powering India Since 2019
         </div>
 
         <div

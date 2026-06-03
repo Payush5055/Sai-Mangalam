@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
             </span>
           </Link>
           <p className="mt-4 text-[11px] text-white/40 leading-relaxed">
-            Powering reliable distribution for utilities, industry, and renewables since 1985.
+            Powering reliable distribution for utilities, industry, and renewables since 2019.
           </p>
         </div>
 

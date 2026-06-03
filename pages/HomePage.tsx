@@ -76,7 +76,7 @@ const HeroSection: React.FC = () => {
           <div ref={eyebrowRef} className="flex items-center gap-2 mb-6" style={{ opacity: 0 }}>
             <span style={{ display: 'block', width: 16, height: '0.5px', background: 'rgba(255,255,255,0.2)', flexShrink: 0 }} />
             <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.3em', textTransform: 'uppercase' }}>
-              Electrical &amp; Engineerings · Est. 1985
+              Electrical &amp; Engineerings · Est. 2019
             </span>
           </div>
           <h1 style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, lineHeight: 1.0, letterSpacing: '-0.01em', margin: 0 }}>
@@ -201,7 +201,7 @@ const FullBleedSection: React.FC = () => {
     <div className="relative overflow-hidden" style={{ height: 320 }}>
       <img src={seedImages.industriesGrid} alt="" loading="lazy" className="absolute inset-0 w-full h-full object-cover" style={{ objectPosition: 'center bottom' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(244,241,235,0.97), rgba(244,241,235,0.80) 50%, transparent)' }} />
-      <div className="absolute right-9 top-1/2 -translate-y-1/2 pointer-events-none select-none" style={{ fontFamily: "'Instrument Serif', serif", fontSize: 100, color: '#1a1814', opacity: 0.04 }}>1985</div>
+      <div className="absolute right-9 top-1/2 -translate-y-1/2 pointer-events-none select-none" style={{ fontFamily: "'Instrument Serif', serif", fontSize: 100, color: '#1a1814', opacity: 0.04 }}>2019</div>
       <div className="relative z-10 h-full flex flex-col justify-center max-w-screen-xl mx-auto px-9">
         <div style={{ maxWidth: 380 }}>
           <div className="eyebrow">About SaiMangalam</div>
@@ -654,7 +654,7 @@ const EditorialListSection: React.FC = () => {
             From rural electrification to industrial substations — transformers that last decades.
           </p>
           <div className="flex gap-2 flex-wrap">
-            {['ISO 9001', 'Since 1985', 'BIS/IEC'].map(pill => (
+            {['ISO 9001', 'Since 2019', 'BIS/IEC'].map(pill => (
               <span key={pill} style={{ fontSize: 9, background: 'rgba(45,90,61,0.07)', color: '#2d5a3d', padding: '4px 10px', letterSpacing: '0.1em' }}>{pill}</span>
             ))}
           </div>

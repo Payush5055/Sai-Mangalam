@@ -43,8 +43,8 @@ const App: React.FC = () => {
         if (siteRef.current) {
           gsap.fromTo(
             siteRef.current,
-            { opacity: 0, y: 12 },
-            { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }
+            { opacity: 0 },
+            { opacity: 1, duration: 0.8, ease: 'power2.out' }
           );
         }
       }, 50);
