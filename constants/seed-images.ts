@@ -8,7 +8,7 @@ import solarPanelImg from '../src/assets/SolarPanel.jpg'
 import qualityLabImg from '../src/assets/quality-testing.jpg'
 import industrialImg from '../src/assets/industrial-manufacturing.jpeg'
 import commercialImg from '../src/assets/infrastructure-commercial.png'
-import logoImg from '../src/assets/Logo.jpg'
+import logoImg from '../src/assets/Logo_Cream.jpg'
 import adobeImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
 
