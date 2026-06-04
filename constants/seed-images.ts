@@ -9,8 +9,8 @@ import qualityLabImg from '../src/assets/quality-testing.jpg'
 import industrialImg from '../src/assets/industrial-manufacturing.jpeg'
 import commercialImg from '../src/assets/infrastructure-commercial.png'
 import logoImg from '../src/assets/Logo_Cream.jpg'
-import adobeImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
-import ultraCinematicImg from '../src/assets/Ultra-cinematic_aerial_view.jpeg'
+import adobeImg from '../src/assets/High-Voltage Substation in Warm Ambient Light.jpg'
+import ultraCinematicImg from '../src/assets/High-Voltage Substation in Warm Ambient Light.jpg'
 
 // New Canva-generated images
 import factoryInteriorImg from '../src/assets/Transformer_Factory.png'
