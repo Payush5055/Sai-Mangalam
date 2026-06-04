@@ -96,10 +96,10 @@ const ContactPage: React.FC = () => {
         setSubmissionStatus('idle');
 
         try {
-            const response = await fetch('https://api.resend.com/emails', {
+            const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
+                    'Authorization': `Bearer ${import.meta.env.VITE_WEB3FORMS_ACCESS_KEY}`,
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
