@@ -5,6 +5,7 @@ import { Bars3Icon, XMarkIcon, ChevronRightIcon, PhoneIcon, EnvelopeIcon } from 
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { useMagneticEffect } from '../hooks/useMagneticEffect';
+import logoImg from '../src/assets/Logo_Cream.jpg';
 
 const panelDataMap: { [key: string]: any } = {
   'About Us': data.aboutUsMenuData,
@@ -178,7 +179,7 @@ const Header: React.FC = () => {
           <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
               <Link to="/" className="flex items-center space-x-2 group">
-                <img src="/brand/Logo_Cream.jpg" alt="SaiMangalam Electrical & Engineerings" className="h-8 w-auto object-contain" />
+                <img src={logoImg} alt="SaiMangalam Electrical & Engineerings" className="h-8 w-auto object-contain" />
                 <span className="hidden sm:inline text-[#1a1814]" style={{ fontFamily: "'Instrument Serif', serif", fontSize: '16px', fontWeight: 400 }}>
                   SaiMangalam Electrical&nbsp;&amp; Engineerings
                 </span>

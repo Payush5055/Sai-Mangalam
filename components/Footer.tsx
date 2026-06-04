@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import logoImg from '../src/assets/Logo_Cream.jpg';
 
 const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -11,7 +12,7 @@ const Footer: React.FC = () => {
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <Link to="/" className="flex items-center gap-3">
-            <img src="/brand/Logo_Cream.jpg" alt="SaiMangalam" className="h-9 w-9 rounded" />
+            <img src={logoImg} alt="SaiMangalam" className="h-9 w-9 rounded" />
             <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: '15px', fontWeight: 400, color: '#fff' }}>
               SaiMangalam
             </span>
