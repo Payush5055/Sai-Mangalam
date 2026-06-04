@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Resend } from 'resend';
 import PageWrapper from '../components/PageWrapper';
 import { seedImages } from '../constants/seed-images';
 
@@ -17,13 +18,24 @@ const CareersPage: React.FC = () => {
     const message  = (form.querySelector('#careers-message')  as HTMLTextAreaElement)?.value;
 
     try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'career', name, email, position, message }),
+      const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
+
+      const { error } = await resend.emails.send({
+        from: 'SaiMangalam Website <onboarding@resend.dev>',
+        to: 'saimangalam.electrical@gmail.com',
+        replyTo: email,
+        subject: `Career Application — ${position || 'General'}`,
+        html: `
+          <h2>New Career Application</h2>
+          <p><strong>Name:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Position:</strong> ${position || 'Not specified'}</p>
+          <p><strong>Message:</strong><br/>${message}</p>
+        `,
       });
 
-      if (!response.ok) throw new Error('Failed to send');
+      if (error) throw new Error(error.message);
+
       setSubmitStatus('success');
       form.reset();
     } catch (err) {

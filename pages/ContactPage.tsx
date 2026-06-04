@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'; // Add useRef
+import React, { useState, useEffect, useRef } from 'react';
+import { Resend } from 'resend';
 import PageWrapper from '../components/PageWrapper';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -95,19 +96,23 @@ const ContactPage: React.FC = () => {
         setSubmissionStatus('idle');
 
         try {
-            const response = await fetch('/api/send-email', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    type: 'contact',
-                    name: formData.name,
-                    email: formData.email,
-                    phone: formData.phone,
-                    message: formData.message,
-                }),
+            const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
+
+            const { error } = await resend.emails.send({
+                from: 'SaiMangalam Website <onboarding@resend.dev>',
+                to: 'saimangalam.electrical@gmail.com',
+                replyTo: formData.email,
+                subject: `New Enquiry from ${formData.name}`,
+                html: `
+                  <h2>New Enquiry — SaiMangalam Website</h2>
+                  <p><strong>Name:</strong> ${formData.name}</p>
+                  <p><strong>Email:</strong> ${formData.email}</p>
+                  <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+                  <p><strong>Message:</strong><br/>${formData.message}</p>
+                `,
             });
 
-            if (!response.ok) throw new Error('Failed to send');
+            if (error) throw new Error(error.message);
 
             setSubmissionStatus('success');
             setFormData({ name: '', email: '', phone: '', message: '' });
