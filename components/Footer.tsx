@@ -19,6 +19,8 @@ const Footer: React.FC = () => {
           <p className="mt-4 text-[11px] text-white/40 leading-relaxed">
             Powering reliable distribution for utilities, industry, and renewables since 2019.
           </p>
+          <div className="mt-3 text-[11px] text-white/30">Samir Patil &amp; Dhananjay Chaudhari</div>
+          <div className="text-[10px] text-white/20 tracking-widest uppercase">Partners</div>
         </div>
 
         {/* Quick Links */}

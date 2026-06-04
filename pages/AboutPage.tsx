@@ -46,6 +46,13 @@ const AboutPage: React.FC = () => {
             <p className="text-sm text-[#6b6258] leading-7">
               Our journey is marked by significant milestones, from developing our first high-voltage transformer in the 90s to pioneering eco-friendly dry-type transformers in the 2000s. Today, we stand as a testament to engineering excellence and unwavering commitment to our clients.
             </p>
+            <div style={{ marginTop: 16, paddingTop: 16, borderTop: '0.5px solid #ddd8cf' }}>
+              <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-3">Partners</div>
+              <div className="text-[13px] text-[#1a1814] font-medium mb-1">Samir Patil</div>
+              <div className="text-[11px] text-[#6b6258] mb-3">Partner &amp; Co-Founder</div>
+              <div className="text-[13px] text-[#1a1814] font-medium mb-1">Dhananjay Chaudhari</div>
+              <div className="text-[11px] text-[#6b6258]">Partner &amp; Co-Founder</div>
+            </div>
           </div>
           <div className="relative overflow-hidden" style={{ minHeight: 280 }}>
             <img
