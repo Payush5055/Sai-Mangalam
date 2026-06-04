@@ -1,21 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PageWrapper from '../components/PageWrapper';
 import { seedImages } from '../constants/seed-images';
 
 const CareersPage: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const name     = (document.getElementById('careers-name')     as HTMLInputElement)?.value;
-    const email    = (document.getElementById('careers-email')    as HTMLInputElement)?.value;
-    const position = (document.getElementById('careers-position') as HTMLInputElement)?.value;
-    const message  = (document.getElementById('careers-message')  as HTMLTextAreaElement)?.value;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-    const subject = encodeURIComponent(`Career Application - ${position || 'General'}`);
-    const body    = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\nPosition: ${position}\n\nMessage:\n${message}`
-    );
-    window.location.href =
-      `mailto:saimangalam.electrical@gmail.com?subject=${subject}&body=${body}`;
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const form = e.target as HTMLFormElement;
+    const name     = (form.querySelector('#careers-name')     as HTMLInputElement)?.value;
+    const email    = (form.querySelector('#careers-email')    as HTMLInputElement)?.value;
+    const position = (form.querySelector('#careers-position') as HTMLInputElement)?.value;
+    const message  = (form.querySelector('#careers-message')  as HTMLTextAreaElement)?.value;
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'career', name, email, position, message }),
+      });
+
+      if (!response.ok) throw new Error('Failed to send');
+      setSubmitStatus('success');
+      form.reset();
+    } catch (err) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -59,9 +74,23 @@ const CareersPage: React.FC = () => {
               <textarea id="careers-message" rows={5} className="mt-1 block w-full px-3 py-2 form-input" />
             </div>
             <div className="text-center">
-              <button type="submit" className="btn-primary">
-                Submit Application
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-[#1a1814] text-white text-[10px] tracking-widest uppercase px-8 py-3 hover:bg-[#2d5a3d] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? 'Sending...' : 'Submit Application'}
               </button>
+              {submitStatus === 'success' && (
+                <p className="text-[#2d5a3d] text-sm mt-3">
+                  Application submitted successfully. We will be in touch soon.
+                </p>
+              )}
+              {submitStatus === 'error' && (
+                <p className="text-red-500 text-sm mt-3">
+                  Something went wrong. Please try again or email us directly at saimangalam.electrical@gmail.com
+                </p>
+              )}
             </div>
           </form>
         </div>

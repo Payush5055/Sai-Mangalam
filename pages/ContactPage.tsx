@@ -94,21 +94,34 @@ const ContactPage: React.FC = () => {
         setIsSubmitting(true);
         setSubmissionStatus('idle');
 
-const subject = encodeURIComponent('New Enquiry from SaiMangalam Website');
-        const body = encodeURIComponent(
-            `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
-        );
-        window.location.href =
-            `mailto:saimangalam.electrical@gmail.com?subject=${subject}&body=${body}`;
-        setIsSubmitting(false);
-        setSubmissionStatus('success');
-        setFormData({ name: '', email: '', phone: '', message: '' });
-        setFile(null);
-        setFileError('');
-        if (fileInputRef.current) fileInputRef.current.value = '';
-        timerRef.current = window.setTimeout(() => {
-            setSubmissionStatus('idle');
-        }, 5000);
+        try {
+            const response = await fetch('/api/send-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'contact',
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    message: formData.message,
+                }),
+            });
+
+            if (!response.ok) throw new Error('Failed to send');
+
+            setSubmissionStatus('success');
+            setFormData({ name: '', email: '', phone: '', message: '' });
+            setFile(null);
+            setFileError('');
+            if (fileInputRef.current) fileInputRef.current.value = '';
+        } catch (err) {
+            setSubmissionStatus('error');
+        } finally {
+            setIsSubmitting(false);
+            timerRef.current = window.setTimeout(() => {
+                setSubmissionStatus('idle');
+            }, 5000);
+        }
     };
 
     const inputErrorClasses = 'border-red-500/80 focus:border-red-500/80 focus:ring-red-500/50';
