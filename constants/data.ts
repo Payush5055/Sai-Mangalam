@@ -152,12 +152,12 @@ export const industries: Industry[] = [
     {
         name: 'Utilities & Power Grid',
         description: 'Providing robust and reliable transformers for national and regional power grids, ensuring stable energy transmission and distribution.',
-        imageUrl: seedImages.industriesGrid
+        imageUrl: seedImages.utilitiesGrid
     },
     {
         name: 'Renewable Energy',
         description: 'Specialized transformers for solar and wind farms, designed to handle the unique demands of renewable power generation and grid integration.',
-        imageUrl: seedImages.industriesRenewable
+        imageUrl: seedImages.solarRenewable
     },
     {
         name: 'Industrial & Manufacturing',

@@ -473,7 +473,7 @@ const SplitSection2: React.FC = () => {
         <Link to="/services/solar-installation" className="split-link">Learn more</Link>
       </div>
       <div className="relative overflow-hidden" style={{ minHeight: 200 }}>
-        <img ref={imgRef} src={seedImages.industriesRenewable} alt="Solar installation" loading="lazy" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform', objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+        <img ref={imgRef} src={seedImages.solarSplit} alt="Solar installation" loading="lazy" className="w-full h-full object-cover" style={{ minHeight: 200, willChange: 'transform', objectPosition: 'center center' }} onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
       </div>
     </div>
   );
