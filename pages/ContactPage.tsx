@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PageWrapper from '../components/PageWrapper';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
+// XCircleIcon kept for error state display
 import { motion, AnimatePresence } from 'framer-motion';
 
 const Spinner: React.FC = () => (
@@ -18,9 +19,6 @@ const ContactPage: React.FC = () => {
         phone: '',
         message: '',
     });
-    const [file, setFile] = useState<File | null>(null);
-    const [fileError, setFileError] = useState<string>(''); // New: For file validation errors
-    const fileInputRef = useRef<HTMLInputElement>(null); // New: Ref to clear file input
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submissionStatus, setSubmissionStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -41,37 +39,7 @@ const ContactPage: React.FC = () => {
         }
     };
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const selectedFile = e.target.files?.[0];
-        setFileError(''); // Clear error
-
-        if (selectedFile) {
-            // Validate type and size
-            const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png'];
-            const maxSize = 5 * 1024 * 1024; // 5MB
-
-            if (!allowedTypes.includes(selectedFile.type)) {
-                setFileError('Invalid file type. Allowed: PDF, DOCX, JPG, PNG.');
-                return;
-            }
-            if (selectedFile.size > maxSize) {
-                setFileError('File too large. Maximum size: 5MB.');
-                return;
-            }
-
-            setFile(selectedFile);
-        } else {
-            setFile(null);
-        }
-    };
-
-    const handleRemoveFile = () => {
-        setFile(null);
-        setFileError('');
-        if (fileInputRef.current) fileInputRef.current.value = ''; // Clear input
-    };
-
-    const validate = () => {
+const validate = () => {
         const newErrors: { [key: string]: string } = {};
         if (!formData.name.trim()) newErrors.name = 'Full Name is required.';
         if (!formData.email.trim()) {
@@ -80,7 +48,6 @@ const ContactPage: React.FC = () => {
             newErrors.email = 'Please enter a valid email address.';
         }
         if (!formData.message.trim()) newErrors.message = 'Message is required.';
-        if (fileError) newErrors.file = fileError; // Include file error
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -128,9 +95,6 @@ const ContactPage: React.FC = () => {
 
             setSubmissionStatus('success');
             setFormData({ name: '', email: '', phone: '', message: '' });
-            setFile(null);
-            setFileError('');
-            if (fileInputRef.current) fileInputRef.current.value = '';
         } catch (err) {
             console.error(err);
             setSubmissionStatus('error');
@@ -179,30 +143,7 @@ const ContactPage: React.FC = () => {
                                     <textarea id="message" rows={5} value={formData.message} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.message ? inputErrorClasses : ''}`} required />
                                     {errors.message && <p id="message-error" className="mt-1 text-sm text-red-400">{errors.message}</p>}
                                 </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-[#6b6258]">Attach File (for RFQs)</label>
-                                    <div className="mt-1 flex items-center">
-                                        <label htmlFor="file" className="cursor-pointer bg-[#2d5a3d]/10 text-[#2d5a3d] hover:bg-[#2d5a3d]/20 font-semibold py-2 px-4 rounded-full text-sm transition-colors">
-                                            Choose File
-                                        </label>
-                                        <input type="file" id="file" ref={fileInputRef} onChange={handleFileChange} className="sr-only" accept=".pdf,.docx,.jpg,.png" />
-                                        {file && (
-                                            <div className="ml-4 flex items-center">
-                                                <span className="text-sm text-[#6b6258] truncate">{file.name}</span>
-                                                <button
-                                                    type="button"
-                                                    onClick={handleRemoveFile}
-                                                    className="ml-2 text-red-400 hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-full"
-                                                    aria-label="Remove attached file"
-                                                >
-                                                    <XCircleIcon className="h-5 w-5" />
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                    {fileError && <p className="mt-1 text-sm text-red-400">{fileError}</p>}
-                                </div>
-                                <div className="text-right">
+<div className="text-right">
                                     <motion.button 
                                         type="submit"
                                         whileHover={{ scale: isSubmitting ? 1 : 1.05 }}

@@ -13,6 +13,7 @@ const CareersPage: React.FC = () => {
     const form = e.target as HTMLFormElement;
     const name     = (form.querySelector('#careers-name')     as HTMLInputElement)?.value;
     const email    = (form.querySelector('#careers-email')    as HTMLInputElement)?.value;
+    const phone    = (form.querySelector('#careers-phone')    as HTMLInputElement)?.value;
     const position = (form.querySelector('#careers-position') as HTMLInputElement)?.value;
     const message  = (form.querySelector('#careers-message')  as HTMLTextAreaElement)?.value;
 
@@ -20,19 +21,21 @@ const CareersPage: React.FC = () => {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         body: JSON.stringify({
           access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
           subject: `Career Application - ${position}`,
           name,
           email,
+          phone,
           message,
           html: `
             <h2>New Career Application</h2>
             <p><strong>Name:</strong> ${name}</p>
             <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
             <p><strong>Position:</strong> ${position || 'Not specified'}</p>
             <p><strong>Message:</strong><br/>${message}</p>
           `,
@@ -88,12 +91,16 @@ const CareersPage: React.FC = () => {
               <input type="email" id="careers-email" className="mt-1 block w-full px-3 py-2 form-input" required />
             </div>
             <div>
+              <label htmlFor="careers-phone" className="block text-sm font-medium text-[#6b6258]">Phone Number *</label>
+              <input type="tel" id="careers-phone" name="phone" required placeholder="+91 XXXXXXXXXX" className="mt-1 block w-full px-3 py-2 form-input" />
+            </div>
+            <div>
               <label htmlFor="careers-position" className="block text-sm font-medium text-[#6b6258]">Position Applied For</label>
-              <input type="text" id="careers-position" className="mt-1 block w-full px-3 py-2 form-input" />
+              <input type="text" id="careers-position" className="mt-1 block w-full px-3 py-2 form-input" required />
             </div>
             <div>
               <label htmlFor="careers-message" className="block text-sm font-medium text-[#6b6258]">Cover Letter / Message</label>
-              <textarea id="careers-message" rows={5} className="mt-1 block w-full px-3 py-2 form-input" />
+              <textarea id="careers-message" rows={5} className="mt-1 block w-full px-3 py-2 form-input" required />
             </div>
             <div className="text-center">
               <button
