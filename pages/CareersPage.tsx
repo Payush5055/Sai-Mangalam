@@ -17,17 +17,18 @@ const CareersPage: React.FC = () => {
     const message  = (form.querySelector('#careers-message')  as HTMLTextAreaElement)?.value;
 
     try {
-      const response = await fetch('https://api.resend.com/emails', {
+      const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
-          'Content-Type': 'application/json',
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
         },
         body: JSON.stringify({
-          from: 'SaiMangalam Website <onboarding@resend.dev>',
-          to: 'saimangalam.electrical@gmail.com',
-          reply_to: email,
-          subject: `Career Application — ${position || 'General'}`,
+          access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
+          subject: `Career Application - ${position}`,
+          name,
+          email,
+          message,
           html: `
             <h2>New Career Application</h2>
             <p><strong>Name:</strong> ${name}</p>

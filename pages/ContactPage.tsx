@@ -10,6 +10,7 @@ const Spinner: React.FC = () => (
     </svg>
 );
 
+
 const ContactPage: React.FC = () => {
     const [formData, setFormData] = useState({
         name: '',
@@ -102,10 +103,12 @@ const ContactPage: React.FC = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    from: 'SaiMangalam Website <onboarding@resend.dev>',
-                    to: 'saimangalam.electrical@gmail.com',
-                    reply_to: formData.email,
+                    access_key: import.meta.env.VITE_WEB3FORMS_ACCESS_KEY,
                     subject: `New Enquiry from ${formData.name}`,
+                    name: formData.name,
+                    email: formData.email,
+                    phone: formData.phone,
+                    message: formData.message,
                     html: `
                         <h2>New Enquiry — SaiMangalam Website</h2>
                         <p><strong>Name:</strong> ${formData.name}</p>
@@ -116,10 +119,11 @@ const ContactPage: React.FC = () => {
                 }),
             });
 
-            if (!response.ok) {
-                const err = await response.json();
-                console.error('Resend error:', err);
-                throw new Error('Failed to send');
+            const result = await response.json();
+
+            if (!result.success) {
+                console.error('Web3Forms error:', result);
+                throw new Error(result.message || 'Failed to send');
             }
 
             setSubmissionStatus('success');
