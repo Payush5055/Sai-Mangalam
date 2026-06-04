@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
         {/* Brand */}
         <div className="col-span-2 md:col-span-1">
           <Link to="/" className="flex items-center gap-3">
-            <img src="/brand/Logo.jpg" alt="SaiMangalam" className="h-9 w-9 rounded" />
+            <img src="/brand/Logo_Cream.jpg" alt="SaiMangalam" className="h-9 w-9 rounded" />
             <span style={{ fontFamily: "'Instrument Serif', serif", fontSize: '15px', fontWeight: 400, color: '#fff' }}>
               SaiMangalam
             </span>
