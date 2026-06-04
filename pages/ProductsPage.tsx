@@ -12,7 +12,7 @@ const ProductsPage: React.FC = () => {
   const filtered = active === ALL ? products : products.filter((p) => p.category === active);
 
   return (
-    <div className="bg-[#f4f1eb] text-[#6b6258]">
+    <div className="bg-[#f5efe4] text-[#6b6258]">
       {/* ── Dark hero with filter pills ── */}
       <div className="bg-[#1a1814] pt-16 pb-10">
         <PageWrapper className="py-0">
@@ -58,7 +58,7 @@ const ProductsPage: React.FC = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-[#ddd8cf]">
           {filtered.map((product) => (
-            <div key={product.id} className="bg-[#f4f1eb]">
+            <div key={product.id} className="bg-[#f5efe4]">
               <ProductCard product={product} />
             </div>
           ))}

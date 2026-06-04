@@ -1,10 +1,10 @@
 /* ===== SAIMANGALAM EDITORIAL THEME ===== */
-html, body { background-color: #f4f1eb; color: #1a1814; }
+html, body { background-color: #f5efe4; color: #1a1814; }
 
 :root {
-  --cream-1: #f4f1eb;
-  --cream-2: #eeeae2;
-  --cream-3: #e5e1d8;
+  --cream-1: #f5efe4;
+  --cream-2: #ede4d3;
+  --cream-3: #e2d5be;
   --text-primary: #1a1814;
   --text-secondary: #6b6258;
   --text-muted: #a09585;

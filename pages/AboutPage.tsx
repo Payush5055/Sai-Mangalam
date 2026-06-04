@@ -18,7 +18,7 @@ const FACILITIES = [
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="bg-[#f4f1eb] text-[#6b6258]">
+    <div className="bg-[#f5efe4] text-[#6b6258]">
       {/* ── Dark hero ── */}
       <div className="bg-[#1a1814] pt-16 pb-12">
         <PageWrapper className="py-0">
@@ -54,7 +54,7 @@ const AboutPage: React.FC = () => {
               className="w-full h-full object-cover"
               onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
             />
-            <div className="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-[#f4f1eb] to-transparent z-10" />
+            <div className="absolute top-0 left-0 bottom-0 w-16 bg-gradient-to-r from-[#f5efe4] to-transparent z-10" />
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ const AboutPage: React.FC = () => {
         </div>
         <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-[1px] bg-[#ddd8cf] border border-[#ddd8cf] mb-10">
           {/* Mission */}
-          <div className="relative overflow-hidden group bg-[#f4f1eb] p-8">
+          <div className="relative overflow-hidden group bg-[#f5efe4] p-8">
             <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#2d5a3d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
             <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-3">Mission</div>
             <h3 className="transition-colors duration-200 group-hover:text-[#2d5a3d]" style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 20, color: '#1a1814', marginBottom: 12 }}>
@@ -79,7 +79,7 @@ const AboutPage: React.FC = () => {
             <div style={{ position: 'absolute', top: 12, right: 20, fontFamily: "'Instrument Serif', serif", fontSize: 72, color: '#1a1814', opacity: 0.04, lineHeight: 1, userSelect: 'none', pointerEvents: 'none' }}>01</div>
           </div>
           {/* Vision */}
-          <div className="relative overflow-hidden group bg-[#eeeae2] p-8">
+          <div className="relative overflow-hidden group bg-[#ede4d3] p-8">
             <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#2d5a3d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
             <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-3">Vision</div>
             <h3 className="transition-colors duration-200 group-hover:text-[#2d5a3d]" style={{ fontFamily: "'Instrument Serif', serif", fontWeight: 400, fontSize: 20, color: '#1a1814', marginBottom: 12 }}>
@@ -94,7 +94,7 @@ const AboutPage: React.FC = () => {
       </div>
 
       {/* ── Manufacturing Facilities ── */}
-      <div className="bg-[#eeeae2] px-8 py-10 border-t border-[#ddd8cf]">
+      <div className="bg-[#ede4d3] px-8 py-10 border-t border-[#ddd8cf]">
         <div className="max-w-screen-xl mx-auto">
           <div className="w-7 h-0.5 bg-[#2d5a3d] mb-3" />
           <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-2">Manufacturing Facilities</div>
@@ -128,7 +128,7 @@ const AboutPage: React.FC = () => {
       </div>
 
       {/* ── Certifications ── */}
-      <div className="bg-[#f4f1eb] px-8 py-10 border-t border-[#ddd8cf]">
+      <div className="bg-[#f5efe4] px-8 py-10 border-t border-[#ddd8cf]">
         <div className="max-w-screen-xl mx-auto">
           <div className="w-7 h-0.5 bg-[#2d5a3d] mb-3" />
           <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-2">Compliance</div>
@@ -137,7 +137,7 @@ const AboutPage: React.FC = () => {
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-[1px] bg-[#ddd8cf]">
             {CERTS.map((c) => (
-              <div key={c.name} className="relative overflow-hidden group bg-[#f4f1eb] p-7 text-center hover:bg-[#eeeae2] transition-colors duration-300 cursor-default">
+              <div key={c.name} className="relative overflow-hidden group bg-[#f5efe4] p-7 text-center hover:bg-[#ede4d3] transition-colors duration-300 cursor-default">
                 <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#2d5a3d] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 <div className="w-10 h-10 bg-[#e8f0ea] group-hover:bg-[#d0e4d4] rounded-full flex items-center justify-center mx-auto mb-3 transition-all duration-300 group-hover:scale-110">
                   <CheckBadgeIcon className="h-5 w-5 text-[#2d5a3d]" />

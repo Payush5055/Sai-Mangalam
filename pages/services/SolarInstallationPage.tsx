@@ -6,7 +6,7 @@ import { CheckIcon } from '@heroicons/react/24/outline';
 
 const SolarInstallationPage: React.FC = () => {
     return (
-        <div className="bg-[#f4f1eb] text-[#6b6258]">
+        <div className="bg-[#f5efe4] text-[#6b6258]">
             <div className="relative bg-black text-white py-24">
                 <img src={seedImages.industriesRenewable} alt="Solar panels in a field" className="absolute inset-0 w-full h-full object-cover opacity-30" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(0,0,0,0.85), rgba(0,0,0,0.5))' }} />

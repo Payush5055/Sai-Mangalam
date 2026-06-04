@@ -69,7 +69,7 @@ const App: React.FC = () => {
         <div ref={siteRef} style={siteStyle}>
           <HashRouter>
             <ScrollToTop />
-            <div className="flex flex-col min-h-screen bg-[#f4f1eb]">
+            <div className="flex flex-col min-h-screen bg-[#f5efe4]">
               <Header />
               <main className="flex-grow pt-[124px]">
                 <Routes>

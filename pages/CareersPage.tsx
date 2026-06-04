@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 
 const CareersPage: React.FC = () => {
     return (
-        <div className="bg-[#f4f1eb] text-[#6b6258]">
+        <div className="bg-[#f5efe4] text-[#6b6258]">
             <div className="relative bg-[#1a1814] text-white py-24 text-center">
                 <img
                     src={seedImages.careersHero}

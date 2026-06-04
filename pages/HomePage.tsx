@@ -70,7 +70,7 @@ const HeroSection: React.FC = () => {
         onError={(e) => { (e.target as HTMLVideoElement).style.display = 'none'; }}
       />
       <div className="absolute inset-0" style={{ background: 'linear-gradient(to right, rgba(10,9,8,0.88) 0%, rgba(10,9,8,0.55) 60%, rgba(10,9,8,0.25) 100%)', zIndex: 1 }} />
-      <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to top, #f4f1eb, transparent)', zIndex: 4 }} />
+      <div className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none" style={{ background: 'linear-gradient(to top, #f5efe4, transparent)', zIndex: 4 }} />
       <div className="max-w-screen-xl mx-auto px-8 w-full relative" style={{ zIndex: 5 }}>
         <div className="max-w-lg">
           <div ref={eyebrowRef} className="flex items-center gap-2 mb-6" style={{ opacity: 0 }}>
@@ -123,10 +123,10 @@ const HeroSection: React.FC = () => {
 };
 
 /* ─── Marquee ────────────────────────────────────────────────────────────────── */
-const MARQUEE_ITEMS = ['ISO 9001:2015', 'CE Certified', 'IEEE Standards', 'Founded 2017', '3000+ Projects', 'BIS/IEC Compliant', 'Shahada, Maharashtra', '8+ Years'];
+const MARQUEE_ITEMS = ['ISO 9001:2015', 'CE Certified', 'IEEE Standards', 'Founded 2019', '3000+ Projects', 'BIS/IEC Compliant', 'Shahada, Maharashtra', '8+ Years'];
 
 const MarqueeSection: React.FC = () => (
-  <div className="bg-[#eeeae2] border-y border-[#ddd8cf] py-3 overflow-hidden">
+  <div className="bg-[#ede4d3] border-y border-[#ddd8cf] py-3 overflow-hidden">
     <div className="marquee-scroll">
       {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
         <span key={i} className="flex items-center gap-2.5 shrink-0 mr-9" style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.25em', textTransform: 'uppercase' }}>
@@ -139,24 +139,9 @@ const MarqueeSection: React.FC = () => (
 );
 
 /* ─── Stats ──────────────────────────────────────────────────────────────────── */
-interface CounterProps { target: number; suffix?: string; isVisible: boolean; display?: string; }
-const AnimatedCounter: React.FC<CounterProps> = ({ target, suffix = '', isVisible, display }) => {
-  const [count, setCount] = useState(0);
-  const started = useRef(false);
-  useEffect(() => {
-    if (!isVisible || started.current || !target) return;
-    started.current = true;
-    const steps = 60;
-    let current = 0;
-    const iv = setInterval(() => {
-      current += target / steps;
-      if (current >= target) { setCount(target); clearInterval(iv); }
-      else setCount(Math.floor(current));
-    }, 1800 / steps);
-    return () => clearInterval(iv);
-  }, [isVisible, target]);
+const AnimatedCounter: React.FC<{ target: number | string; suffix: string; isVisible: boolean; display?: string }> = ({ target, suffix, display }) => {
   if (display) return <>{display}</>;
-  return <>{count}{suffix}</>;
+  return <>{target}{suffix}</>;
 };
 
 const STATS = [
@@ -169,7 +154,7 @@ const STATS = [
 const StatsSection: React.FC = () => {
   const [ref, isVisible] = useIntersectionObserver({ threshold: 0.3 });
   return (
-    <div ref={ref} className="bg-[#f4f1eb] border-b border-[#ddd8cf]">
+    <div ref={ref} className="bg-[#f5efe4] border-b border-[#ddd8cf]">
       <div className="max-w-screen-xl mx-auto grid grid-cols-2 md:grid-cols-4">
         {STATS.map((s, i) => (
           <div key={i} className={`px-7 py-6 ${i < STATS.length - 1 ? 'border-r border-[#ddd8cf]' : ''}`}>
@@ -284,8 +269,8 @@ const AnimatedSchematic: React.FC = () => {
       </defs>
 
       {/* Core block */}
-      <rect x={180} y={40} width={140} height={240} rx={4} fill="#e5e1d8" stroke="#c5bfb5" strokeWidth={0.5} />
-      <rect x={192} y={52} width={116} height={216} rx={3} fill="#f4f1eb" stroke="#ddd8cf" strokeWidth={0.5} />
+      <rect x={180} y={40} width={140} height={240} rx={4} fill="#e2d5be" stroke="#c5bfb5" strokeWidth={0.5} />
+      <rect x={192} y={52} width={116} height={216} rx={3} fill="#f5efe4" stroke="#ddd8cf" strokeWidth={0.5} />
       {Array.from({ length: 10 }, (_, i) => (
         <line
           key={i}
@@ -430,7 +415,7 @@ const SplitSection1: React.FC = () => {
         </div>
 
       </div>
-      <div ref={textRef} className="bg-[#f4f1eb] px-10 py-10 flex flex-col justify-center">
+      <div ref={textRef} className="bg-[#f5efe4] px-10 py-10 flex flex-col justify-center">
         <div className="eyebrow">Manufacturing</div>
         <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400, lineHeight: 1.2, marginTop: 8 }}>
           Distribution Transformer<br />
@@ -458,7 +443,7 @@ const SplitSection2: React.FC = () => {
   }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 border-t border-[#ddd8cf]" style={{ minHeight: 280 }}>
-      <div ref={textRef} className="bg-[#eeeae2] px-10 py-10 flex flex-col justify-center">
+      <div ref={textRef} className="bg-[#ede4d3] px-10 py-10 flex flex-col justify-center">
         <div className="eyebrow">Renewables</div>
         <h3 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400, lineHeight: 1.2, marginTop: 8 }}>
           Solar Installation<br />
@@ -532,7 +517,7 @@ const MosaicSection: React.FC = () => {
     });
   }, []);
   return (
-    <div id="services" className="bg-[#eeeae2] px-8 py-10 border-t border-[#ddd8cf]">
+    <div id="services" className="bg-[#ede4d3] px-8 py-10 border-t border-[#ddd8cf]">
       <div className="max-w-screen-xl mx-auto">
         <div className="flex justify-between items-end mb-6">
           <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 26, color: '#1a1814', fontWeight: 400 }}>
@@ -542,7 +527,7 @@ const MosaicSection: React.FC = () => {
         </div>
         <div ref={gridRef} className="grid grid-cols-3 grid-rows-2 gap-[1px] bg-[#ddd8cf]">
           {/* Card 1 — col-span-2 row-span-1 */}
-          <div data-mosaic="" onClick={() => navigate(MOSAIC[0].path)} className="col-span-2 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[0].path)} className="col-span-2 row-span-1 bg-[#f5efe4] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[2/1]">
               <img
                 src={MOSAIC[0].img} alt={MOSAIC[0].title}
@@ -559,7 +544,7 @@ const MosaicSection: React.FC = () => {
             </div>
           </div>
           {/* Card 4 — col-span-1 row-span-2 (placed before Card 2/3 for CSS grid) */}
-          <div data-mosaic="" onClick={() => navigate(MOSAIC[3].path)} className="col-span-1 row-span-2 bg-[#f4f1eb] cursor-pointer group flex flex-col overflow-hidden">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[3].path)} className="col-span-1 row-span-2 bg-[#f5efe4] cursor-pointer group flex flex-col overflow-hidden">
             <div className="flex-1 overflow-hidden">
               <img
                 src={MOSAIC[3].img} alt={MOSAIC[3].title}
@@ -569,14 +554,14 @@ const MosaicSection: React.FC = () => {
               />
             </div>
             <div className="mosaic-arrow"><ArrowUpRightIcon style={{ width: 12, height: 12, color: '#2d5a3d' }} /></div>
-            <div className="px-4 py-3 bg-[#f4f1eb]">
+            <div className="px-4 py-3 bg-[#f5efe4]">
               <div style={{ fontSize: 9, color: '#a09585', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 4 }}>{MOSAIC[3].cat}</div>
               <div style={{ fontSize: 13, color: '#1a1814', fontWeight: 500, marginBottom: 4 }}>{MOSAIC[3].title}</div>
               <div style={{ fontSize: 11, color: '#6b6258', lineHeight: 1.55 }}>{MOSAIC[3].sub}</div>
             </div>
           </div>
           {/* Card 2 — col-span-1 row-span-1 */}
-          <div data-mosaic="" onClick={() => navigate(MOSAIC[1].path)} className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[1].path)} className="col-span-1 row-span-1 bg-[#f5efe4] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
                 src={MOSAIC[1].img} alt={MOSAIC[1].title}
@@ -593,7 +578,7 @@ const MosaicSection: React.FC = () => {
             </div>
           </div>
           {/* Card 3 — col-span-1 row-span-1 */}
-          <div data-mosaic="" onClick={() => navigate(MOSAIC[2].path)} className="col-span-1 row-span-1 bg-[#f4f1eb] relative overflow-hidden cursor-pointer group">
+          <div data-mosaic="" onClick={() => navigate(MOSAIC[2].path)} className="col-span-1 row-span-1 bg-[#f5efe4] relative overflow-hidden cursor-pointer group">
             <div className="overflow-hidden aspect-[4/3]">
               <img
                 src={MOSAIC[2].img} alt={MOSAIC[2].title}
@@ -641,7 +626,7 @@ const EditorialListSection: React.FC = () => {
     }
   }, []);
   return (
-    <div className="bg-[#f4f1eb] px-8 py-10 border-t border-[#ddd8cf]">
+    <div className="bg-[#f5efe4] px-8 py-10 border-t border-[#ddd8cf]">
       <div className="max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
         <div>
           <div className="accent-bar" />
@@ -711,7 +696,7 @@ const QualityCTASection: React.FC = () => {
 
 /* ─── Page ───────────────────────────────────────────────────────────────────── */
 const HomePage: React.FC = () => (
-  <div className="bg-[#f4f1eb]">
+  <div className="bg-[#f5efe4]">
     <HeroSection />
     <MarqueeSection />
     <StatsSection />

@@ -130,7 +130,7 @@ const ContactPage: React.FC = () => {
     const inputErrorClasses = 'border-red-500/80 focus:border-red-500/80 focus:ring-red-500/50';
 
     return (
-        <div className="bg-[#f4f1eb] text-[#6b6258]">
+        <div className="bg-[#f5efe4] text-[#6b6258]">
             <div className="bg-[#1a1814] py-16 text-center">
                 <PageWrapper className="py-0">
                     <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl" style={{ fontFamily: "'Instrument Serif', serif" }}>Contact Us</h1>

@@ -114,10 +114,10 @@ const Header: React.FC = () => {
       <>
         <div className={`grid ${gridCols} gap-x-8 gap-y-1 text-[#4a4540]`}>
           {panelData.links.map((item: any) => (
-            <Link key={item.name} to={item.path} className="group block p-3 -m-3 rounded-lg hover:bg-[#f4f1eb] transition-colors duration-200" onClick={() => setActivePanel(null)}>
+            <Link key={item.name} to={item.path} className="group block p-3 -m-3 rounded-lg hover:bg-[#f5efe4] transition-colors duration-200" onClick={() => setActivePanel(null)}>
               <div className="flex items-start gap-4">
                 {item.icon && (
-                  <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-[#eeeae2] rounded-lg shadow-sm border border-[#ddd8cf] group-hover:border-[#2d5a3d] transition-colors">
+                  <div className="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-[#ede4d3] rounded-lg shadow-sm border border-[#ddd8cf] group-hover:border-[#2d5a3d] transition-colors">
                     {React.createElement(item.icon, { className: 'h-6 w-6 text-[#2d5a3d]' })}
                   </div>
                 )}
@@ -174,7 +174,7 @@ const Header: React.FC = () => {
         </div>
 
         {/* Main nav */}
-        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-[#f4f1eb]/95 backdrop-blur-sm border-b border-[#ddd8cf] shadow-[0_1px_12px_rgba(26,24,20,0.06)]' : 'bg-[#f4f1eb] border-b border-[#ddd8cf]'}`}>
+        <div className={`transition-all duration-300 ${isScrolled || isMobileMenuOpen ? 'bg-[#f5efe4]/95 backdrop-blur-sm border-b border-[#ddd8cf] shadow-[0_1px_12px_rgba(26,24,20,0.06)]' : 'bg-[#f5efe4] border-b border-[#ddd8cf]'}`}>
           <nav className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-20">
               <Link to="/" className="flex items-center space-x-2 group">
@@ -242,7 +242,7 @@ const Header: React.FC = () => {
             <div
               id="mobile-menu"
               className="md:hidden h-[calc(100vh-116px)] overflow-y-auto pb-4 border-t border-[#ddd8cf]"
-              style={{ background: '#f4f1eb' }}
+              style={{ background: '#f5efe4' }}
             >
               <ul className="flex flex-col space-y-2 p-4">
                 {data.headerNavLinks.map((link) => {
@@ -252,7 +252,7 @@ const Header: React.FC = () => {
                       <li key={link.name}>
                         <button
                           onClick={() => setMobilePanelsOpen(prev => ({ ...prev, [link.name]: !isOpen }))}
-                          className="w-full text-left flex justify-between items-center p-3 rounded-md hover:bg-[#eeeae2] font-medium text-[#1a1814]"
+                          className="w-full text-left flex justify-between items-center p-3 rounded-md hover:bg-[#ede4d3] font-medium text-[#1a1814]"
                         >
                           {link.name}
                           <ChevronRightIcon className={`h-5 w-5 transition-transform ${isOpen ? 'rotate-90' : ''}`} />
@@ -279,7 +279,7 @@ const Header: React.FC = () => {
                       <RouterNavLink
                         to={link.path}
                         className={({ isActive }) =>
-                          `block p-3 rounded-md hover:bg-[#eeeae2] font-medium ${isActive ? 'text-[#2d5a3d] bg-[#2d5a3d]/8 border-l-2 border-[#2d5a3d] pl-3' : 'text-[#4a4540]'}`
+                          `block p-3 rounded-md hover:bg-[#ede4d3] font-medium ${isActive ? 'text-[#2d5a3d] bg-[#2d5a3d]/8 border-l-2 border-[#2d5a3d] pl-3' : 'text-[#4a4540]'}`
                         }
                       >
                         {link.name}

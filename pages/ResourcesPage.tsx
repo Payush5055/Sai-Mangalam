@@ -16,7 +16,7 @@ const getIcon = (type: string) => {
 
 const ResourcesPage: React.FC = () => {
     return (
-        <div className="bg-[#f4f1eb]">
+        <div className="bg-[#f5efe4]">
             <div className="bg-[#1a1814] py-16 text-center">
                 <PageWrapper className="py-0">
                     <h1 className="text-4xl font-bold tracking-tight text-[#1a1814] sm:text-5xl" style={{ fontFamily: "'Instrument Serif', serif" }}>Downloads &amp; Resources</h1>

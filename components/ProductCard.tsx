@@ -61,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         {/* Light-reflection shine overlay */}
         <div className="card-shine" />
 
-        <div className="aspect-w-4 aspect-h-3 bg-[#eeeae2]">
+        <div className="aspect-w-4 aspect-h-3 bg-[#ede4d3]">
           <img
             src={product.imageUrl}
             srcSet={`${product.imageUrl} 480w, ${product.imageUrl} 768w, ${product.imageUrl} 1200w`}

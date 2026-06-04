@@ -23,8 +23,8 @@ const ProductDetailPage: React.FC = () => {
     }
 
     return (
-        <div className="bg-[#f4f1eb] text-[#6b6258]">
-            <div className="bg-[#eeeae2] py-8" style={{ borderBottom: '1px solid #ddd8cf' }}>
+        <div className="bg-[#f5efe4] text-[#6b6258]">
+            <div className="bg-[#ede4d3] py-8" style={{ borderBottom: '1px solid #ddd8cf' }}>
                 <PageWrapper className="py-0">
                     <nav className="flex" aria-label="Breadcrumb">
                         <ol className="inline-flex items-center space-x-1 md:space-x-3">

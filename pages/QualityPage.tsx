@@ -8,7 +8,7 @@ const CERT_PILLS = ['ISO 9001:2015', 'ISO 14001:2015', 'NABL Accredited', 'IEC 6
 
 const QualityPage: React.FC = () => {
   return (
-    <div className="bg-[#f4f1eb] text-[#6b6258]">
+    <div className="bg-[#f5efe4] text-[#6b6258]">
       {/* ── Dark hero with cert pills ── */}
       <div className="bg-[#1a1814] pt-16 pb-12">
         <PageWrapper className="py-0">
@@ -122,7 +122,7 @@ const QualityPage: React.FC = () => {
                   download={doc.download}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3 bg-[#f4f1eb] px-5 py-4 hover:bg-[#eeeae2] transition-colors duration-200"
+                  className="group flex items-center gap-3 bg-[#f5efe4] px-5 py-4 hover:bg-[#ede4d3] transition-colors duration-200"
                 >
                   <ArrowDownTrayIcon className="h-4 w-4 text-[#2d5a3d] shrink-0" />
                   <span className="text-[11px] text-[#1a1814] font-medium">{doc.label}</span>

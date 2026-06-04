@@ -28,7 +28,7 @@ const ServiceDetailPage: React.FC = () => {
         .slice(0, 2);
 
     return (
-        <div className="bg-[#f4f1eb] text-[#6b6258]">
+        <div className="bg-[#f5efe4] text-[#6b6258]">
             <div className="relative bg-[#1a1814] text-white py-24">
                 <img src={service.heroImage} alt={service.title} className="absolute inset-0 w-full h-full object-cover opacity-30" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                 <PageWrapper className="py-0 relative z-10 text-center">

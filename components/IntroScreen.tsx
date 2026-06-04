@@ -213,7 +213,7 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
         tl.to(canvasContainer, { scale: 1.08, opacity: 0, duration: 0.8, ease: 'power2.in' }, '-=0.3');
 
         // Step 5: container bg transitions to cream
-        tl.to(container, { backgroundColor: '#f4f1eb', duration: 0.5, ease: 'none' }, '-=0.4');
+        tl.to(container, { backgroundColor: '#f5efe4', duration: 0.5, ease: 'none' }, '-=0.4');
 
         // Step 6: container opacity to 0, then call onComplete
         tl.to(container, {

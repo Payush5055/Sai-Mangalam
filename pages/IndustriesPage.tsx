@@ -4,7 +4,7 @@ import { industries } from '../constants/data';
 
 const IndustriesPage: React.FC = () => {
   return (
-    <div className="bg-[#f4f1eb] text-[#6b6258]">
+    <div className="bg-[#f5efe4] text-[#6b6258]">
       {/* ── Dark hero ── */}
       <div className="bg-[#1a1814] pt-16 pb-12">
         <PageWrapper className="py-0">
@@ -21,7 +21,7 @@ const IndustriesPage: React.FC = () => {
       <div className="max-w-screen-xl mx-auto">
         {industries.map((industry, index) => {
           const isEven = index % 2 === 1;
-          const bgColor = isEven ? '#eeeae2' : '#f4f1eb';
+          const bgColor = isEven ? '#ede4d3' : '#f5efe4';
           return (
             <div
               key={industry.name}
