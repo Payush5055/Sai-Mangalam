@@ -94,37 +94,21 @@ const ContactPage: React.FC = () => {
         setIsSubmitting(true);
         setSubmissionStatus('idle');
 
-        const data = new FormData();
-        data.append('name', formData.name); // Changed keys to match backend
-        data.append('email', formData.email);
-        data.append('phone', formData.phone);
-        data.append('message', formData.message);
-        if (file) data.append('attachment', file);
-
-        try {
-            // Point to your backend (update URL for production, e.g., https://your-domain.com/send-email)
-            const response = await fetch('http://localhost:5000/send-email', {
-                method: 'POST',
-                body: data,
-            });
-
-            if (response.ok) {
-                setSubmissionStatus('success');
-                setFormData({ name: '', email: '', phone: '', message: '' });
-                setFile(null);
-                setFileError('');
-                if (fileInputRef.current) fileInputRef.current.value = '';
-            } else {
-                setSubmissionStatus('error');
-            }
-        } catch (error) {
-            setSubmissionStatus('error');
-        } finally {
-            setIsSubmitting(false);
-            timerRef.current = window.setTimeout(() => {
-                setSubmissionStatus('idle');
-            }, 5000); // 5 seconds
-        }
+const subject = encodeURIComponent('New Enquiry from SaiMangalam Website');
+        const body = encodeURIComponent(
+            `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
+        );
+        window.location.href =
+            `mailto:saimangalam.electrical@gmail.com?subject=${subject}&body=${body}`;
+        setIsSubmitting(false);
+        setSubmissionStatus('success');
+        setFormData({ name: '', email: '', phone: '', message: '' });
+        setFile(null);
+        setFileError('');
+        if (fileInputRef.current) fileInputRef.current.value = '';
+        timerRef.current = window.setTimeout(() => {
+            setSubmissionStatus('idle');
+        }, 5000);
     };
 
     const inputErrorClasses = 'border-red-500/80 focus:border-red-500/80 focus:ring-red-500/50';

@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
           <h3 className="text-[9px] font-semibold text-white/40 tracking-[0.2em] uppercase mb-4">Resources</h3>
           <ul className="space-y-3">
             {[
-              { to: '/resources', label: 'Downloads' },
+              { to: '/quality', label: 'Downloads' },
               { to: '/quality',   label: 'Quality & Compliance' },
               { to: '/careers',   label: 'Careers' },
             ].map((item) => (
