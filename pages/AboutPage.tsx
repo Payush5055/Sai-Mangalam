@@ -26,7 +26,7 @@ const AboutPage: React.FC = () => {
             About SaiMangalam Electrical &amp; Engineerings
           </h1>
           <p className="mt-6 text-xl text-[#6b6258] max-w-3xl mx-auto text-center">
-            Pioneering transformer technology and delivering unparalleled quality and reliability for over 35 years.
+            Precision-engineered transformers for utilities, industry, and renewable energy — built in Shahada, Maharashtra since 2019.
           </p>
         </PageWrapper>
       </div>
@@ -38,13 +38,13 @@ const AboutPage: React.FC = () => {
             <div className="w-7 h-0.5 bg-[#2d5a3d] mb-3" />
             <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-3">Our History</div>
             <h2 style={{ fontFamily: "'Instrument Serif', serif", fontSize: 28, fontWeight: 400, color: '#1a1814', lineHeight: 1.2, marginBottom: 16 }}>
-              Decades of engineering trust
+              Built on precision since 2019
             </h2>
             <p className="text-sm text-[#6b6258] leading-7 mb-3">
-              Founded in 2019, SaiMangalam began with a vision to revolutionize the power industry. From a modest workshop, we have grown into a global manufacturing powerhouse, consistently pushing the boundaries of innovation.
+              Founded in 2019, SaiMangalam Electrical &amp; Engineering began operations in Shahada, Maharashtra with a clear vision — to manufacture reliable, high-quality power transformers for utilities and industries across India.
             </p>
             <p className="text-sm text-[#6b6258] leading-7">
-              Our journey is marked by significant milestones, from developing our first high-voltage transformer in the 90s to pioneering eco-friendly dry-type transformers in the 2000s. Today, we stand as a testament to engineering excellence and unwavering commitment to our clients.
+              In just a few years we have grown from a single workshop to a certified ISO 9001:2015 manufacturer, delivering transformers across Maharashtra and beyond.
             </p>
             <div style={{ marginTop: 16, paddingTop: 16, borderTop: '0.5px solid #ddd8cf' }}>
               <div className="text-[9px] text-[#a09585] tracking-[0.25em] uppercase mb-3">Partners</div>
