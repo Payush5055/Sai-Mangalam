@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Resend } from 'resend';
 import PageWrapper from '../components/PageWrapper';
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/solid';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -96,23 +95,32 @@ const ContactPage: React.FC = () => {
         setSubmissionStatus('idle');
 
         try {
-            const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
-
-            const { error } = await resend.emails.send({
-                from: 'SaiMangalam Website <onboarding@resend.dev>',
-                to: 'saimangalam.electrical@gmail.com',
-                replyTo: formData.email,
-                subject: `New Enquiry from ${formData.name}`,
-                html: `
-                  <h2>New Enquiry — SaiMangalam Website</h2>
-                  <p><strong>Name:</strong> ${formData.name}</p>
-                  <p><strong>Email:</strong> ${formData.email}</p>
-                  <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
-                  <p><strong>Message:</strong><br/>${formData.message}</p>
-                `,
+            const response = await fetch('https://api.resend.com/emails', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    from: 'SaiMangalam Website <onboarding@resend.dev>',
+                    to: 'saimangalam.electrical@gmail.com',
+                    reply_to: formData.email,
+                    subject: `New Enquiry from ${formData.name}`,
+                    html: `
+                        <h2>New Enquiry — SaiMangalam Website</h2>
+                        <p><strong>Name:</strong> ${formData.name}</p>
+                        <p><strong>Email:</strong> ${formData.email}</p>
+                        <p><strong>Phone:</strong> ${formData.phone || 'Not provided'}</p>
+                        <p><strong>Message:</strong><br/>${formData.message}</p>
+                    `,
+                }),
             });
 
-            if (error) throw new Error(error.message);
+            if (!response.ok) {
+                const err = await response.json();
+                console.error('Resend error:', err);
+                throw new Error('Failed to send');
+            }
 
             setSubmissionStatus('success');
             setFormData({ name: '', email: '', phone: '', message: '' });
@@ -120,6 +128,7 @@ const ContactPage: React.FC = () => {
             setFileError('');
             if (fileInputRef.current) fileInputRef.current.value = '';
         } catch (err) {
+            console.error(err);
             setSubmissionStatus('error');
         } finally {
             setIsSubmitting(false);
@@ -149,12 +158,12 @@ const ContactPage: React.FC = () => {
                             <form onSubmit={handleSubmit} className="space-y-6" noValidate>
                                 <div>
                                     <label htmlFor="name" className="block text-sm font-medium text-[#6b6258]">Full Name</label>
-                                    <input type="text" id="name" value={formData.name} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.name ? inputErrorClasses : ''}`} placeholder="Your full name" required aria-invalid={!!errors.name} aria-describedby={errors.name ? 'name-error' : undefined} />
+                                    <input type="text" id="name" value={formData.name} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.name ? inputErrorClasses : ''}`} required />
                                     {errors.name && <p id="name-error" className="mt-1 text-sm text-red-400">{errors.name}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="email" className="block text-sm font-medium text-[#6b6258]">Email</label>
-                                    <input type="email" id="email" value={formData.email} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.email ? inputErrorClasses : ''}`} placeholder="your@email.com" required aria-invalid={!!errors.email} aria-describedby={errors.email ? 'email-error' : undefined} />
+                                    <input type="email" id="email" value={formData.email} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.email ? inputErrorClasses : ''}`} required />
                                     {errors.email && <p id="email-error" className="mt-1 text-sm text-red-400">{errors.email}</p>}
                                 </div>
                                 <div>
@@ -163,7 +172,7 @@ const ContactPage: React.FC = () => {
                                 </div>
                                 <div>
                                     <label htmlFor="message" className="block text-sm font-medium text-[#6b6258]">Message</label>
-                                    <textarea id="message" rows={5} value={formData.message} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.message ? inputErrorClasses : ''}`} placeholder="Tell us about your requirement..." required aria-invalid={!!errors.message} aria-describedby={errors.message ? 'message-error' : undefined}></textarea>
+                                    <textarea id="message" rows={5} value={formData.message} onChange={handleChange} className={`mt-1 block w-full px-3 py-2 form-input ${errors.message ? inputErrorClasses : ''}`} required />
                                     {errors.message && <p id="message-error" className="mt-1 text-sm text-red-400">{errors.message}</p>}
                                 </div>
                                 <div>
@@ -172,7 +181,7 @@ const ContactPage: React.FC = () => {
                                         <label htmlFor="file" className="cursor-pointer bg-[#2d5a3d]/10 text-[#2d5a3d] hover:bg-[#2d5a3d]/20 font-semibold py-2 px-4 rounded-full text-sm transition-colors">
                                             Choose File
                                         </label>
-                                        <input type="file" id="file" ref={fileInputRef} onChange={handleFileChange} className="sr-only" accept=".pdf,.docx,.jpg,.png" /> {/* Added accept for types */}
+                                        <input type="file" id="file" ref={fileInputRef} onChange={handleFileChange} className="sr-only" accept=".pdf,.docx,.jpg,.png" />
                                         {file && (
                                             <div className="ml-4 flex items-center">
                                                 <span className="text-sm text-[#6b6258] truncate">{file.name}</span>
@@ -182,7 +191,7 @@ const ContactPage: React.FC = () => {
                                                     className="ml-2 text-red-400 hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500 rounded-full"
                                                     aria-label="Remove attached file"
                                                 >
-                                                    <XCircleIcon className="h-5 w-5" /> {/* Or use a trash icon */}
+                                                    <XCircleIcon className="h-5 w-5" />
                                                 </button>
                                             </div>
                                         )}
