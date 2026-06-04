@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Resend } from 'resend';
 import PageWrapper from '../components/PageWrapper';
 import { seedImages } from '../constants/seed-images';
 
@@ -18,27 +17,37 @@ const CareersPage: React.FC = () => {
     const message  = (form.querySelector('#careers-message')  as HTMLTextAreaElement)?.value;
 
     try {
-      const resend = new Resend(import.meta.env.VITE_RESEND_API_KEY);
-
-      const { error } = await resend.emails.send({
-        from: 'SaiMangalam Website <onboarding@resend.dev>',
-        to: 'saimangalam.electrical@gmail.com',
-        replyTo: email,
-        subject: `Career Application — ${position || 'General'}`,
-        html: `
-          <h2>New Career Application</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Position:</strong> ${position || 'Not specified'}</p>
-          <p><strong>Message:</strong><br/>${message}</p>
-        `,
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'SaiMangalam Website <onboarding@resend.dev>',
+          to: 'saimangalam.electrical@gmail.com',
+          reply_to: email,
+          subject: `Career Application — ${position || 'General'}`,
+          html: `
+            <h2>New Career Application</h2>
+            <p><strong>Name:</strong> ${name}</p>
+            <p><strong>Email:</strong> ${email}</p>
+            <p><strong>Position:</strong> ${position || 'Not specified'}</p>
+            <p><strong>Message:</strong><br/>${message}</p>
+          `,
+        }),
       });
 
-      if (error) throw new Error(error.message);
+      if (!response.ok) {
+        const err = await response.json();
+        console.error('Resend error:', err);
+        throw new Error('Failed to send');
+      }
 
       setSubmitStatus('success');
       form.reset();
     } catch (err) {
+      console.error(err);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
