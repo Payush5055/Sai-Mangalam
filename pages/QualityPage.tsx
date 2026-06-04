@@ -111,14 +111,21 @@ const QualityPage: React.FC = () => {
               Quality Documents
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-[#ddd8cf]">
-              {qualityPageData.downloads.map((doc, idx) => (
+              {[
+                { href: '/downloads/SAI_MANGALAM_Quality_Manual_Rev01.docx', download: 'SAI_MANGALAM_Quality_Manual_Rev01.docx', label: 'Quality Manual 2026 (DOCX)' },
+                { href: '/downloads/SAI_MANGALAM_ISO_9001_Certificate.pdf',  download: 'SAI_MANGALAM_ISO_9001_Certificate.pdf',  label: 'ISO 9001:2015 Certificate (PDF)' },
+                { href: '/downloads/SAI_MANGALAM_ISO_14001_Certificate.pdf', download: 'SAI_MANGALAM_ISO_14001_Certificate.pdf', label: 'ISO 14001:2015 Certificate (PDF)' },
+              ].map((doc) => (
                 <a
-                  key={idx}
-                  href={doc.url}
+                  key={doc.download}
+                  href={doc.href}
+                  download={doc.download}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="group flex items-center gap-3 bg-[#f4f1eb] px-5 py-4 hover:bg-[#eeeae2] transition-colors duration-200"
                 >
-                  <ArrowDownTrayIcon className="h-5 w-5 text-[#2d5a3d] shrink-0" />
-                  <span className="text-sm text-[#1a1814]" style={{ fontFamily: "'Instrument Serif', serif" }}>{doc.title}</span>
+                  <ArrowDownTrayIcon className="h-4 w-4 text-[#2d5a3d] shrink-0" />
+                  <span className="text-[11px] text-[#1a1814] font-medium">{doc.label}</span>
                 </a>
               ))}
             </div>
